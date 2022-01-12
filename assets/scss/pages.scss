@@ -1,0 +1,15 @@
+.page {
+    &-signUp {
+        .form-wrapper {
+            width: 520px;
+            border-top: 4px solid var(--accent);
+
+            margin: 40px auto;
+            padding: 35px 48px 60px 48px;
+
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 24px 0 #ebe7ff;
+        }
+    }
+}

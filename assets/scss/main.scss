@@ -1,0 +1,374 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '../fonts/fonts.css';
+@import './rootVars.scss';
+
+@import './pages.scss';
+
+/*null*/
+html {
+    font-family: 'Source Sans Pro';
+    font-size: 14px;
+}
+
+body,
+h1,
+h2 {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+//header styles
+.header {
+    display: flex;
+    height: 64px;
+    align-items: center;
+
+    &__logo {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        font-size: 1.7rem;
+        color: var(--accent);
+        font-weight: bold;
+
+        img {
+            margin: 0 10px 0 20px;
+        }
+    }
+
+    &__menu {
+        display: flex;
+        align-items: center;
+
+        &-item {
+            color: #9e9da4;
+            margin: 0 24px;
+            letter-spacing: 0.345px;
+            position: relative;
+            text-align: center;
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                width: 25%;
+                transform: scaleX(0);
+                height: 2px;
+                bottom: -5px;
+                left: 0;
+                background-color: var(--accent);
+                transform-origin: bottom right;
+                transition: transform 0.25s ease-out;
+            }
+
+            &:hover:not(:last-child) {
+                font-weight: bold;
+                letter-spacing: 0;
+                color: var(--accent);
+                &:after {
+                    transform: scaleX(1);
+                    transform-origin: bottom left;
+                }
+            }
+
+            //signUp button
+            &_btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--accent);
+                color: white;
+                height: 38px;
+                width: 110px;
+                border-radius: 3px;
+
+                margin-right: 0;
+
+                &:hover,
+                a:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+//common elements
+
+/*FORMS*/
+.form {
+    &__title {
+        color: var(--black);
+        font-size: 2.3rem;
+        font-weight: bold;
+
+        margin-bottom: 35px;
+    }
+
+    &-signUp {
+        .checkbox {
+            & ~ span {
+                color: var(--gray);
+            }
+        }
+        &__submitBtn {
+            width: 100%;
+            height: 64px;
+            outline: none;
+            border: none;
+            background: var(--accent);
+            color: white;
+            break-before: 2px;
+            font-weight: 600;
+        }
+    }
+}
+
+.field-wrapper {
+    position: relative;
+
+    & > span {
+        position: absolute;
+        top: -60%;
+        left: 0px;
+        font-size: 1rem;
+        color: var(--gray);
+        pointer-events: none;
+    }
+}
+
+.field {
+    cursor: pointer;
+    font: inherit;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--gray);
+    width: 100%;
+    height: 30px;
+    color: var(--black);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 5px 0;
+
+    &_select {
+        -moz-appearance: none; /* Firefox */
+        -webkit-appearance: none; /* Safari and Chrome */
+        appearance: none;
+        background: url('../img/icons/arrow-down.svg') no-repeat 98% center;
+    }
+
+    &_password {
+        &-wrapper {
+            position: relative;
+        }
+        &-eyeIcon {
+            cursor: pointer;
+            position: absolute;
+            right: 2%;
+            bottom: 5px;
+        }
+    }
+}
+
+.radio {
+    //RADIO
+    --background: white;
+    --radio: var(--accent);
+    --radio-checked: var(--accent);
+    --radio-size: 16px;
+
+    input[type='radio'] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        position: relative;
+        height: var(--radio-size);
+        width: var(--radio-size);
+        outline: none;
+        margin: 0;
+        margin-right: 10px;
+        cursor: pointer;
+        border: 2px solid var(--radio);
+        &.radio_red {
+            border-color: red;
+        }
+        background: transparent;
+        border-radius: 50%;
+        display: flex;
+        justify-self: end;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        transition: border 0.5s ease;
+
+        &::before,
+        &::after {
+            content: '';
+            display: flex;
+            justify-self: center;
+            border-radius: 50%;
+        }
+        &::before {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            z-index: 1;
+            opacity: var(--opacity, 1);
+        }
+        &::after {
+            position: relative;
+            width: calc(100% / 1.5);
+            height: calc(100% / 1.5);
+            background: var(--radio-checked);
+            top: var(--y, 100%);
+            transition: top 0.5s cubic-bezier(0.48, 1.97, 0.5, 0.63);
+        }
+        &.radio_red {
+            &:after {
+                background: red;
+            }
+        }
+        &:checked {
+            --radio: var(--radio-checked);
+            &::after {
+                --y: 0%;
+                animation: stretch-animate 0.3s ease-out 0.17s;
+            }
+            &::before {
+                --opacity: 0;
+            }
+            ~ input[type='radio'] {
+                &::after {
+                    --y: -100%;
+                }
+            }
+        }
+        &:not(:checked) {
+            &::before {
+                --opacity: 1;
+                transition: opacity 0s linear 0.5s;
+            }
+        }
+    }
+
+    @keyframes stretch-animate {
+        0% {
+            transform: scale(1, 1);
+        }
+        28% {
+            transform: scale(1.15, 0.85);
+        }
+        50% {
+            transform: scale(0.9, 1.1);
+        }
+        100% {
+            transform: scale(1, 1);
+        }
+    }
+}
+
+.flex {
+    display: flex;
+    &_space-between {
+        justify-content: space-between;
+        &_align-center {
+            align-items: center;
+        }
+    }
+    &_wrap {
+        flex-wrap: wrap;
+    }
+    &_space-around {
+        justify-content: space-around;
+        &_align-center {
+            align-items: center;
+        }
+    }
+    &_align-center {
+        align-items: center;
+    }
+    &-grow {
+        flex-grow: 1;
+    }
+}
+
+.checkbox {
+    // перерисовываем чекбокс
+    position: absolute;
+    opacity: 0;
+    & + span {
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+        width: max-content;
+
+        &:before {
+            box-sizing: border-box;
+            content: '';
+            display: inline-block;
+            width: 19px;
+            height: 19px;
+            flex-shrink: 0;
+            flex-grow: 0;
+            border: 2px solid #07bb59;
+            border-radius: 2px;
+            margin-right: 0.5em;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 50% 50%;
+        }
+    }
+
+    &:checked + span {
+        cursor: pointer;
+        &:before {
+            background: url('../img/icons/checkmark.svg') no-repeat center center #07bb59;
+            background-size: 79%;
+        }
+    }
+
+    /* стили при наведении курсора на checkbox */
+    &:not(:disabled):not(:checked) + span {
+        &:hover {
+            cursor: pointer;
+            /*color: #3480c0;
+            &:before {
+                border-color: #3480c0;
+            }*/
+        }
+    }
+    &:not(:disabled):not(:checked) {
+        &:hover {
+            /*cursor: pointer;
+            & + span {
+                color: #3480c0;
+                &::before {
+                    border-color: #3480c0;
+                }
+            }*/
+        }
+    }
+    /* стили для активного состояния чекбокса (при нажатии на него) */
+    &:not(:disabled):active + span::before {
+    }
+    /* стили для чекбокса, находящегося в фокусе */
+    &:focus + span::before {
+    }
+    /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+    &:focus:not(:checked) + span::before {
+    }
+    /* стили для чекбокса, находящегося в состоянии disabled */
+    &:disabled + span::before {
+    }
+}

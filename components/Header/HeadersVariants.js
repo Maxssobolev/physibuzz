@@ -1,0 +1,2 @@
+export const DEFAULT_HEADER = 'DEFAULT_HEADER'
+export const MOBILE_HEADER = 'MOBILE_HEADER'

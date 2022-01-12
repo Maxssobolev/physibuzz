@@ -1,6 +1,23 @@
+import SignUpForm from "../components/Forms/SignUpForm/SignUpForm";
 
-export default function Main() {
+
+//sign Up page
+export default function SignUp() {
   return (
-    <div>home</div>
+    <div className="page page-signUp">
+
+      <div className="form-wrapper">
+
+        <div className="form form-signUp">
+
+          <div className="form__title">Sign Up</div>
+
+          <SignUpForm />
+
+        </div>
+
+      </div>
+
+    </div>
   )
 }
