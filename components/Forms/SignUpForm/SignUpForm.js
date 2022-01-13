@@ -27,7 +27,7 @@ export default function SignUpForm() {
                 firstName: '',
                 email: '',
                 emailConfirmation: '',
-                profession: '',
+                profession: profession[0],
                 company: '',
                 passwordConfirmation: '',
                 password: '',
@@ -36,7 +36,7 @@ export default function SignUpForm() {
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-
+                console.log(values)
             }}
         >
             {
