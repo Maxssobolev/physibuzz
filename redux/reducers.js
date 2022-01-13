@@ -1,4 +1,7 @@
 const initialState = {
+    user: {
+        name: 'Jon Walton'
+    }
 
 }
 

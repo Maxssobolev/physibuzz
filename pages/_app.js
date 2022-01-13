@@ -17,11 +17,10 @@ export default function App({ Component, pageProps }) {
             <Head>
                 <title>Physibuzz</title>
             </Head>
-            <Container>
-                <Header />
-                <Component {...pageProps} />
-                <Footer />
-            </Container>
+
+            <Component {...pageProps} />
+            <Footer />
+
         </Provider>
     )
 }

@@ -24,9 +24,6 @@ export default function Footer({ variant }) {
                                 <Link href="/">Contact</Link>
                             </Row>
                         </Col>
-
-
-
                         <Col>
                             <Row className=' footer__col-head'>
                                 <span> Legal</span>
@@ -39,7 +36,6 @@ export default function Footer({ variant }) {
                             </Row>
 
                         </Col>
-
                         <Col >
                             <Row className=' footer__col-head'>
                                 <span>Follow Us</span>
@@ -50,7 +46,6 @@ export default function Footer({ variant }) {
                             </Row>
 
                         </Col>
-
                         <Col>
                             <Row className='footer__col-logo'>
                                 <Link href="/">
@@ -63,7 +58,6 @@ export default function Footer({ variant }) {
                             <Row>
                                 <span className='copyright'>Copyright 2020 Physibuzz Jobs Limited.</span>
                             </Row>
-
                         </Col>
                     </Row >
                 </footer >

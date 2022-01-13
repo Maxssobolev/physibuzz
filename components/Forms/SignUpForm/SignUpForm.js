@@ -4,6 +4,8 @@ import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
 import { useState } from 'react';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
+import EmployeeForm from './EmployeeForm';
+import EmployerForm from './EmployerForm';
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -31,7 +33,13 @@ export default function SignUpForm() {
                 company: '',
                 passwordConfirmation: '',
                 password: '',
-                agreement: ''
+                agreement: '',
+                gender: 'Male',
+                years: '2000',
+                counries: '',
+                counriesOfReg: '',
+                counriesOfRegAd: '',
+                availFrom: 'None',
 
             }}
             validationSchema={SignupSchema}
@@ -42,6 +50,7 @@ export default function SignUpForm() {
             {
                 (props) => (
                     <Form>
+
                         <Row className={`radio ${styles.radioRow}`} >
                             <Col>
                                 <label className="flex flex_align-center">
@@ -83,56 +92,8 @@ export default function SignUpForm() {
                                 </div>
                             </Col>
                         </Row>
-                        <Row className={styles.commonRow}>
-                            <Col>
-                                <div className="field-wrapper">
-                                    <Field
-                                        className="field"
-                                        type="email"
-                                        name="email"
-                                    />
-                                    <span>Email address</span>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className={styles.commonRow}>
-                            <Col>
-                                <div className="field-wrapper">
-                                    <Field
-                                        className="field"
-                                        type="email"
-                                        name="emailConfirmation"
-                                    />
-                                    <span>Confirm Email Address</span>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className={styles.commonRow}>
-                            <Col>
-                                <div className="field-wrapper">
-                                    <Field
-                                        className="field"
-                                        component="input"
-                                        name="company"
-                                    />
-                                    <span>Company/Clinic Name</span>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className={styles.commonRow}>
-                            <Col>
-                                <div className="field-wrapper">
-                                    <Field
-                                        className="field field_select"
-                                        component="select"
-                                        name="profession"
-                                    >
-                                        {profession.map((item, index) => <option value={item} key={`${index}__signUp-profession`} >{item}</option>)}
-                                    </Field>
-                                    <span>Profession / Main Clinical Service</span>
-                                </div>
-                            </Col>
-                        </Row>
+
+                        {props.values.purpose == 'Im hiring' ? <EmployerForm styles={styles} profession={profession} /> : <EmployeeForm styles={styles} profession={profession} />}
 
                         <Row className={styles.commonRow}>
                             <Col>

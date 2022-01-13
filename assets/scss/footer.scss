@@ -1,0 +1,29 @@
+.footer {
+    @extend .container-imitation;
+    margin: 54px 0 16px 0;
+    font-family: 'HelveticaNeueCyr';
+    .row {
+        margin-bottom: 15px;
+    }
+    &__col-head {
+        color: var(--black);
+        font-weight: bold;
+    }
+
+    //LINKS
+    &:not(&__col-head) {
+        color: var(--gray);
+    }
+
+    //LOGO
+    &__col-logo {
+        font-family: 'Source Sans Pro';
+        font-weight: bold;
+        font-size: 1.7rem;
+        color: var(--accent);
+    }
+
+    .copyright {
+        font-size: 0.85rem;
+    }
+}

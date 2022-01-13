@@ -1,23 +1,15 @@
-import SignUpForm from "../components/Forms/SignUpForm/SignUpForm";
-
-
-//sign Up page
-export default function SignUp() {
+import Header from "../components/Header/Header"
+import { LOGGEDIN_HEADER } from "../components/Header/HeadersVariants"
+//home page
+export default function Home() {
   return (
-    <div className="page page-signUp">
+    <>
+      <Header variant={LOGGEDIN_HEADER} />
+      <div className="page page-home">
 
-      <div className="form-wrapper">
 
-        <div className="form form-signUp">
-
-          <div className="form__title">Sign Up</div>
-
-          <SignUpForm />
-
-        </div>
 
       </div>
-
-    </div>
+    </>
   )
 }

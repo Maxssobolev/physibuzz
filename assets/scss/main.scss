@@ -2,6 +2,8 @@
 @import '../fonts/fonts.css';
 @import './rootVars.scss';
 
+@import './header.scss';
+@import './footer.scss';
 @import './pages.scss';
 @import './forms.scss';
 /*null*/
@@ -22,116 +24,9 @@ a {
     color: inherit;
 }
 
-//header styles
-.header {
-    display: flex;
-    height: 64px;
-    align-items: center;
-
-    &__logo {
-        flex-grow: 1;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-
-        font-size: 1.7rem;
-        color: var(--accent);
-        font-weight: bold;
-
-        img {
-            margin: 0 10px 0 20px;
-        }
-    }
-
-    &__menu {
-        display: flex;
-        align-items: center;
-
-        &-item {
-            color: #9e9da4;
-            margin: 0 24px;
-            letter-spacing: 0.345px;
-            position: relative;
-            text-align: center;
-
-            &:first-child {
-                margin-left: 0;
-            }
-
-            &:after {
-                content: '';
-                position: absolute;
-                width: 25%;
-                transform: scaleX(0);
-                height: 2px;
-                bottom: -5px;
-                left: 0;
-                background-color: var(--accent);
-                transform-origin: bottom right;
-                transition: transform 0.25s ease-out;
-            }
-
-            &:hover:not(:last-child) {
-                font-weight: bold;
-                letter-spacing: 0;
-                color: var(--accent);
-                &:after {
-                    transform: scaleX(1);
-                    transform-origin: bottom left;
-                }
-            }
-
-            //signUp button
-            &_btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--accent);
-                color: white;
-                height: 38px;
-                width: 110px;
-                border-radius: 3px;
-
-                margin-right: 0;
-
-                &:hover,
-                a:hover {
-                    color: white;
-                }
-            }
-        }
-    }
+body {
+    background: var(--page-bg);
 }
-
-.footer {
-    margin: 54px 0 16px 0;
-    font-family: 'HelveticaNeueCyr';
-    .row {
-        margin-bottom: 15px;
-    }
-    &__col-head {
-        color: var(--black);
-        font-weight: bold;
-    }
-
-    //LINKS
-    &:not(&__col-head) {
-        color: var(--gray);
-    }
-
-    //LOGO
-    &__col-logo {
-        font-family: 'Source Sans Pro';
-        font-weight: bold;
-        font-size: 1.7rem;
-        color: var(--accent);
-    }
-
-    .copyright {
-        font-size: 0.85rem;
-    }
-}
-
 //////////////COMMON ELEMENTS//////////////
 .flex {
     display: flex;
@@ -156,4 +51,28 @@ a {
     &-grow {
         flex-grow: 1;
     }
+}
+
+.container-imitation {
+    //CONTAINER IMITATION
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media (min-width: 576px) {
+        width: 540px;
+    }
+    @media (min-width: 768px) {
+        width: 720px;
+    }
+    @media (min-width: 992px) {
+        width: 960px;
+    }
+    @media (min-width: 1200px) {
+        width: 1140px;
+    }
+
+    ////////////////////////
 }

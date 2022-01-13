@@ -1,0 +1,145 @@
+//common header styles
+.header {
+    display: flex;
+    height: 64px;
+    align-items: center;
+}
+
+[data-variant='default'] {
+    .header {
+        @extend .container-imitation;
+        &__logo {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            font-size: 1.7rem;
+            color: var(--accent);
+            font-weight: bold;
+
+            img {
+                margin: 0 10px 0 20px;
+            }
+        }
+
+        &__menu {
+            display: flex;
+            align-items: center;
+
+            &-item {
+                color: #9e9da4;
+                margin: 0 24px;
+                letter-spacing: 0.345px;
+                position: relative;
+                text-align: center;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 25%;
+                    transform: scaleX(0);
+                    height: 2px;
+                    bottom: -5px;
+                    left: 0;
+                    background-color: var(--accent);
+                    transform-origin: bottom right;
+                    transition: transform 0.25s ease-out;
+                }
+
+                &:hover:not(:last-child) {
+                    font-weight: bold;
+                    letter-spacing: 0;
+                    color: var(--accent);
+                    &:after {
+                        transform: scaleX(1);
+                        transform-origin: bottom left;
+                    }
+                }
+
+                //signUp button
+                &_btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: var(--accent);
+                    color: white;
+                    height: 38px;
+                    width: 110px;
+                    border-radius: 3px;
+
+                    margin-right: 0;
+
+                    &:hover,
+                    a:hover {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+[data-variant='loggedIn'] {
+    .header {
+        background: white;
+        padding: 0 40px;
+
+        &-leftside {
+            display: flex;
+            align-items: center;
+
+            &__menu-item {
+                color: #9e9da4;
+                margin: 0 24px;
+                letter-spacing: 0.345px;
+                position: relative;
+                text-align: center;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 25%;
+                    transform: scaleX(0);
+                    height: 2px;
+                    bottom: -5px;
+                    left: 0;
+                    background-color: var(--accent);
+                    transform-origin: bottom right;
+                    transition: transform 0.25s ease-out;
+                }
+
+                &:hover {
+                    font-weight: bold;
+                    letter-spacing: 0;
+                    color: var(--accent);
+                    a {
+                        color: inherit;
+                    }
+                    &:after {
+                        transform: scaleX(1);
+                        transform-origin: bottom left;
+                    }
+                }
+            }
+        }
+
+        &-rightside {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            &__user > span {
+                color: var(--black);
+                font-weight: 600;
+            }
+        }
+    }
+}
