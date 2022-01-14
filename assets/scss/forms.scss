@@ -126,6 +126,10 @@
     font-size: 1rem;
     padding: 5px 0;
 
+    //строгие стили для react-selecta
+    &_imp {
+    }
+
     &_select {
         -moz-appearance: none; /* Firefox */
         -webkit-appearance: none; /* Safari and Chrome */

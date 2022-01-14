@@ -11,7 +11,7 @@ const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    emailConfirmation: Yup.string().test('email-match', 'Emails must match', function (value) { return this.parent.email === value }),
+    emailConfirmation: Yup.string().required('Please, confirm email').test('email-match', 'Emails must match', function (value) { return this.parent.email === value }),
     password: Yup.string().required('Password is required'),
     passwordConfirmation: Yup.string().test('password-match', 'Passwords must match', function (value) { return this.parent.password === value }),
 
