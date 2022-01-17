@@ -1,6 +1,15 @@
 import { useState } from "react"
 import VacancyCard from "../Cards/Vacancy/VacancyCard"
-function ListOfVacancies() {
+function ListOfVacancies({ options }) {
+    const {
+        whatSelected,
+        placeSelected,
+        sortSelected,
+        jobOrCourseSelected,
+        distanceSelected
+    } = options
+
+
     const [vacancyCards, setVacansyCards] = useState([{
         id: 1,
         title: 'Physiotherapist MSK Full Time',

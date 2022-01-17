@@ -27,11 +27,25 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 56px;
+            .field-wrapper {
+                width: 300px;
+            }
             .field-wrapper:first-child {
                 margin-right: 10px;
             }
             .field-wrapper:last-child {
                 margin-left: 10px;
+            }
+        }
+        .side-params {
+            &__head {
+                font-size: var(--fz-headers);
+                font-weight: 600;
+            }
+            display: grid;
+            grid-gap: 44px;
+            .field-wrapper {
+                width: 200px;
             }
         }
 

@@ -9,8 +9,11 @@ import Layout from "../components/Layout/Layout"
 import { useState } from "react"
 import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
 import ListOfVacancies from "../components/ListOfVacancies/ListOfVacancies"
+import { Range } from 'react-range';
+
 
 //home page ONLY FOR LOGGED USERS
+
 export default function Home() {
   //main part filters
   /*******************WHAT**********************/
@@ -33,7 +36,36 @@ export default function Home() {
   }
 
   //side part filters
+  /*******************SORT BY*********************/
+  const [sortOptions, setSortOptions] = useState([
+    { value: 'Most Recent', label: 'Most Recent' },
+    { value: 'Other', label: 'Other' },
+  ])
+  const [sortSelected, setSortSelected] = useState('')
+  const handleChangeSort = (selectedOpt) => {
+    setSortSelected(selectedOpt.value)
+  }
 
+  /*******************Job / Course*********************/
+  const [jobOrCourseOptions, setJobOrCourseOptions] = useState([
+    { value: 'Job', label: 'Job' },
+    { value: 'Course', label: 'Course' },
+    { value: 'Both', label: 'Both' },
+  ])
+  const [jobOrCourseSelected, setJobOrCourseSelected] = useState('')
+  const handleChangeJobOrCourse = (selectedOpt) => {
+    setJobOrCourseSelected(selectedOpt.value)
+  }
+
+  /*******************Distance*********************/
+  const [distanceOptions, setDistanceOptions] = useState([
+    { value: 'Within 25km', label: 'Within 25km' },
+    { value: 'Other', label: 'Other' },
+  ])
+  const [distanceSelected, setDistanceSelected] = useState('')
+  const handleChangeDistance = (selectedOpt) => {
+    setDistanceSelected(selectedOpt.value)
+  }
 
   return (
     <>
@@ -54,10 +86,36 @@ export default function Home() {
 
         <Layout>
           <LeftSidebar>
+            <div className="side-params">
+              <div className="side-params__head">
+                Filters
+              </div>
+              <div className="field-wrapper">
+                <Select styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} />
+                <span>Sort by</span>
+              </div>
+              <div className="field-wrapper">
+
+                <Select styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} />
+                <span>Job / Course</span>
+              </div>
+              <div className="field-wrapper">
+
+                <Select styles={customSelectStyles} options={distanceOptions} onChange={handleChangeDistance} />
+
+                <span>Distance</span>
+              </div>
+            </div>
           </LeftSidebar>
           <MainContent>
 
-            <ListOfVacancies />
+            <ListOfVacancies options={{
+              whatSelected,
+              placeSelected,
+              sortSelected,
+              jobOrCourseSelected,
+              distanceSelected
+            }} />
 
 
           </MainContent>
