@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { years, counries, counriesOfRegAd, counriesOfReg } from "../../CommonUtils/CommonUtils"
+import { years, countries, countriesOfRegAd, countriesOfReg } from "../../CommonUtils/CommonUtils"
 //форма соискателей
 function EmployeeForm({ styles, profession }) {
     const gender = ['Male', 'Female']
@@ -68,7 +68,7 @@ function EmployeeForm({ styles, profession }) {
                             component="select"
                             name="counries"
                         >
-                            {counries.map((item, index) => <option value={item} key={`${index}__signUp-counries`} >{item}</option>)}
+                            {countries.map((item, index) => <option value={item} key={`${index}__signUp-counries`} >{item}</option>)}
                         </Field>
                         <span>Country where you Qualified</span>
                     </div>
@@ -82,7 +82,7 @@ function EmployeeForm({ styles, profession }) {
                             component="select"
                             name="counries"
                         >
-                            {counriesOfReg.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfReg`} >{item}</option>)}
+                            {countriesOfReg.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfReg`} >{item}</option>)}
                         </Field>
                         <span>Country of Registration</span>
                     </div>
@@ -94,7 +94,7 @@ function EmployeeForm({ styles, profession }) {
                             component="select"
                             name="counries"
                         >
-                            {counriesOfRegAd.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfRegAd`} >{item}</option>)}
+                            {countriesOfRegAd.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfRegAd`} >{item}</option>)}
                         </Field>
                         <span>Additional Country of Registration</span>
                     </div>

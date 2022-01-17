@@ -6,12 +6,15 @@
 @import './footer.scss';
 @import './pages.scss';
 @import './forms.scss';
+@import './like.scss';
 /*null*/
 html {
     font-family: 'Source Sans Pro';
     font-size: 14px;
 }
-
+*:not(html) {
+    font-family: inherit;
+}
 body,
 h1,
 h2 {
@@ -22,6 +25,10 @@ h2 {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+svg {
+    vertical-align: top;
 }
 
 body {

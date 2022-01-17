@@ -2,7 +2,7 @@
 .form {
     &__title {
         color: var(--black);
-        font-size: 2.3rem;
+        font-size: var(--fz-big-headers);
         font-weight: bold;
 
         margin-bottom: 35px;

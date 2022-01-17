@@ -26,6 +26,75 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-gap: 20px;
+            margin-bottom: 56px;
+        }
+
+        .listOfVacancies {
+            .vacancyCard {
+                background: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 585px;
+                height: 260px;
+                box-shadow: 0 0 4px 0 rgba(183, 184, 199, 0.16);
+                padding: 30px 36px;
+                border-top: 2px solid var(--accent);
+                margin-bottom: 14px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                &-head {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    &__title {
+                        font-size: var(--fz-headers);
+                        color: var(--accent);
+                        font-weight: 600;
+                    }
+                    &__like {
+                    }
+                }
+                &-additionalInfo {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    color: var(--black);
+                    &__address {
+                        display: flex;
+                        align-items: center;
+                        .address-icon {
+                            height: 1rem;
+                            border-radius: 3px;
+                            overflow: hidden;
+                            margin-right: 5px;
+                            svg {
+                                height: 100%;
+                            }
+                        }
+                    }
+                    &__date {
+                        font-style: italic;
+                        text-align: right;
+                    }
+                }
+                &-description {
+                    color: var(--black);
+                }
+                &-footer {
+                    color: var(--black);
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    &__company {
+                    }
+                    &__rate {
+                    }
+                }
+            }
         }
     }
 

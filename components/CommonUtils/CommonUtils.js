@@ -1,13 +1,17 @@
+
 function range(start, end) {
     return (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start);
 }
-export const years = range(2000, new Date().getFullYear())
+export const years = range(2000, new Date().getFullYear()) //generate an array of years from 2000 to now
 
 
-export const counries = ['Italy']
-export const counriesOfRegAd = ['None']
-export const counriesOfReg = ['']
+export const countries = ['Italy']
+export const countriesOfRegAd = ['None']
+export const countriesOfReg = ['']
 
+
+
+//custom react-select styles
 export const customSelectStyles = {
     control: styles => ({
         ...styles,
