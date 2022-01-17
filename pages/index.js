@@ -39,21 +39,24 @@ export default function Home() {
     <>
       <Header variant={LOGGEDIN_HEADER} />
       <div className="page page-home">
+
+        <div className="main-params">
+          <div className="field-wrapper">
+            <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} />
+            <span>What</span>
+          </div>
+          <div className="field-wrapper">
+            {/* need to change  */}
+            <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} />
+            <span>Where</span>
+          </div>
+        </div>
+
         <Layout>
           <LeftSidebar>
           </LeftSidebar>
           <MainContent>
-            <div className="main-params">
-              <div className="field-wrapper">
-                <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} />
-                <span>What</span>
-              </div>
-              <div className="field-wrapper">
-                {/* need to change  */}
-                <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} />
-                <span>Where</span>
-              </div>
-            </div>
+
             <ListOfVacancies />
 
 
