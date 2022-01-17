@@ -7,6 +7,8 @@ import MainContent from "../components/Layout/MainContent/MainContent"
 import RightSidebar from "../components/Layout/RightSidebar/RightSidebar"
 import Layout from "../components/Layout/Layout"
 import { useState } from "react"
+import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
+import ListOfVacancies from "../components/ListOfVacancies/ListOfVacancies"
 
 //home page ONLY FOR LOGGED USERS
 export default function Home() {
@@ -32,7 +34,6 @@ export default function Home() {
 
   //side part filters
 
-  console.log(whatSelected)
 
   return (
     <>
@@ -44,14 +45,18 @@ export default function Home() {
           <MainContent>
             <div className="main-params">
               <div className="field-wrapper">
-                <Select options={whatOptions} onChange={handleChangeWhat} className='field_imp field_select_imp' />
+                <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} />
                 <span>What</span>
               </div>
               <div className="field-wrapper">
-                <Select options={placeOptions} onChange={handleChangePlace} />
+                {/* need to change  */}
+                <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} />
                 <span>Where</span>
               </div>
             </div>
+            <ListOfVacancies />
+
+
           </MainContent>
           <RightSidebar>
           </RightSidebar>
