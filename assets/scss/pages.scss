@@ -16,12 +16,16 @@
     }
 
     &-home {
+        .layout {
+            grid-template-columns: 200px 1fr 200px;
+        }
         .mainContent {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
+        //centered filters
         .main-params {
             display: flex;
             align-items: center;
@@ -37,15 +41,16 @@
                 margin-left: 10px;
             }
         }
-        .side-params {
-            &__head {
-                font-size: var(--fz-headers);
-                font-weight: 600;
-            }
-            display: grid;
-            grid-gap: 44px;
-            .field-wrapper {
-                width: 200px;
+
+        //side filters
+        .leftSidebar {
+            .side-params {
+                &__head {
+                    font-size: var(--fz-headers);
+                    font-weight: 600;
+                }
+                display: grid;
+                grid-gap: 44px;
             }
         }
 
@@ -114,6 +119,12 @@
                     &__rate {
                     }
                 }
+            }
+        }
+
+        //ad
+        .rightSidebar {
+            .adBanner {
             }
         }
     }

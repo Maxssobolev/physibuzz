@@ -10,6 +10,7 @@ import { useState } from "react"
 import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
 import ListOfVacancies from "../components/ListOfVacancies/ListOfVacancies"
 import { Range } from 'react-range';
+import AdBanner from "../components/AdBanner/AdBanner"
 
 
 //home page ONLY FOR LOGGED USERS
@@ -120,6 +121,7 @@ export default function Home() {
 
           </MainContent>
           <RightSidebar>
+            <AdBanner />
           </RightSidebar>
         </Layout>
       </div>
