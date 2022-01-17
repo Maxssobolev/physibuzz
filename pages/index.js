@@ -11,6 +11,7 @@ import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
 import ListOfVacancies from "../components/ListOfVacancies/ListOfVacancies"
 import { Range } from 'react-range';
 import AdBanner from "../components/AdBanner/AdBanner"
+import { DropdownIndicator } from "../components/CommonUtils/DropdownIndicator"
 
 
 //home page ONLY FOR LOGGED USERS
@@ -75,12 +76,12 @@ export default function Home() {
 
         <div className="main-params">
           <div className="field-wrapper">
-            <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} />
+            <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} components={{ DropdownIndicator }} />
             <span>What</span>
           </div>
           <div className="field-wrapper">
             {/* need to change  */}
-            <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} />
+            <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} components={{ DropdownIndicator }} />
             <span>Where</span>
           </div>
         </div>
@@ -92,17 +93,17 @@ export default function Home() {
                 Filters
               </div>
               <div className="field-wrapper">
-                <Select styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} />
+                <Select styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
                 <span>Sort by</span>
               </div>
               <div className="field-wrapper">
 
-                <Select styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} />
+                <Select styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
                 <span>Job / Course</span>
               </div>
               <div className="field-wrapper">
 
-                <Select styles={customSelectStyles} options={distanceOptions} onChange={handleChangeDistance} />
+                <Select styles={customSelectStyles} options={distanceOptions} onChange={handleChangeDistance} components={{ DropdownIndicator }} />
 
                 <span>Distance</span>
               </div>

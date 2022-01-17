@@ -17,10 +17,18 @@
 
     //LOGO
     &__col-logo {
+        cursor: pointer;
         font-family: 'Source Sans Pro';
         font-weight: bold;
         font-size: 1.7rem;
         color: var(--accent);
+        svg {
+            margin-right: 16px;
+        }
+        & > span {
+            display: flex;
+            align-items: center;
+        }
     }
 
     .copyright {

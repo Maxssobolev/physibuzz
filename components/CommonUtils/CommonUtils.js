@@ -15,6 +15,7 @@ export const countriesOfReg = ['']
 export const customSelectStyles = {
     control: styles => ({
         ...styles,
+        cursor: 'pointer',
         backgroundColor: 'transparent',
         border: 'none',
         borderBottom: '1px solid #00000033',
@@ -40,3 +41,4 @@ export const customSelectStyles = {
     }),
 
 };
+

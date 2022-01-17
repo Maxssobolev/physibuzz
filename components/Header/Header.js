@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { DEFAULT_HEADER, LOGGEDIN_HEADER } from './HeadersVariants'
+import LogoImg from '../../assets/img/logo.svg'
+import Image from 'next/image'
 
 export default function Header({ variant }) {
-
     switch (variant) {
         case LOGGEDIN_HEADER:
             const user = useSelector(state => state.user)
@@ -13,9 +14,7 @@ export default function Header({ variant }) {
                         <div className="header-leftside">
                             <div className="header-leftside__logo">
                                 <Link href='/'>
-                                    <span>
-                                        <img src="" alt="" />
-                                    </span>
+                                    <LogoImg height={38} />
                                 </Link>
                             </div>
                             <div className="header-leftside__menu-item"><Link href='/' >Jobs</Link></div>
@@ -37,7 +36,8 @@ export default function Header({ variant }) {
                         <div className="header__logo">
                             <Link href='/'>
                                 <span>
-                                    <img src="" alt="" />
+                                    <LogoImg height={38} />
+
                                     Physibuzz
                                 </span>
                             </Link>

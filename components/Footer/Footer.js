@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Row, Col } from 'react-bootstrap'
+import LogoImg from '../../assets/img/logo.svg'
 export default function Footer({ variant }) {
 
     switch (variant) {
@@ -50,8 +51,9 @@ export default function Footer({ variant }) {
                             <Row className='footer__col-logo'>
                                 <Link href="/">
                                     <span>
-                                        <img src="" alt="" />
-                                        Physibuzz
+                                        <LogoImg height={64} />
+
+                                        <span className='logo-text'>Physibuzz</span>
                                     </span>
                                 </Link>
                             </Row>

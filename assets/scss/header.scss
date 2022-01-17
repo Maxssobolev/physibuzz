@@ -9,6 +9,7 @@
     .header {
         @extend .container-imitation;
         &__logo {
+            cursor: pointer;
             flex-grow: 1;
             display: flex;
             justify-content: flex-start;
@@ -18,7 +19,7 @@
             color: var(--accent);
             font-weight: bold;
 
-            img {
+            svg {
                 margin: 0 10px 0 20px;
             }
         }
@@ -92,6 +93,9 @@
         &-leftside {
             display: flex;
             align-items: center;
+            &__logo {
+                cursor: pointer;
+            }
 
             &__menu-item {
                 color: #9e9da4;
