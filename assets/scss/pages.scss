@@ -131,24 +131,53 @@
 
     &-view {
         &_vacancy {
+            .layout {
+                grid-template-columns: 2fr 8fr 2fr;
+            }
+            .readmore {
+                &-content {
+                    line-height: calc(1rem + 10px);
+                }
+                &-btn {
+                    margin-top: 8px;
+                    position: relative;
+                    display: flex;
+                    width: 100%;
+                    align-items: center;
+                    justify-content: flex-end;
+
+                    button {
+                        color: var(--accent);
+                        font-style: italic;
+                        padding: 0;
+                        background: transparent;
+                        outline: none;
+                        font-weight: 600;
+                        border: none;
+                    }
+
+                    svg {
+                        vertical-align: middle;
+                        margin-bottom: 2px;
+                        margin-left: 10px;
+                    }
+                }
+            }
             .vacancyCard {
                 background: white;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                width: 585px;
-                height: 260px;
+                width: 100%;
+
                 box-shadow: 0 0 4px 0 rgba(183, 184, 199, 0.16);
                 padding: 30px 36px;
                 border-top: 2px solid var(--accent);
-                margin-bottom: 14px;
-                &:last-child {
-                    margin-bottom: 0;
-                }
                 &-head {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    margin-bottom: 18px;
 
                     &__title {
                         font-size: var(--fz-headers);
@@ -163,6 +192,7 @@
                     align-items: center;
                     justify-content: space-between;
                     color: var(--black);
+                    margin-bottom: 20px;
                     &__address {
                         display: flex;
                         align-items: center;
@@ -185,14 +215,28 @@
                     color: var(--black);
                 }
                 &-footer {
+                    margin-top: 30px;
                     color: var(--black);
-                    font-weight: 600;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    &__company {
+
+                    &__item {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                        &-name {
+                        }
+                        &-value {
+                            font-weight: 600;
+                        }
                     }
-                    &__rate {
+                }
+
+                .apply-now {
+                    display: flex;
+                    justify-content: flex-end;
+                    width: 100%;
+                    margin-top: 20px;
+                    button {
+                        @extend .mybutton;
                     }
                 }
             }
