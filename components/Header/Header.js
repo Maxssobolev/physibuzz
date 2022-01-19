@@ -1,12 +1,16 @@
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
-import { DEFAULT_HEADER, LOGGEDIN_HEADER } from './HeadersVariants'
+import { LOGGEDIN_HEADER } from './HeadersVariants'
 import LogoImg from '../../assets/img/logo.svg'
-import Image from 'next/image'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Header({ variant }) {
+
     switch (variant) {
         case LOGGEDIN_HEADER:
+            const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+            const router = useRouter()
             const user = useSelector(state => state.user)
             return (
                 <header data-variant='loggedIn'>
@@ -23,7 +27,15 @@ export default function Header({ variant }) {
 
                         </div>
                         <div className="header-rightside">
-                            <div className="header-rightside__user"><span>{user.name}</span></div>
+                            <div className="header-rightside__user user-dropdown" tabIndex={0} onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} onBlur={() => setTimeout(() => setIsUserMenuOpen(false), 100)} >
+                                <div className="user-dropbtn">{user.name}</div>
+                                <div className="user-dropdown-content" style={{
+                                    display: isUserMenuOpen ? 'block' : 'none',
+                                }} >
+                                    <div className='user-dropdown-content_settings'><button type='button' onClick={() => router.push('/settings')}>Settings</button></div>
+                                    <div className='user-dropdown-content_logout'><button type='button' onClick={() => router.push('/logout')}>Log Out</button></div>
+                                </div>
+                            </div>
                         </div>
                     </nav>
                 </header>

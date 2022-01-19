@@ -140,9 +140,20 @@
             flex-grow: 1;
             display: flex;
             justify-content: flex-end;
-            &__user > span {
+            .user-dropbtn {
                 color: var(--black);
                 font-weight: 600;
+                position: relative;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: calc(50% - 2px);
+                    right: -15px;
+                    width: 8px;
+                    height: 4px;
+                    background: url('../img/arrow-down.svg') no-repeat;
+                    background-size: contain;
+                }
             }
         }
     }

@@ -92,3 +92,92 @@ body {
 }
 .leftSidebar {
 }
+
+//////////DROPDOWN//////////
+.user-dropbtn {
+    cursor: pointer;
+}
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.user-dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100%);
+    right: 0;
+    min-width: 140px;
+    background: white;
+    box-shadow: 0 2px 24px 0 rgba(219, 223, 229, 0.61);
+    z-index: 1;
+
+    &_settings {
+        border-bottom: 1px solid #f4f4f4;
+        position: relative;
+
+        button:before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            top: 9px;
+            left: 7px;
+            background: url('../img/icons/settings.svg') no-repeat;
+            background-size: contain;
+        }
+        &:hover button:before {
+            background-image: url('../img/icons/settings-hovered.svg');
+        }
+        &:hover button {
+            color: var(--accent);
+        }
+    }
+    &_logout {
+        position: relative;
+        button:before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            top: 9px;
+            left: 7px;
+            background: url('../img/icons/logout.svg') no-repeat;
+            background-size: contain;
+        }
+        &:hover button:before {
+            background-image: url('../img/icons/logout-hovered.svg');
+        }
+        &:hover button {
+            color: var(--accent);
+        }
+    }
+}
+
+/* Links inside the dropdown */
+
+.user-dropdown-content button {
+    color: var(--black);
+    padding: 6px 25px;
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.user-dropdown-content a:hover,
+.user-dropdown-content button:hover {
+    color: var(--accent);
+}
+
+/* Show the dropdown menu on hover */
+.user-dropdown:hover .user-dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.user-dropdown:hover .user-dropbtn {
+}
