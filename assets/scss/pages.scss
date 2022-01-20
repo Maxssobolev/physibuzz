@@ -14,6 +14,19 @@
             box-shadow: 0 2px 24px 0 #ebe7ff;
         }
     }
+    &-logIn {
+        .form-wrapper {
+            width: 420px;
+            border-top: 4px solid var(--accent);
+
+            margin: 40px auto 0 auto;
+            padding: 35px 30px 60px 30px;
+
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 24px 0 #ebe7ff;
+        }
+    }
 
     &-home {
         .layout {
@@ -134,35 +147,7 @@
             .layout {
                 grid-template-columns: 2fr 8fr 2fr;
             }
-            .readmore {
-                &-content {
-                    line-height: calc(1rem + 10px);
-                }
-                &-btn {
-                    margin-top: 8px;
-                    position: relative;
-                    display: flex;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: flex-end;
 
-                    button {
-                        color: var(--accent);
-                        font-style: italic;
-                        padding: 0;
-                        background: transparent;
-                        outline: none;
-                        font-weight: 600;
-                        border: none;
-                    }
-
-                    svg {
-                        vertical-align: middle;
-                        margin-bottom: 2px;
-                        margin-left: 10px;
-                    }
-                }
-            }
             .vacancyCard {
                 @extend .card-vision;
                 &-head {
@@ -274,5 +259,50 @@
         .settings-tab-content {
             @extend .card-vision;
         }
+    }
+
+    &-profile {
+        .layout {
+            grid-template-columns: 2fr 8fr 2fr;
+        }
+
+        .profile-wrapper {
+            @extend .card-vision;
+            a {
+                color: var(--accent);
+            }
+
+            .user-name {
+                font-size: var(--fz-headers);
+                color: var(--accent);
+                font-weight: 700;
+                margin-bottom: 30px;
+            }
+
+            .user-info {
+                color: var(--black);
+
+                &__item {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    &-name {
+                        flex: 3 0;
+                        color: var(--gray);
+                    }
+                    &-value {
+                        flex: 2 0;
+                        font-weight: 600;
+                        text-align: right;
+                    }
+                }
+            }
+            .user-description {
+                margin-top: 30px;
+                color: var(--gray);
+            }
+        }
+    }
+    &-cv {
     }
 }

@@ -1,0 +1,23 @@
+.commonRow {
+    margin-bottom: 45px;
+}
+
+.checkboxRow {
+    margin-bottom: 20px;
+}
+.recaptcha {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.submitBtn {
+    margin-bottom: 20px;
+}
+
+.adds {
+    a {
+        color: var(--accent);
+        font-weight: 600;
+    }
+}

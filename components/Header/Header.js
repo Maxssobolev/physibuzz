@@ -6,11 +6,11 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 export default function Header({ variant }) {
+    const router = useRouter()
 
     switch (variant) {
         case LOGGEDIN_HEADER:
             const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-            const router = useRouter()
             const user = useSelector(state => state.user)
             return (
                 <header data-variant='loggedIn'>
@@ -42,6 +42,7 @@ export default function Header({ variant }) {
 
             )
         default:
+            const page = router.pathname
             return (
                 <header data-variant='default'>
                     <nav className="header">
@@ -59,7 +60,7 @@ export default function Header({ variant }) {
                             <div className="header__menu-item"><Link href='/' >Post Jobs</Link></div>
                             <div className="header__menu-item"><Link href='/' >Post Course</Link></div>
                             <div className="header__menu-item"><Link href='/' >Contact</Link></div>
-                            <div className="header__menu-item header__menu-item_btn"><Link href='/' >Sign In</Link></div>
+                            <div className="header__menu-item header__menu-item_btn"><Link href={page == '/logIn' ? '/signUp' : '/logIn'} >{page == '/logIn' ? 'Sign Up' : 'Log In'}</Link></div>
                         </div>
                     </nav>
                 </header>

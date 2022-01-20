@@ -240,3 +240,34 @@ body {
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .user-dropdown:hover .user-dropbtn {
 }
+
+////////////readmore////////////
+.readmore {
+    &-content {
+        line-height: calc(1rem + 10px);
+    }
+    &-btn {
+        margin-top: 8px;
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: flex-end;
+
+        button {
+            color: var(--accent);
+            font-style: italic;
+            padding: 0;
+            background: transparent;
+            outline: none;
+            font-weight: 600;
+            border: none;
+        }
+
+        svg {
+            vertical-align: middle;
+            margin-bottom: 2px;
+            margin-left: 10px;
+        }
+    }
+}
