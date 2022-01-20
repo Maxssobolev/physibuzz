@@ -104,6 +104,34 @@ body {
     ////////////////////////
 }
 
+///////NAV LINK ACTIVE AND HOVER///////////
+.nav-link {
+    cursor: pointer;
+    position: relative;
+    &:after {
+        content: '';
+        position: absolute;
+        width: 25%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--accent);
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+}
+.nav-link.active {
+    font-weight: bold;
+    letter-spacing: 0;
+    color: var(--accent) !important;
+
+    &:after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+}
+
 ////////////LAYOUTS///////////////
 .layout {
     display: grid;
@@ -113,6 +141,17 @@ body {
 .leftSidebar {
 }
 
+.card-vision {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+    box-shadow: 0 0 4px 0 rgba(183, 184, 199, 0.16);
+    padding: 30px 36px;
+    border-top: 2px solid var(--accent);
+}
 //////////DROPDOWN//////////
 .user-dropbtn {
     cursor: pointer;

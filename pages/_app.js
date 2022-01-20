@@ -1,4 +1,8 @@
+//styles
 import '../assets/scss/main.scss'
+import "tabulator-tables/dist/css/tabulator.min.css";
+import '../assets/scss/myTabulator.scss'
+
 import { Provider } from 'react-redux'
 import { useStore } from '../redux/store'
 import Head from 'next/head'

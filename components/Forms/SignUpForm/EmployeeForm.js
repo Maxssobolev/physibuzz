@@ -2,10 +2,10 @@ import React from 'react'
 
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { years, countries, countriesOfRegAd, countriesOfReg } from "../../CommonUtils/CommonUtils"
+import { years, countries, countriesOfRegAd, countriesOfReg, gender } from "../../CommonUtils/CommonUtils"
 //форма соискателей
 function EmployeeForm({ styles, profession }) {
-    const gender = ['Male', 'Female']
+
     return (
         <>
             <Row className={styles.commonRow}>
@@ -66,7 +66,7 @@ function EmployeeForm({ styles, profession }) {
                         <Field
                             className="field field_select"
                             component="select"
-                            name="counries"
+                            name="countries"
                         >
                             {countries.map((item, index) => <option value={item} key={`${index}__signUp-counries`} >{item}</option>)}
                         </Field>
@@ -80,7 +80,7 @@ function EmployeeForm({ styles, profession }) {
                         <Field
                             className="field field_select"
                             component="select"
-                            name="counries"
+                            name="countriesOfReg"
                         >
                             {countriesOfReg.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfReg`} >{item}</option>)}
                         </Field>
@@ -92,7 +92,7 @@ function EmployeeForm({ styles, profession }) {
                         <Field
                             className="field field_select"
                             component="select"
-                            name="counries"
+                            name="countriesOfRegAd"
                         >
                             {countriesOfRegAd.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfRegAd`} >{item}</option>)}
                         </Field>
@@ -118,7 +118,7 @@ function EmployeeForm({ styles, profession }) {
                         <Field
                             className="field field_select"
                             component="select"
-                            name="counries"
+                            name="profession"
                         >
                             {profession.map((item, index) => <option value={item} key={`${index}__signUp-profession2`} >{item}</option>)}
                         </Field>

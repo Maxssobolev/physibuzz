@@ -36,9 +36,9 @@ export default function SignUpForm() {
                 agreement: '',
                 gender: 'Male',
                 years: '2000',
-                counries: '',
-                counriesOfReg: '',
-                counriesOfRegAd: '',
+                countries: '',
+                countriesOfReg: '',
+                countriesOfRegAd: '',
                 availFrom: 'None',
 
             }}

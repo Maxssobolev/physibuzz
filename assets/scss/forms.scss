@@ -25,6 +25,35 @@
             font-weight: 600;
         }
     }
+
+    &-settings {
+        &-general {
+            margin-top: 30px;
+
+            &__submitBtn {
+                @extend .mybutton;
+                width: 140px !important;
+                margin: 0 auto !important;
+            }
+        }
+        &-professionCoverLetter {
+            .two-columns-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-gap: 15px;
+            }
+
+            &__submitBtn {
+                @extend .mybutton;
+                width: 140px !important;
+                margin: 20px auto 0 auto !important;
+            }
+        }
+
+        &-security {
+            margin-top: 30px;
+        }
+    }
 }
 
 //////////////COMMON FORM'S ELEMENTS/////////////////
@@ -53,6 +82,11 @@
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 50% 50%;
+        }
+    }
+    &:not(:checked) + span {
+        &:before {
+            border: 2px solid #ccc;
         }
     }
 
@@ -110,6 +144,13 @@
         color: var(--gray);
         pointer-events: none;
     }
+
+    &_textarea {
+        & > span {
+            display: block;
+            margin-bottom: 18px;
+        }
+    }
 }
 
 .field {
@@ -118,7 +159,7 @@
     box-sizing: border-box;
     outline: none;
     border: none;
-    border-bottom: 1px solid var(--gray);
+    border-bottom: 1px solid #cccccc;
     width: 100%;
     height: 30px;
     color: var(--black);
@@ -146,6 +187,20 @@
             position: absolute;
             right: 2%;
             bottom: 5px;
+        }
+    }
+
+    &_textarea {
+        resize: none;
+        overflow: hidden;
+        height: 240px;
+        padding: 14px 28px;
+        background: transparent;
+        border: 1px solid #979797;
+        border-radius: 4px;
+        &::placeholder {
+            color: var(--gray);
+            font-weight: 400;
         }
     }
 }

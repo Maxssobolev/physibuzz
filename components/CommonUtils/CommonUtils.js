@@ -8,7 +8,7 @@ export const years = range(2000, new Date().getFullYear()) //generate an array o
 export const countries = ['Italy']
 export const countriesOfRegAd = ['None']
 export const countriesOfReg = ['']
-
+export const gender = ['Male', 'Female']
 
 
 //custom react-select styles

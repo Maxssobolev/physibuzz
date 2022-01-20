@@ -1,6 +1,16 @@
 const initialState = {
     user: {
-        name: 'Jon Walton'
+        firstName: 'Jon',
+        lastName: 'Walton',
+        email: 'JW@gmail.com',
+        gender: 'Male',
+        yearsOfGraduation: 2005,
+        countriesQualified: '',
+        countryReg: 'United Kingdom',
+        addCountryReg: '',
+        get name() {
+            return this.firstName + ' ' + this.lastName
+        }
     }
 
 }

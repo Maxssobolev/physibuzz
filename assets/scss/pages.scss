@@ -164,15 +164,7 @@
                 }
             }
             .vacancyCard {
-                background: white;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                width: 100%;
-
-                box-shadow: 0 0 4px 0 rgba(183, 184, 199, 0.16);
-                padding: 30px 36px;
-                border-top: 2px solid var(--accent);
+                @extend .card-vision;
                 &-head {
                     display: flex;
                     align-items: center;
@@ -240,6 +232,47 @@
                     }
                 }
             }
+        }
+    }
+
+    &-settings {
+        padding-top: 25px;
+
+        .layout {
+            grid-template-columns: 2fr 7fr 2fr;
+        }
+
+        //tabs wrapper
+        .tabs-wrapper {
+            margin-top: 100px;
+            .nav {
+                flex-direction: column;
+            }
+        }
+        //tabs
+        .setting__item {
+            margin-top: 20px;
+
+            .nav-link {
+                padding: 0;
+                color: var(--black);
+                font-size: var(--fz-big);
+            }
+        }
+
+        //tab-content wrapper
+        .tab-wrapper {
+            margin-left: 70px;
+        }
+        //tab-content
+        .settings-tab-header {
+            font-size: var(--fz-big-headers);
+            font-weight: 700;
+            margin-bottom: 26px;
+            padding-left: 20px;
+        }
+        .settings-tab-content {
+            @extend .card-vision;
         }
     }
 }
