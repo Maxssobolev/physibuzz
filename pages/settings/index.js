@@ -1,5 +1,5 @@
 import Header from "../../components/Header/Header";
-import { LOGGEDIN_HEADER } from "../../components/Header/HeadersVariants";
+import { LOGGEDIN_EMPLOYEE } from "../../components/Header/HeadersVariants";
 import Layout from "../../components/Layout/Layout";
 import LeftSidebar from "../../components/Layout/LeftSidebar/LeftSidebar";
 import MainContent from "../../components/Layout/MainContent/MainContent";
@@ -24,7 +24,7 @@ export default function Settings() {
 
     return (
         <>
-            <Header variant={LOGGEDIN_HEADER} />
+            <Header variant={LOGGEDIN_EMPLOYEE} />
             <div className="page page-settings">
                 <Layout>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="General">

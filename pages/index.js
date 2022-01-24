@@ -1,6 +1,6 @@
 import Header from "../components/Header/Header"
 import Select from 'react-select'
-import { LOGGEDIN_HEADER } from "../components/Header/HeadersVariants"
+import { LOGGEDIN_EMPLOYEE, LOGGEDIN_EMPLOYER } from "../components/Header/HeadersVariants"
 
 import LeftSidebar from "../components/Layout/LeftSidebar/LeftSidebar"
 import MainContent from "../components/Layout/MainContent/MainContent"
@@ -71,7 +71,7 @@ export default function Home() {
 
   return (
     <>
-      <Header variant={LOGGEDIN_HEADER} />
+      <Header variant={LOGGEDIN_EMPLOYER} />
       <div className="page page-home">
 
         <div className="main-params">

@@ -4,7 +4,7 @@ import LeftSidebar from '../../components/Layout/LeftSidebar/LeftSidebar'
 import MainContent from '../../components/Layout/MainContent/MainContent'
 import RightSidebar from '../../components/Layout/RightSidebar/RightSidebar'
 import Header from '../../components/Header/Header'
-import { LOGGEDIN_HEADER } from '../../components/Header/HeadersVariants'
+import { LOGGEDIN_EMPLOYEE } from '../../components/Header/HeadersVariants'
 import ReadMore from '../../components/ReadMore/ReadMore'
 import Link from 'next/link'
 import { Row, Col } from 'react-bootstrap'
@@ -38,7 +38,7 @@ export default function ViewVacancy() {
 
     return (
         <>
-            <Header variant={LOGGEDIN_HEADER} />
+            <Header variant={LOGGEDIN_EMPLOYEE} />
             <div className="page page-profile">
                 <Layout>
                     <LeftSidebar />

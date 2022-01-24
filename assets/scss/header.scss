@@ -71,7 +71,7 @@
     }
 }
 
-[data-variant='loggedIn'] {
+[data-variant='loggedIn_EMPLOYEE'] {
     .header {
         background: white;
         padding: 0 40px;
@@ -141,6 +141,20 @@
                     background-size: contain;
                 }
             }
+        }
+    }
+}
+
+[data-variant='loggedIn_EMPLOYER'] {
+    .header {
+        @extend [data-variant='loggedIn_EMPLOYEE'];
+        padding: 0 40px;
+        background: white;
+
+        &-rightside {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
         }
     }
 }
