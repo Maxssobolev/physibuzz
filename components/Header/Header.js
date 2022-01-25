@@ -52,14 +52,14 @@ export default function Header({ variant }) {
                                     <LogoImg height={38} />
                                 </Link>
                             </div>
-                            <div className="header-leftside__menu-item"><Link href='/' >Jobs</Link></div>
-                            <div className="header-leftside__menu-item"><Link href='/' >Candidate</Link></div>
+                            <div className="header-leftside__menu-item"><Link href='/employer/jobs' >Jobs</Link></div>
+                            <div className="header-leftside__menu-item"><Link href='/employer/candidate' >Candidate</Link></div>
 
                         </div>
                         <div className="header-rightside">
                             <div className="header-rightside__buttons">
-                                <Link href='/postJob'>Post Job</Link>
-                                <Link href='/postJob'>Post Course</Link>
+                                <div className="postJob"><Link href='/postJob'>Post Job</Link></div>
+                                <div className="postCourse"><Link href='/postCourse'>Post Course</Link></div>
 
                             </div>
                             <div className="header-rightside__user user-dropdown" tabIndex={0} onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} onBlur={() => setTimeout(() => setIsUserMenuOpen(false), 100)} >

@@ -170,7 +170,17 @@
         -moz-appearance: none; /* Firefox */
         -webkit-appearance: none; /* Safari and Chrome */
         appearance: none;
-        background: url('../img/icons/arrow-down.svg') no-repeat 98% center;
+        background: url('../img/icons/arrow-down.svg') no-repeat 95% center;
+        &-inTable {
+            height: 39px;
+            width: 200px;
+            border: 1px solid rgba(158, 157, 164, 0.2);
+            border-radius: 2px;
+            padding: 0 20px;
+            font: inherit;
+            color: var(--black);
+            font-weight: 400;
+        }
     }
 
     &_password {
@@ -293,6 +303,28 @@
         }
         100% {
             transform: scale(1, 1);
+        }
+    }
+}
+
+.input {
+    border: none;
+    outline: none;
+    &_search {
+        box-sizing: border-box;
+        background: url('../img/icons/loupe.svg') no-repeat 10px center, transparent;
+        height: 39px;
+        width: 200px;
+        border: 1px solid rgba(158, 157, 164, 0.2);
+        border-radius: 2px;
+        padding: 0 35px;
+        font: inherit;
+        color: var(--black);
+        font-weight: 400;
+
+        &::placeholder {
+            color: var(--gray);
+            font-weight: 400;
         }
     }
 }

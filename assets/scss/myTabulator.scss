@@ -56,11 +56,11 @@
             border: none;
             &-title {
                 &-holder {
-                    display: flex;
+                    //display: flex;
                     justify-content: center;
                 }
                 padding-right: 0 !important;
-                max-width: max-content !important;
+                //max-width: max-content !important;
                 position: relative;
                 overflow: initial !important;
             }
@@ -76,6 +76,7 @@
     }
 
     .tabulator-tableholder {
+        overflow: initial;
         .tabulator-table {
             background: transparent;
             color: var(--black);
@@ -182,4 +183,18 @@
     font-weight: 400 !important;
     font-size: 14px !important;
     color: var(--gray) !important;
+}
+
+#tabulator-employer-jobs,
+#tabulator-employer-candidate {
+    .tabulator-footer {
+        justify-content: flex-start;
+    }
+}
+
+.table-controllers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
 }

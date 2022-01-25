@@ -28,9 +28,9 @@ export default function SettingsTransactionHistoryTab({ title }) {
     ])
 
     const columns = [
-        { title: 'Transaction ID', field: 'transactionID', headerSort: false },
-        { title: 'Date', field: 'date', headerSort: false },
-        { title: 'Amount', field: 'amount', headerSort: false },
+        { title: 'Transaction ID', field: 'transactionID', headerSort: false, headerHozAlign: 'center' },
+        { title: 'Date', field: 'date', headerSort: false, headerHozAlign: 'center' },
+        { title: 'Amount', field: 'amount', headerSort: false, headerHozAlign: 'center' },
 
     ]
     return (

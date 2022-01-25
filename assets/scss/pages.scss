@@ -103,15 +103,6 @@
                     &__address {
                         display: flex;
                         align-items: center;
-                        .address-icon {
-                            height: 1rem;
-                            border-radius: 3px;
-                            overflow: hidden;
-                            margin-right: 5px;
-                            svg {
-                                height: 100%;
-                            }
-                        }
                     }
                     &__date {
                         font-style: italic;
@@ -304,5 +295,40 @@
         }
     }
     &-cv {
+    }
+    &-employer {
+        .tabulator .tabulator-tableholder .tabulator-table .tabulator-row {
+            font-weight: 600;
+        }
+        .table__jobColumn {
+            text-align: left;
+            &-title {
+                margin-bottom: 5px;
+                font-size: var(--fz-big);
+            }
+            &-desc {
+                font-weight: normal;
+            }
+            &_candidate {
+                text-align: left;
+                &-title {
+                    margin-bottom: 5px;
+                    display: flex;
+                    align-items: center;
+                    .address-icon {
+                        margin-left: 5px;
+                    }
+                }
+                &-desc {
+                    font-weight: normal;
+                }
+            }
+        }
+        &_jobs {
+            //and for candidate page the same
+            .table-wrapper {
+                @extend .card-vision;
+            }
+        }
     }
 }

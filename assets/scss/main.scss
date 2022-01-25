@@ -271,3 +271,13 @@ body {
         }
     }
 }
+
+.address-icon {
+    height: 1rem;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-right: 5px;
+    svg {
+        height: 100%;
+    }
+}

@@ -3,11 +3,14 @@ import { ISOCountriesList } from './ISOCountriesList'
 
 export const getCountryFlag = (country) => {
     country = country || ''
-    let ccode;
+    let ccode = '';
     ISOCountriesList.forEach(({ name, code }) => {
         if (name.toLowerCase().includes(country.toLowerCase()))
             ccode = code
     })
 
+    if (!ccode) {
+        return { FlagComponent: Flags['US'] }
+    }
     return { FlagComponent: Flags[ccode] }
 }
