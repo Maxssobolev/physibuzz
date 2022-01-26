@@ -3,6 +3,11 @@ import { Row, Col } from 'react-bootstrap'
 import LogoImg from '../../assets/img/logo.svg'
 import { useWindowDimensions } from '../CommonUtils/useWindowDimensions'
 
+import InstagramIcon from '../../assets/img/instagram.svg'
+import TwitterIcon from '../../assets/img/twitter.svg'
+import FacebookIcon from '../../assets/img/facebook.svg'
+import LinkedInIcon from '../../assets/img/linkedIn.svg'
+
 export default function Footer({ variant }) {
     const isMobile = useWindowDimensions().width <= 425
 
@@ -52,12 +57,15 @@ export default function Footer({ variant }) {
                         <Col style={isMobile ? {
                             marginTop: '20px'
                         } : {}}>
-                            <Row className=' footer__col-head'>
+                            <Row className='footer__col-head'>
                                 <span>Follow Us</span>
                             </Row>
 
-                            <Row>
-                                {/* SOCIAL LINKS */}
+                            <Row className='social-links'>
+                                <a href='/'><TwitterIcon height={24} /> </a>
+                                <a href='/'><FacebookIcon height={24} /> </a>
+                                <a href='/'><LinkedInIcon height={24} /> </a>
+                                <a href='/'><InstagramIcon height={24} /> </a>
                             </Row>
 
                         </Col>

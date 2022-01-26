@@ -34,6 +34,25 @@
         }
     }
 
+    .social-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        @include if_size('425') {
+            padding: 10px 0;
+        }
+        a:hover {
+            svg {
+                fill: var(--accent);
+                circle:first-child {
+                    stroke: var(--accent);
+                }
+                circle:last-child {
+                    fill: var(--accent);
+                }
+            }
+        }
+    }
+
     .copyright {
         font-size: 0.85rem;
     }
