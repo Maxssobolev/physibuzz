@@ -1,3 +1,5 @@
+@import './rootVars.scss';
+
 .tabulator {
     .tabulator-row.tabulator-row-even {
         background: transparent;
@@ -177,6 +179,12 @@
             }
         }
     }
+
+    @include if_size('425') {
+        width: max-content;
+        max-width: 1080px;
+        min-width: 600px;
+    }
 }
 
 .noDataAvailable {
@@ -192,9 +200,34 @@
     }
 }
 
+#tabulator-employer-jobs {
+    @include if_size('425') {
+        min-width: 1080px;
+    }
+}
+
 .table-controllers {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
+    @include if_size('425') {
+        flex-direction: column;
+        div {
+            width: 100%;
+            select {
+                width: 100%;
+            }
+            .input {
+                margin-top: 20px;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.table-wrapper-mobile {
+    overflow-x: scroll;
+    width: 100%;
+    max-width: 100%;
 }

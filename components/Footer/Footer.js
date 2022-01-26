@@ -1,13 +1,20 @@
 import Link from 'next/link'
 import { Row, Col } from 'react-bootstrap'
 import LogoImg from '../../assets/img/logo.svg'
+import { useWindowDimensions } from '../CommonUtils/useWindowDimensions'
+
 export default function Footer({ variant }) {
+    const isMobile = useWindowDimensions().width <= 425
 
     switch (variant) {
         default:
             return (
                 <footer className='footer' role="contentinfo">
-                    <Row>
+                    <Row style={isMobile ? {
+                        textAlign: 'center',
+                        width: '90%',
+                        margin: '0 auto'
+                    } : {}}>
                         <Col>
                             <Row className=' footer__col-head'>
                                 <span>Physibuzz</span>
@@ -37,7 +44,14 @@ export default function Footer({ variant }) {
                             </Row>
 
                         </Col>
-                        <Col >
+                        {isMobile && (
+                            <div style={{
+                                width: '100%',
+                            }}></div>
+                        )}
+                        <Col style={isMobile ? {
+                            marginTop: '20px'
+                        } : {}}>
                             <Row className=' footer__col-head'>
                                 <span>Follow Us</span>
                             </Row>
@@ -47,6 +61,11 @@ export default function Footer({ variant }) {
                             </Row>
 
                         </Col>
+                        {isMobile && (
+                            <div style={{
+                                width: '100%',
+                            }}></div>
+                        )}
                         <Col>
                             <Row className='footer__col-logo'>
                                 <Link href="/">

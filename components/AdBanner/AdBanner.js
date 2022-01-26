@@ -6,7 +6,7 @@ const AdBanner = () => {
     return (
         <div className="adBanner">
 
-            <Image src={BannerIcon} />
+
         </div>
     )
 };

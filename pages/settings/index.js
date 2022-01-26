@@ -12,8 +12,11 @@ import SettingsProfessionCoverLetterTab from "../../components/Settings/Tabs/Pro
 import SettingsSecurityTab from "../../components/Settings/Tabs/Security";
 import SettingsTransactionHistoryTab from "../../components/Settings/Tabs/TransactionHistory";
 import SettingsPaymentsTab from "../../components/Settings/Tabs/Payments";
+import { useWindowDimensions } from "../../components/CommonUtils/useWindowDimensions";
 
 export default function Settings() {
+    const isMobile = useWindowDimensions().width <= 425
+
     const tabs = [
         { title: 'General', eventKey: 'General', component: SettingsGeneralTab },
         { title: 'Profession & Cover letter', eventKey: 'ProfessionCoverLetter', component: SettingsProfessionCoverLetterTab },
@@ -22,6 +25,47 @@ export default function Settings() {
         { title: 'Transaction History', eventKey: 'TransactionHistory', component: SettingsTransactionHistoryTab },
     ]
 
+    if (isMobile) {
+        return (
+            <>
+                <Header variant={LOGGEDIN_EMPLOYEE} />
+                <div className="page page-settings">
+                    <Tab.Container id="left-tabs-example" defaultActiveKey="General">
+                        <LeftSidebar>
+                            <div className="tabs-wrapper">
+                                <Nav>
+                                    {tabs.map((item, index) => (
+                                        <div className="setting__item" key={`${index}__tab_links-settings`}>
+                                            <Nav.Item>
+                                                <Nav.Link eventKey={item.eventKey}>{item.title}</Nav.Link>
+                                            </Nav.Item>
+                                        </div>
+                                    ))}
+                                </Nav>
+                            </div>
+                        </LeftSidebar>
+                        <MainContent>
+                            <div className="tab-wrapper">
+                                <Tab.Content>
+                                    {tabs.map((item, index) => {
+                                        const RenderComponent = item.component || null
+                                        if (RenderComponent) {
+                                            return (
+                                                <Tab.Pane eventKey={item.eventKey} key={`${index}__tab_content-settings`}>
+                                                    <RenderComponent title={item.title} />
+                                                </Tab.Pane>
+                                            )
+                                        }
+                                    })}
+                                </Tab.Content>
+                            </div>
+                        </MainContent>
+                        <RightSidebar />
+                    </Tab.Container>
+                </div>
+            </>
+        )
+    }
     return (
         <>
             <Header variant={LOGGEDIN_EMPLOYEE} />

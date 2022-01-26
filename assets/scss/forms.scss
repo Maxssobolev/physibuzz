@@ -36,6 +36,10 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-gap: 15px;
+
+                @include if_size('425') {
+                    grid-template-columns: 1fr;
+                }
             }
 
             &__submitBtn {
@@ -57,6 +61,9 @@
             font-weight: 700;
             margin-bottom: 26px;
             padding-left: 135px;
+            @include if_size('425') {
+                padding-left: 0;
+            }
         }
         &__card-header {
             font-size: var(--fz-big);

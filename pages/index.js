@@ -12,6 +12,7 @@ import ListOfVacancies from "../components/ListOfVacancies/ListOfVacancies"
 import { Range } from 'react-range';
 import AdBanner from "../components/AdBanner/AdBanner"
 import { DropdownIndicator } from "../components/CommonUtils/DropdownIndicator"
+import { useWindowDimensions } from "../components/CommonUtils/useWindowDimensions"
 
 
 //home page ONLY FOR LOGGED USERS
@@ -67,6 +68,65 @@ export default function Home() {
   const [distanceSelected, setDistanceSelected] = useState('')
   const handleChangeDistance = (selectedOpt) => {
     setDistanceSelected(selectedOpt.value)
+  }
+
+
+  //mobile
+  const isMobile = useWindowDimensions().width <= 425
+
+  if (isMobile) {
+    return (
+      <>
+        <Header variant={LOGGEDIN_EMPLOYER} />
+        <div className="page page-home ">
+          <div className="main-params">
+            <div className="field-wrapper">
+              <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} components={{ DropdownIndicator }} />
+              <span>What</span>
+            </div>
+            <div className="field-wrapper">
+              {/* need to change  */}
+              <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} components={{ DropdownIndicator }} />
+              <span>Where</span>
+            </div>
+          </div>
+          <LeftSidebar>
+            <div className="side-params">
+              <div className="side-params__head">
+                Filters
+              </div>
+              <div className="field-wrapper">
+                <Select styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
+                <span>Sort by</span>
+              </div>
+              <div className="field-wrapper">
+
+                <Select styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
+                <span>Job / Course</span>
+              </div>
+              <div className="field-wrapper">
+
+                <Select styles={customSelectStyles} options={distanceOptions} onChange={handleChangeDistance} components={{ DropdownIndicator }} />
+
+                <span>Distance</span>
+              </div>
+            </div>
+          </LeftSidebar>
+          <MainContent>
+            <ListOfVacancies options={{
+              whatSelected,
+              placeSelected,
+              sortSelected,
+              jobOrCourseSelected,
+              distanceSelected
+            }} />
+          </MainContent>
+          <RightSidebar>
+            <AdBanner />
+          </RightSidebar>
+        </div>
+      </>
+    )
   }
 
   return (

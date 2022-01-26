@@ -28,6 +28,9 @@
         & > span {
             display: flex;
             align-items: center;
+            @include if_size('425') {
+                justify-content: center;
+            }
         }
     }
 

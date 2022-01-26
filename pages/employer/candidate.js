@@ -5,9 +5,11 @@ import TableWithPagination from '../../components/TableWithPagination/TableWithP
 import { reactFormatter } from 'react-tabulator'
 import MoreAction from '../../assets/img/icons/more-action.svg'
 import { getCountryFlag } from '../../components/CommonUtils/getCountryFlag'
+import { useWindowDimensions } from '../../components/CommonUtils/useWindowDimensions'
 
 export default function EmployerCadidate() {
     const [employersCandidate, setEmployersCandidate] = useState([])
+    const isMobile = useWindowDimensions().width <= 425
 
     useEffect(() => {
         setEmployersCandidate([{
@@ -69,7 +71,7 @@ export default function EmployerCadidate() {
         { title: 'Proposal Submited At', field: 'submitedAt', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center', width: 200 },
         {
             title: '', field: 'actions', widthGrow: 3, headerSort: false,
-            vertAlign: 'top', hozAlign: 'right',
+            vertAlign: 'top', hozAlign: isMobile ? 'center' : 'right',
             formatterParams: (cell) => ({ id: cell.getData().id }),
             formatter: reactFormatter(<ActionGroup />)
         }

@@ -170,7 +170,7 @@ export default function Header({ variant }) {
 
                                 : (
                                     <div className="header__menu">
-                                        <div className="header__menu-item"><Link href='/' >Why Physibuzz?</Link></div>
+                                        <div className="header__menu-item"><Link href='/whyPhysibuzz' >Why Physibuzz?</Link></div>
                                         <div className="header__menu-item"><Link href='/' >Post Jobs</Link></div>
                                         <div className="header__menu-item"><Link href='/' >Post Course</Link></div>
                                         <div className="header__menu-item"><Link href='/' >Contact</Link></div>

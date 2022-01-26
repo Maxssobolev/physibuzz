@@ -71,6 +71,21 @@
             .field-wrapper:last-child {
                 margin-left: 10px;
             }
+
+            @include if_size('425') {
+                flex-direction: column;
+                .field-wrapper {
+                    width: 100%;
+                }
+                .field-wrapper:first-child {
+                    margin-right: 0px;
+                    margin-bottom: 44px;
+                    margin-top: 44px;
+                }
+                .field-wrapper:last-child {
+                    margin-left: 0px;
+                }
+            }
         }
 
         //side filters
@@ -82,6 +97,9 @@
                 }
                 display: grid;
                 grid-gap: 44px;
+            }
+            @include if_size('425') {
+                margin-bottom: 44px;
             }
         }
 
@@ -97,6 +115,15 @@
                 padding: 30px 36px;
                 border-top: 2px solid var(--accent);
                 margin-bottom: 14px;
+                @include if_size('425') {
+                    width: 100%;
+                    margin-bottom: 24px;
+
+                    height: max-content;
+                }
+                @include if_size('375') {
+                    padding: 30px 10px;
+                }
                 &:last-child {
                     margin-bottom: 0;
                 }
@@ -126,9 +153,16 @@
                         font-style: italic;
                         text-align: right;
                     }
+                    @include if_size('425') {
+                        margin-top: 8px;
+                        margin-bottom: 8px;
+                    }
                 }
                 &-description {
                     color: var(--black);
+                    @include if_size('425') {
+                        margin-bottom: 8px;
+                    }
                 }
                 &-footer {
                     color: var(--black);
@@ -136,6 +170,9 @@
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    @include if_size('325') {
+                        display: block;
+                    }
                     &__company {
                     }
                     &__rate {
@@ -147,6 +184,13 @@
         //ad
         .rightSidebar {
             .adBanner {
+                width: 254px;
+                height: 507px;
+                background: #e0dfe3;
+                @include if_size('425') {
+                    margin-top: 24px;
+                    width: 100%;
+                }
             }
         }
     }
@@ -155,6 +199,9 @@
         &_vacancy {
             .layout {
                 grid-template-columns: 2fr 8fr 2fr;
+                @include if_size('425') {
+                    grid-template-columns: 0fr 8fr 0fr;
+                }
             }
 
             .vacancyCard {
@@ -230,7 +277,9 @@
     }
 
     &-settings {
-        padding-top: 25px;
+        @media (min-width: 426px) {
+            padding-top: 25px;
+        }
 
         .layout {
             grid-template-columns: 2fr 7fr 2fr;
@@ -241,6 +290,9 @@
             margin-top: 100px;
             .nav {
                 flex-direction: column;
+            }
+            @include if_size('425') {
+                margin-top: 0;
             }
         }
         //tabs
@@ -257,6 +309,10 @@
         //tab-content wrapper
         .tab-wrapper {
             margin-left: 70px;
+            @include if_size('425') {
+                margin-left: 0;
+                margin-top: 30px;
+            }
         }
         //tab-content
         .settings-tab-header {
@@ -264,6 +320,10 @@
             font-weight: 700;
             margin-bottom: 26px;
             padding-left: 20px;
+            @include if_size('425') {
+                padding-left: 0;
+                margin-bottom: 18px;
+            }
         }
         .settings-tab-content {
             @extend .card-vision;
@@ -273,10 +333,16 @@
     &-profile {
         .layout {
             grid-template-columns: 2fr 8fr 2fr;
+            @include if_size('425') {
+                grid-template-columns: 0fr 8fr 0fr;
+            }
         }
 
         .profile-wrapper {
             @extend .card-vision;
+            @include if_size('425') {
+                padding: 30px 20px !important;
+            }
             a {
                 color: var(--accent);
             }
@@ -350,11 +416,17 @@
         }
 
         &_postJob {
-            padding-top: 25px;
+            @media (min-width: 426px) {
+                padding-top: 25px;
+            }
             .layout {
                 grid-template-columns: 465px 380px;
                 grid-gap: 30px;
                 justify-content: center;
+
+                @include if_size('425') {
+                    grid-template-columns: 1fr;
+                }
             }
 
             .leftPartForm {
@@ -368,6 +440,30 @@
                     border-color: var(--gray) !important;
                 }
             }
+        }
+    }
+
+    &-why {
+        .title {
+            font-size: var(--fz-big-headers) !important;
+            font-weight: bold;
+            span {
+                color: var(--accent);
+                margin-left: 1rem;
+            }
+            margin-bottom: 10px;
+        }
+
+        .text,
+        .author {
+            font-size: 16px;
+            line-height: 32px;
+        }
+
+        .author {
+            font-style: italic;
+            margin-top: 20px;
+            color: var(--accent);
         }
     }
 }

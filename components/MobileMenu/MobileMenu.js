@@ -56,7 +56,7 @@ export default function MobileMenu({ isMenuOpen, variant }) {
       return (
         <div className={`mobile-menu ${isMenuOpen ? 'opened' : ''}`}>
           <div className='mobile-menu__wrapper'>
-            <div className="header__menu-item"><Link href='/' >Why Physibuzz?</Link></div>
+            <div className="header__menu-item"><Link href='/whyPhysibuzz' >Why Physibuzz?</Link></div>
             <div className="header__menu-item"><Link href='/' >Post Jobs</Link></div>
             <div className="header__menu-item"><Link href='/' >Post Course</Link></div>
             <div className="header__menu-item"><Link href='/' >Contact</Link></div>

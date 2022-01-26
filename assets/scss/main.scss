@@ -120,6 +120,9 @@ body {
         background-color: var(--accent);
         transform-origin: bottom right;
         transition: transform 0.25s ease-out;
+        @include if_size('425') {
+            width: 10%;
+        }
     }
 }
 .nav-link.active {
@@ -152,6 +155,9 @@ body {
     box-shadow: 0 0 4px 0 rgba(183, 184, 199, 0.16);
     padding: 30px 36px;
     border-top: 2px solid var(--accent);
+    @media (max-width: 426px) {
+        padding: 30px 15px !important;
+    }
 }
 //////////DROPDOWN//////////
 .user-dropbtn {
