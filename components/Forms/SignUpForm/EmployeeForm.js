@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { years, countries, countriesOfRegAd, countriesOfReg, gender } from "../../CommonUtils/CommonUtils"
+import { years, countries, countriesOfRegAd, countriesOfReg, gender, profession } from "../../CommonUtils/CommonUtils"
 //форма соискателей
-function EmployeeForm({ styles, profession }) {
+function EmployeeForm({ styles }) {
 
     return (
         <>

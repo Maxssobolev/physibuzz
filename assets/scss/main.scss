@@ -3,6 +3,7 @@
 @import './rootVars.scss';
 
 @import './header.scss';
+@import './mobileMenu.scss';
 @import './footer.scss';
 @import './pages.scss';
 @import './forms.scss';
@@ -279,5 +280,13 @@ body {
     margin-right: 5px;
     svg {
         height: 100%;
+    }
+}
+
+.burger {
+    button {
+        outline: none;
+        border: none;
+        background: transparent;
     }
 }

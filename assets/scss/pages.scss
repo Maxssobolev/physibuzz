@@ -1,6 +1,10 @@
 .page {
     @extend .container-imitation;
     padding: 45px 0;
+    @include if_size('425') {
+        padding-top: 90px;
+    }
+
     &-signUp {
         .form-wrapper {
             width: 520px;
@@ -12,6 +16,17 @@
             border-radius: 4px;
             background-color: #ffffff;
             box-shadow: 0 2px 24px 0 #ebe7ff;
+            @include if_size('425') {
+                width: 100%;
+            }
+
+            .radio {
+                .col {
+                    @include if_size('375') {
+                        margin-bottom: 10px;
+                    }
+                }
+            }
         }
     }
     &-logIn {
@@ -25,6 +40,9 @@
             border-radius: 4px;
             background-color: #ffffff;
             box-shadow: 0 2px 24px 0 #ebe7ff;
+            @include if_size('425') {
+                width: 100%;
+            }
         }
     }
 
@@ -328,6 +346,27 @@
             //and for candidate page the same
             .table-wrapper {
                 @extend .card-vision;
+            }
+        }
+
+        &_postJob {
+            padding-top: 25px;
+            .layout {
+                grid-template-columns: 465px 380px;
+                grid-gap: 30px;
+                justify-content: center;
+            }
+
+            .leftPartForm {
+                @extend .card-vision;
+            }
+            .rightSidebar {
+                display: grid;
+                grid-row-gap: 30px;
+                .rightPartForm {
+                    @extend .card-vision;
+                    border-color: var(--gray) !important;
+                }
             }
         }
     }

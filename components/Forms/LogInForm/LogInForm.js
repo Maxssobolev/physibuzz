@@ -6,7 +6,7 @@ import { Row, Col } from "react-bootstrap";
 import * as Yup from 'yup';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import Link from "next/link";
-
+import { useWindowDimensions } from "../../CommonUtils/useWindowDimensions";
 
 const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -17,6 +17,8 @@ const SignupSchema = Yup.object().shape({
 
 export default function LogInForm() {
     const recaptchaRef = React.createRef();
+    const isMobile = useWindowDimensions().width <= 425
+
     return (
         <Formik
             initialValues={{
@@ -92,6 +94,7 @@ export default function LogInForm() {
                         <ReCAPTCHA
                             className={styles.recaptcha}
                             ref={recaptchaRef}
+                            size={isMobile ? 'compact' : 'normal'}
                             sitekey="6LcaXiUeAAAAAJ5Sc6Jo5XQbgVASWwuzS7qtkv39"
                             onChange={(value) => props.setFieldValue("recaptcha", value)}
                         />

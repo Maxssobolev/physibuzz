@@ -2,10 +2,10 @@ import styles from './SignUpForm.module.scss'
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
-import { useState } from 'react';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import EmployeeForm from './EmployeeForm';
 import EmployerForm from './EmployerForm';
+import { profession } from '../../CommonUtils/CommonUtils';
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -19,7 +19,6 @@ const SignupSchema = Yup.object().shape({
 
 
 export default function SignUpForm() {
-    const [profession, setProfession] = useState(["Skin Specialist"])
 
     return (
         <Formik
@@ -93,7 +92,7 @@ export default function SignUpForm() {
                             </Col>
                         </Row>
 
-                        {props.values.purpose == 'Im hiring' ? <EmployerForm styles={styles} profession={profession} /> : <EmployeeForm styles={styles} profession={profession} />}
+                        {props.values.purpose == 'Im hiring' ? <EmployerForm styles={styles} /> : <EmployeeForm styles={styles} />}
 
                         <Row className={styles.commonRow}>
                             <Col>

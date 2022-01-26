@@ -49,6 +49,75 @@
             margin-top: 30px;
         }
     }
+
+    &-postJob {
+        //for postCourse the same
+        &__header {
+            font-size: var(--fz-big-headers);
+            font-weight: 700;
+            margin-bottom: 26px;
+            padding-left: 135px;
+        }
+        &__card-header {
+            font-size: var(--fz-big);
+            font-weight: 600;
+        }
+        &__row {
+            margin-top: 48px;
+            &_general {
+                align-items: center;
+                div:first-child {
+                    flex: 1.5 0;
+                    color: var(--gray);
+                    font-size: 1.14rem;
+                }
+            }
+            &.salary {
+                font-size: 1.14rem;
+            }
+        }
+
+        .field-wrapper_textarea {
+            & > span {
+                position: absolute;
+                top: -30px;
+                left: 0px;
+                font-size: 1rem;
+                color: var(--gray);
+                pointer-events: none;
+            }
+        }
+
+        .field_textarea {
+            resize: vertical;
+            overflow: hidden;
+            height: 180px;
+            min-height: 180px;
+            padding: 0px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #979797;
+            border-radius: 0px;
+
+            &::placeholder {
+                color: var(--gray);
+                font-weight: 400;
+            }
+        }
+        &__submit-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            margin-top: 60px;
+            height: 85px;
+        }
+        &__submitBtn {
+            @extend .mybutton;
+            width: 200px !important;
+        }
+    }
 }
 
 //////////////COMMON FORM'S ELEMENTS/////////////////
@@ -62,6 +131,9 @@
         align-items: center;
         user-select: none;
         width: max-content;
+        @include if_size('375') {
+            width: 100%;
+        }
 
         &:before {
             box-sizing: border-box;

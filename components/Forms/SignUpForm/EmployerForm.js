@@ -1,8 +1,9 @@
 import React from 'react'
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
+import { profession } from '../../CommonUtils/CommonUtils'
 //Форма работодателей 
-function EmployerForm({ styles, profession }) {
+function EmployerForm({ styles }) {
 
     return (
         <>

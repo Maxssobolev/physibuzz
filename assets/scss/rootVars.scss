@@ -1,3 +1,23 @@
+$breakpoints: (
+    '325': 325px,
+    '375': 375px,
+    '425': 425px,
+    'medium': 1024px,
+    'large': 1200px,
+    'extra-large': 1440px,
+) !default;
+
+@mixin if_size($breakpoint) {
+    @if map-has-key($breakpoints, $breakpoint) {
+        @media screen and (max-width: map-get($breakpoints, $breakpoint)) {
+            @content;
+        }
+    } @else {
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+          + "Available breakpoints are: #{map-keys($breakpoints)}.";
+    }
+}
+
 :root {
     //colors
     --accent: #5b3dea;
