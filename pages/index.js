@@ -81,12 +81,35 @@ export default function Home() {
         <div className="page page-home ">
           <div className="main-params">
             <div className="field-wrapper">
-              <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} components={{ DropdownIndicator }} />
+              <Select styles={customSelectStyles} options={whatOptions} onChange={handleChangeWhat} components={{ DropdownIndicator }}
+                responsive={{
+                  xsmall: {
+                    display: 'bottom',
+                    touchUi: true
+                  },
+                  small: {
+                    display: 'bottom',
+                    touchUi: true
+                  },
+
+                }} />
               <span>What</span>
             </div>
             <div className="field-wrapper">
               {/* need to change  */}
-              <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} components={{ DropdownIndicator }} />
+              <Select styles={customSelectStyles}
+                responsive={{
+                  xsmall: {
+                    display: 'bottom',
+                    touchUi: true
+                  },
+                  small: {
+                    display: 'bottom',
+                    touchUi: true
+                  },
+
+                }}
+                options={placeOptions} onChange={handleChangePlace} components={{ DropdownIndicator }} />
               <span>Where</span>
             </div>
           </div>
@@ -96,17 +119,53 @@ export default function Home() {
                 Filters
               </div>
               <div className="field-wrapper">
-                <Select styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
+                <Select
+                  responsive={{
+                    xsmall: {
+                      display: 'bottom',
+                      touchUi: true
+                    },
+                    small: {
+                      display: 'bottom',
+                      touchUi: true
+                    },
+
+                  }}
+                  styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
                 <span>Sort by</span>
               </div>
               <div className="field-wrapper">
 
-                <Select styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
+                <Select
+                  responsive={{
+                    xsmall: {
+                      display: 'bottom',
+                      touchUi: true
+                    },
+                    small: {
+                      display: 'bottom',
+                      touchUi: true
+                    },
+
+                  }}
+                  styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
                 <span>Job / Course</span>
               </div>
               <div className="field-wrapper">
 
-                <Select styles={customSelectStyles} options={distanceOptions} onChange={handleChangeDistance} components={{ DropdownIndicator }} />
+                <Select
+                  responsive={{
+                    xsmall: {
+                      display: 'bottom',
+                      touchUi: true
+                    },
+                    small: {
+                      display: 'bottom',
+                      touchUi: true
+                    },
+
+                  }}
+                  styles={customSelectStyles} options={distanceOptions} onChange={handleChangeDistance} components={{ DropdownIndicator }} />
 
                 <span>Distance</span>
               </div>

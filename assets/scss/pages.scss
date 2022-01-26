@@ -138,6 +138,10 @@
                         font-weight: 600;
                     }
                     &__like {
+                        @include if_size('425') {
+                            width: 32px;
+                            height: 32px;
+                        }
                     }
                 }
                 &-additionalInfo {

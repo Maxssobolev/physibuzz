@@ -27,6 +27,7 @@ export const customSelectStyles = {
         borderRadius: '0px',
         boxShadow: 'none',
         width: '100%',
+        height: '40px',
 
         '&:hover': {
             borderColor: 'var(--gray)'
