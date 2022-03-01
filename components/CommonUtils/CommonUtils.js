@@ -12,7 +12,7 @@ export const profession = ["Skin Specialist"]
 export const countries = ['United Kingdom']
 export const countriesOfRegAd = ['None']
 export const countriesOfReg = ['']
-export const gender = ['Male', 'Female']
+export const gender = ['Male', 'Female', 'Other']
 
 
 //custom react-select styles

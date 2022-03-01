@@ -2,11 +2,15 @@ import ReCAPTCHA from "react-google-recaptcha";
 import React from "react";
 import styles from './LogInForm.module.scss';
 import { Formik, Form, Field } from "formik";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import * as Yup from 'yup';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import Link from "next/link";
 import { useWindowDimensions } from "../../CommonUtils/useWindowDimensions";
+import { handleLogin } from "../../../redux/actions";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -16,7 +20,15 @@ const SignupSchema = Yup.object().shape({
 
 
 export default function LogInForm() {
+    //redux 
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
+    //-----
+
+    const router = useRouter()
+
     const recaptchaRef = React.createRef();
+
     const isMobile = useWindowDimensions().width <= 425
 
     return (
@@ -28,10 +40,22 @@ export default function LogInForm() {
                 recaptcha: '',
             }}
             validationSchema={SignupSchema}
-            onSubmit={(values) => {
+            onSubmit={({ email, password, rememberMe }) => {
                 const recaptchaValue = recaptchaRef.current.getValue();
 
-                console.log(values)
+                if (recaptchaValue) {
+                    dispatch(
+                        handleLogin(email, password, rememberMe)
+                    )
+                        .then(res => {
+
+                            if (res) {
+                                //if login success
+                                router.push('/')
+                            }
+
+                        })
+                }
             }}
         >
             {
@@ -51,7 +75,7 @@ export default function LogInForm() {
                             </Col>
                         </Row>
 
-                        <Row className={styles.commonRow}>
+                        <Row className={!user.error && styles.commonRow}>
                             <Col>
                                 <div className="field-wrapper">
                                     <Field
@@ -62,6 +86,14 @@ export default function LogInForm() {
                                 </div>
                             </Col>
                         </Row>
+
+                        {user.error &&
+                            <Row>
+                                <Alert variant="warning" className={styles.errorRow}>
+                                    {user.error}
+                                </Alert>
+                            </Row>
+                        }
 
                         <Row className={styles.checkboxRow}>
                             <Col>

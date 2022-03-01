@@ -1,3 +1,3 @@
 export const DEFAULT_HEADER = 'DEFAULT_HEADER'
-export const LOGGEDIN_EMPLOYEE = 'LOGGEDIN_EMPLOYEE'
-export const LOGGEDIN_EMPLOYER = 'LOGGEDIN_EMPLOYER '
+export const LOGGEDIN_EMPLOYEE = 'candidate'
+export const LOGGEDIN_EMPLOYER = 'hiring'

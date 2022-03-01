@@ -3,6 +3,7 @@ import React from 'react'
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import { years, countries, countriesOfRegAd, countriesOfReg, gender, profession } from "../../CommonUtils/CommonUtils"
+import { DatePickerField } from '../../CommonUtils/CustomDatepicker'
 //форма соискателей
 function EmployeeForm({ styles }) {
 
@@ -49,10 +50,11 @@ function EmployeeForm({ styles }) {
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
+
                         <Field
                             className="field field_select"
                             component="select"
-                            name="years"
+
                         >
                             {years.map((item, index) => <option value={item} key={`${index}__signUp-years`} >{item}</option>)}
                         </Field>
@@ -103,9 +105,7 @@ function EmployeeForm({ styles }) {
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
-                        <Field
-                            className="field"
-                            component="input"
+                        <DatePickerField
                             name="availFrom"
                         />
                         <span>Available From (Add Date)</span>

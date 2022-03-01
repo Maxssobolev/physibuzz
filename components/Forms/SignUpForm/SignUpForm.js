@@ -6,10 +6,15 @@ import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import EmployeeForm from './EmployeeForm';
 import EmployerForm from './EmployerForm';
 import { profession } from '../../CommonUtils/CommonUtils';
+import { useDispatch } from 'react-redux';
 
 const SignupSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+    firstName: Yup.string().min(5, 'Too Short!').max(120, 'Too Long!').required('Required'),
+    lastName: Yup.string().min(5, 'Too Short!').max(120, 'Too Long!').required('Required'),
+    company: Yup.string().min(3, 'Too Short!').max(220, 'Too Long!').when("purpose", {
+        is: 'hiring',
+        then: Yup.string().required("Required")
+    }),
     email: Yup.string().email('Invalid email').required('Email is required'),
     emailConfirmation: Yup.string().required('Please, confirm email').test('email-match', 'Emails must match', function (value) { return this.parent.email === value }),
     password: Yup.string().required('Password is required'),
@@ -19,11 +24,12 @@ const SignupSchema = Yup.object().shape({
 
 
 export default function SignUpForm() {
+    const dispatch = useDispatch()
 
     return (
         <Formik
             initialValues={{
-                purpose: 'Im hiring',
+                purpose: 'hiring',
                 lastName: '',
                 firstName: '',
                 email: '',
@@ -38,12 +44,13 @@ export default function SignUpForm() {
                 countries: '',
                 countriesOfReg: '',
                 countriesOfRegAd: '',
-                availFrom: 'None',
+                availFrom: new Date(),
 
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-                console.log(values)
+                dispatch(handleRegistration(values, values.purpose))
+
             }}
         >
             {
@@ -53,7 +60,7 @@ export default function SignUpForm() {
                         <Row className={`radio ${styles.radioRow}`} >
                             <Col>
                                 <label className="flex flex_align-center">
-                                    <Field type="radio" name='purpose' value='Im hiring' />
+                                    <Field type="radio" name='purpose' value='hiring' />
                                     <span>I'm hiring</span>
                                 </label>
                             </Col>
@@ -62,7 +69,7 @@ export default function SignUpForm() {
                                 flex: 'initial'
                             }}>
                                 <label className="flex flex_align-center">
-                                    <Field type="radio" name='purpose' value='Im looking for job or courses' />
+                                    <Field type="radio" name='purpose' value='candidate' />
                                     <span>I'm looking for job or courses</span>
                                 </label>
                             </Col>
@@ -92,7 +99,7 @@ export default function SignUpForm() {
                             </Col>
                         </Row>
 
-                        {props.values.purpose == 'Im hiring' ? <EmployerForm styles={styles} /> : <EmployeeForm styles={styles} />}
+                        {props.values.purpose == 'hiring' ? <EmployerForm styles={styles} /> : <EmployeeForm styles={styles} />}
 
                         <Row className={styles.commonRow}>
                             <Col>

@@ -8,7 +8,7 @@ import { useWindowDimensions } from '../CommonUtils/useWindowDimensions'
 import BurgerIcon from '../../assets/img/burger.svg'
 import MobileMenu from '../MobileMenu/MobileMenu'
 import HeaderPlaceholder from './HeaderPlaceholder'
-export default function Header({ variant }) {
+export default function Header() {
     const router = useRouter()
     const user = useSelector(state => state.user)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -23,7 +23,7 @@ export default function Header({ variant }) {
         setIsMobile(width <= 425)
     }, [width])
 
-    switch (variant) {
+    switch (user.type) {
         case LOGGEDIN_EMPLOYEE:
             return (
                 <>
