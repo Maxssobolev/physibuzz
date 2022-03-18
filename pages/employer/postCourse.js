@@ -8,9 +8,14 @@ import * as Yup from 'yup';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import { city, countries, currency, profession, state } from "../../components/CommonUtils/CommonUtils";
+import api from '../../apiConfig'
+
 
 const SignupSchema = Yup.object().shape({
-    courseTitle: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(),
+    courseTitle: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
+    courseDesc: Yup.string().min(3, 'Too Short!').required(),
+    address: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
+    courseDesc: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
 });
 
 export default function EmployerPostCourse() {
@@ -34,7 +39,16 @@ export default function EmployerPostCourse() {
                     }}
                     validationSchema={SignupSchema}
                     onSubmit={(values) => {
-                        console.log(values)
+                        let sentData = {
+                            "title": values.courseTitle,
+                            "description": values.courseDesc,
+                            "address": values.address,
+                            "profession_id": values.profession,
+                            "min_pay": values.cost1,
+                            "max_pay": values.cost2,
+
+
+                        }
                     }}
                 >
                     {

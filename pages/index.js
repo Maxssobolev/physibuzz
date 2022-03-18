@@ -18,6 +18,9 @@ import HeaderPlaceholder from '../components/Header/HeaderPlaceholder'
 //home page ONLY FOR LOGGED USERS
 
 export default function Home() {
+
+
+
   //main part filters
   /*******************WHAT**********************/
   const [whatOptions, setWhatOptions] = useState([

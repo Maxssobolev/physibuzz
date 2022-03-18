@@ -39,7 +39,7 @@ export const handleLogin = (email, password, isRemember) => async (dispatch) => 
                 cookies.set('userToken', result.token, { path: '/' })
             }
 
-            return true
+            return { token: result.token }
         })
         .catch((error) => {
             dispatch({

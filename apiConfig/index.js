@@ -1,4 +1,10 @@
 import axios from 'axios';
+import { cookies } from '../pages/_app'
+const ISSERVER = typeof window === "undefined";
+let token = ''
+if (!ISSERVER) {
+    token = localStorage.getItem('userToken')
+}
 
 const axiosInstance = axios.create({
     baseURL: 'https://physibuzz.rehabapps.net',
@@ -9,6 +15,12 @@ const axiosInstance = axios.create({
             "x-ratelimit-limit": "60",
             "x-ratelimit-remaining": "59",
             "access-control-allow-origin": "*",
+            'Authorization': `Bearer ${cookies.get('userToken') || token || 'not stated'}`
+
+        },
+        get: {
+
+            'Authorization': `Bearer ${cookies.get('userToken') || token || 'not stated'}`
 
         }
     }

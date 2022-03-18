@@ -18,6 +18,8 @@ const SignupSchema = Yup.object().shape({
     recaptcha: Yup.string().required(),
 });
 
+const ISSERVER = typeof window === "undefined";
+
 
 export default function LogInForm() {
     //redux 
@@ -30,6 +32,7 @@ export default function LogInForm() {
     const recaptchaRef = React.createRef();
 
     const isMobile = useWindowDimensions().width <= 425
+
 
     return (
         <Formik
@@ -51,7 +54,11 @@ export default function LogInForm() {
 
                             if (res) {
                                 //if login success
-                                router.push('/')
+                                if (!ISSERVER) {
+                                    localStorage.setItem("userToken", res.token);
+                                    router.push('/')
+                                }
+
                             }
 
                         })

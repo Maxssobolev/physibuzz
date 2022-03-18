@@ -10,11 +10,12 @@ import { getCountryFlag } from '../../../components/CommonUtils/getCountryFlag'
 import Header from '../../../components/Header/Header'
 import { LOGGEDIN_HEADER } from '../../../components/Header/HeadersVariants'
 import ReadMore from '../../../components/ReadMore/ReadMore'
+import api from '../../../apiConfig'
+import Loader from '../../../components/Loader/Loader'
 
 export default function ViewVacancy() {
     const router = useRouter()
-    const { id } = router.query //here id - id of vacancy, ccode - country code 
-
+    const { id } = router.query //here id - id of vacancy
 
 
     const [vacancy, setVacancy] = useState({ country: 'US' }) //country just for 'placeholder'
@@ -25,21 +26,24 @@ export default function ViewVacancy() {
     }
 
     useEffect(() => {
-
-        setVacancy({
-            title: 'Physiotherapist MSK Full Time',
-            country: 'United Kingdom',
-            date: '2022-01-15T17:00:00',
-            description: ` Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas aut vel rerum expedita a soluta, alias nisi nam ea nihil ab quam perferendis atque. Vel, eos, voluptatem alias magnam molestias vero hic aliquid eligendi, ipsum cupiditate saepe iure sunt ea ratione. Vitae ipsum asperiores tenetur aperiam ducimus illum, iure voluptatum natus ut voluptas amet reiciendis odio debitis quas recusandae, dignissimos eaque animi ratione dolorum assumenda laboriosam modi eius aliquam? Debitis tempore perferendis enim cupiditate provident ab ad maiores ullam suscipit, unde asperiores, rerum explicabo pariatur sunt itaque temporibus non modi sequi hic dolorem, reprehenderit autem! A aut aliquam autem! Nobis culpa quas eum! Officia fugit consequatur voluptates nemo mollitia sed libero laboriosam! Accusantium commodi omnis maxime repellendus mollitia officiis aliquid nostrum quasi esse, harum facilis ipsa magni dolores, illo blanditiis fugiat repellat, nobis eligendi? Officia expedita dolores illo consequuntur error possimus magnam quo? Ab, officiis ratione. Non ex doloribus nobis iste nemo atque at itaque iusto aliquid amet? Fugiat officiis non unde aliquam quia dicta nostrum numquam. Possimus harum obcaecati ratione vero recusandae! Repellendus voluptatum velit harum aliquam sit rem corrupti nulla fugit deserunt dignissimos, dolor nobis modi. Officia consectetur eaque nobis vero a quas, pariatur sequi expedita ipsa ducimus `,
-            company: 'PhysioQinetics',
-            rate: '$30 ~ $42/hr | $25000 ~ $30000/yr',
-            contactType: 'Full Time',
-            location: 'London, England',
-            isLiked: false
+        if (!router.isReady) return;
+        api.get(`/api/v1/vacancies/${id}`).then((r) => {
+            const recievedData = r.data.data
+            setVacancy({
+                title: recievedData.title,
+                country: 'United Kingdom', //temporary
+                date: recievedData.updated_at,
+                description: recievedData.description,
+                company: recievedData.user.company,
+                rate: `${recievedData.hourly_min_pay} ~ ${recievedData.hourly_max_pay}/hr | ${recievedData.annual_min_pay} ~ ${recievedData.annual_max_pay}/yr`,
+                contactType: 'Full Time', //??
+                location: recievedData.address,
+                isLiked: false
+            })
         })
 
 
-    }, [])
+    }, [router.isReady])
 
 
     return (
