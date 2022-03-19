@@ -58,7 +58,7 @@ export default function Home() {
     { value: 'Course', label: 'Course' },
     { value: 'Both', label: 'Both' },
   ])
-  const [jobOrCourseSelected, setJobOrCourseSelected] = useState('')
+  const [jobOrCourseSelected, setJobOrCourseSelected] = useState('Job')
   const handleChangeJobOrCourse = (selectedOpt) => {
     setJobOrCourseSelected(selectedOpt.value)
   }
@@ -165,6 +165,7 @@ export default function Home() {
                     },
 
                   }}
+                  defaultValue={{ value: 'Job', label: 'Job' }}
                   styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
                 <span>Job / Course</span>
               </div>

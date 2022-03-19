@@ -11,7 +11,6 @@ import Header from '../../../components/Header/Header'
 import { LOGGEDIN_HEADER } from '../../../components/Header/HeadersVariants'
 import ReadMore from '../../../components/ReadMore/ReadMore'
 import api from '../../../apiConfig'
-import Loader from '../../../components/Loader/Loader'
 
 export default function ViewVacancy() {
     const router = useRouter()
