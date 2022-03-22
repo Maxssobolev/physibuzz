@@ -5,7 +5,8 @@ const initialState = {
     isFetching: false,
     type: '',
     token: null,
-    error: ''
+    error: '',
+    updated: false
 }
 
 
@@ -34,7 +35,8 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 data: action.payload.data,
                 type: action.payload.type,
-                token: action.payload.token
+                token: action.payload.token,
+                updated: true
             }
         default:
             return state

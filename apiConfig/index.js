@@ -22,6 +22,9 @@ const axiosInstance = axios.create({
 
             'Authorization': `Bearer ${cookies.get('userToken') || token || 'not stated'}`
 
+        },
+        put: {
+            'Authorization': `Bearer ${cookies.get('userToken') || token || 'not stated'}`
         }
     }
 });

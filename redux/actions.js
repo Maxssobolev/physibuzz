@@ -100,7 +100,8 @@ export const handleUpdateUserState = (uUser) => (dispatch) => {
         payload: {
             data: uUser,
             type: uUser.type,
-            token: uUser.token
+            token: uUser.token,
+            updated: true
         },
     });
 

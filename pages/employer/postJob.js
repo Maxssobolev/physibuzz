@@ -55,7 +55,7 @@ export default function EmployerPostJob() {
                         api.post('/api/v1/vacancies', sentData).then(r => {
                             if (r.status == 200) {
                                 Swal.fire(
-                                    'Course was created!',
+                                    'Job was created!',
                                     'Success!',
                                     'success'
                                 )

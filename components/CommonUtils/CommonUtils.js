@@ -12,8 +12,14 @@ export const profession = ["Skin Specialist"]
 export const countries = ['United Kingdom']
 export const countriesOfRegAd = ['None']
 export const countriesOfReg = ['']
-export const gender = ['Male', 'Female', 'Other']
-
+export const gender = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Other', value: 'other' }
+]
+export function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
 
 //custom react-select styles
 export const customSelectStyles = {

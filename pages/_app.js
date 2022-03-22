@@ -17,6 +17,7 @@ export const cookies = new Cookies();
 //store
 import { useStore } from '../redux/store'
 
+
 export default function App({ Component, pageProps }) {
     const store = useStore(pageProps.initialReduxState)
 
