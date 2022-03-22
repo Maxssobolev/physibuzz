@@ -1,69 +1,20 @@
 import { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header'
-import { LOGGEDIN_EMPLOYER } from '../../components/Header/HeadersVariants'
 import TableWithPagination from '../../components/TableWithPagination/TableWithPagination'
 import { reactFormatter } from 'react-tabulator'
 import MoreAction from '../../assets/img/icons/more-action.svg'
-
+import api from '../../apiConfig'
 export default function EmployerJobs() {
+
     const [employersJobs, setEmployersJobs] = useState([])
 
     useEffect(() => {
-        setEmployersJobs([{
-            id: '1',
-            jobTitle: 'Five Tips For Low Cost Holidays',
-            jobDesc: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-            location: 'Irland',
-            created: '06-29-2020',
-            candidates: '20 Candidates',
-            views: '50',
-            budget: '$ 3500',
-            status: 'Opened'
-        },
-        {
-            id: '2',
-            jobTitle: 'Five Tips For Low Cost Holidays',
-            jobDesc: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Tristique senectus et netus et malesuada fames ac turpis egestas.',
-            location: 'Irland',
-            created: '06-29-2020',
-            candidates: '20 Candidates',
-            views: '50',
-            budget: '$ 3500',
-            status: 'Closed'
-        },
-        {
-            id: '3',
-            jobTitle: 'Four Tips For High Cost Holidays',
-            jobDesc: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Tristique senectus et netus et malesuada fames ac turpis egestas.',
-            location: 'Irland',
-            created: '06-29-2020',
-            candidates: '20 Candidates',
-            views: '50',
-            budget: '$ 3500',
-            status: 'Closed'
-        },
-        {
-            id: '4',
-            jobTitle: 'Four Tips For High Cost Holidays',
-            jobDesc: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Tristique senectus et netus et malesuada fames ac turpis egestas.',
-            location: 'Irland',
-            created: '06-29-2020',
-            candidates: '20 Candidates',
-            views: '50',
-            budget: '$ 3500',
-            status: 'Opened'
-        },
-        {
-            id: '5',
-            jobTitle: 'Seven Tips For High Cost Holidays',
-            jobDesc: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Tristique senectus et netus et malesuada fames ac turpis egestas.',
-            location: 'Irland',
-            created: '06-29-2020',
-            candidates: '20 Candidates',
-            views: '50',
-            budget: '$ 3500',
-            status: 'Opened'
-        }])
+
+        api.get('/api/v1/vacancies/my').then(r => {
+            console.log(r.data.data.data)
+            setEmployersJobs(r.data.data.data)
+        })
+
     }, [])
 
     function ActionGroup(props) {
@@ -89,8 +40,8 @@ export default function EmployerJobs() {
         const cellData = props.cell._cell.row.data;
         return (
             <div className="table__jobColumn">
-                <div className="table__jobColumn-title">{cellData.jobTitle}</div>
-                <div className="table__jobColumn-desc">{cellData.jobDesc.slice(0, 100)}{cellData.jobDesc.length > 99 && '...'}</div>
+                <div className="table__jobColumn-title">{cellData.title}</div>
+                <div className="table__jobColumn-desc">{cellData.description.slice(0, 100)}{cellData.description.length > 99 && '...'}</div>
             </div>
         );
 
@@ -98,15 +49,15 @@ export default function EmployerJobs() {
 
     const columns = [
         {
-            title: 'Job', field: 'jobTitle', headerSort: false,
-            formatterParams: (cell) => ({ jobDesc: cell.getData()?.jobDesc, id: cell.getData()?.id }),
+            title: 'Job', field: 'title', headerSort: false,
+            formatterParams: (cell) => ({ description: cell.getData()?.description, id: cell.getData()?.id }),
             formatter: reactFormatter(<JobTitle />),
             widthGrow: 3,
             vertAlign: 'middle',
             headerHozAlign: 'left'
         },
-        { title: 'Location', field: 'location', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
-        { title: 'Created', field: 'created', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
+        { title: 'Location', field: 'address', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
+        { title: 'Created', field: 'created_at', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
         {
             title: 'Candidates', field: 'candidates', headerSort: false,
             formatter: function (cell, formatterParams, onRendered) {
@@ -123,8 +74,11 @@ export default function EmployerJobs() {
             formatter: function (cell, formatterParams, onRendered) {
                 if (cell.getValue().toLowerCase() == 'opened')
                     return "<span style='color: #6DD400'>" + cell.getValue() + '</span>';
-                else
+                else if (cell.getValue().toLowerCase() == 'closed')
                     return "<span style='color: #ff3347'>" + cell.getValue() + '</span>';
+                else
+                    return "<span style='color: var(--accent)'>" + cell.getValue() + '</span>';
+
             }, headerHozAlign: 'center'
         },
         {
@@ -139,7 +93,7 @@ export default function EmployerJobs() {
     if (employersJobs.length == 0) {
         return (
             <>
-                <Header variant={LOGGEDIN_EMPLOYER} />
+                <Header />
                 <div className="page page-employer page-employer_jobs">
                     <div className="table-wrapper">
                         <div className='loaderForTables'>Loading...</div>
@@ -150,13 +104,13 @@ export default function EmployerJobs() {
     }
     return (
         <>
-            <Header variant={LOGGEDIN_EMPLOYER} />
+            <Header />
             <div className="page page-employer page-employer_jobs">
                 <div className="table-wrapper">
                     <TableWithPagination
                         initialRowData={employersJobs}
                         columns={columns}
-                        searchField='jobTitle'
+                        searchField='title'
                         maxOnPage={4}
                         specialId={'tabulator-employer-jobs'}
                         filtredOptions={{

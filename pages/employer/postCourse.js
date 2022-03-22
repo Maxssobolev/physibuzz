@@ -1,7 +1,5 @@
 import Header from "../../components/Header/Header";
-import { LOGGEDIN_EMPLOYER } from "../../components/Header/HeadersVariants";
 import Layout from "../../components/Layout/Layout";
-import LeftSidebar from "../../components/Layout/LeftSidebar/LeftSidebar";
 import MainContent from "../../components/Layout/MainContent/MainContent";
 import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import * as Yup from 'yup';
@@ -10,8 +8,8 @@ import { Row, Col } from "react-bootstrap"
 import { city, countries, state } from "../../components/CommonUtils/CommonUtils";
 import api from '../../apiConfig'
 import { SelectField } from "../../components/Forms/SpecialFields/SelectField";
-import { useEffect, useState } from "react";
 import Swal from 'sweetalert2'
+import useProfessions from "../../components/Hooks/useProfessions";
 
 const SignupSchema = Yup.object().shape({
     courseTitle: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
@@ -21,29 +19,11 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function EmployerPostCourse() {
-    //GETTING PROFESSIONS
-    const [whatOptions, setWhatOptions] = useState([])
-    useEffect(() => {
-        api.get('/api/v1/profession/all').then(r => {
-            let preparedData = [
-
-            ]
-            r.data.forEach(profession => {
-                preparedData.push({
-                    id: profession.id,
-                    value: profession.title,
-                    label: profession.title,
-
-                })
-            })
-            setWhatOptions(preparedData)
-        })
-
-    }, [])
+    const professionsOpt = useProfessions()
 
     return (
         <>
-            <Header variant={LOGGEDIN_EMPLOYER} />
+            <Header />
             <div className="page page-employer page-employer_postJob">
                 <Formik
                     initialValues={{
@@ -208,7 +188,7 @@ export default function EmployerPostCourse() {
                                                         <SelectField
                                                             name="profession"
                                                             required
-                                                            options={whatOptions}
+                                                            options={professionsOpt}
                                                         />
                                                         <span>Suitable for</span>
                                                     </div>

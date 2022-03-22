@@ -1,13 +1,15 @@
 import Header from "../../components/Header/Header";
-import { LOGGEDIN_EMPLOYER } from "../../components/Header/HeadersVariants";
 import Layout from "../../components/Layout/Layout";
-import LeftSidebar from "../../components/Layout/LeftSidebar/LeftSidebar";
 import MainContent from "../../components/Layout/MainContent/MainContent";
 import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import * as Yup from 'yup';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { city, countries, currency, profession, state } from "../../components/CommonUtils/CommonUtils";
+import { city, countries, currency, state } from "../../components/CommonUtils/CommonUtils";
+import useProfessions from "../../components/Hooks/useProfessions";
+import { SelectField } from "../../components/Forms/SpecialFields/SelectField";
+import api from '../../apiConfig'
+import Swal from 'sweetalert2'
 
 const SignupSchema = Yup.object().shape({
     jobTitle: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(),
@@ -15,9 +17,11 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function EmployerPostJob() {
+    const professionsOpt = useProfessions()
+
     return (
         <>
-            <Header variant={LOGGEDIN_EMPLOYER} />
+            <Header />
             <div className="page page-employer page-employer_postJob">
                 <Formik
                     initialValues={{
@@ -27,16 +31,46 @@ export default function EmployerPostJob() {
                         city: '',
                         state: '',
                         address: '',
-                        profession: profession[0],
+                        profession: '',
                         currency: 'USD',
-                        hourlyMin: 10,
-                        hourlyMax: 20,
-                        annualMin: 10,
-                        annualMax: 20,
+                        hourlyMin: 1,
+                        hourlyMax: 2,
+                        annualMin: 1,
+                        annualMax: 2,
                     }}
                     validationSchema={SignupSchema}
-                    onSubmit={(values) => {
-                        console.log(values)
+                    onSubmit={(values, { resetForm }) => {
+                        let sentData = {
+                            "title": values.jobTitle,
+                            "description": values.jobDesc,
+                            "address": values.address,
+                            "profession_id": values.profession.id,
+                            "hourly_min_pay": values.hourlyMin,
+                            "hourly_max_pay": values.hourlyMax,
+                            "annual_min_pay": values.annualMin,
+                            "annual_max_pay": values.annualMax,
+                            "currency_id": 1,
+                            "active": 1, //0 - active, 1 - hide (??? , но сделано так)
+                        }
+                        api.post('/api/v1/vacancies', sentData).then(r => {
+                            if (r.status == 200) {
+                                Swal.fire(
+                                    'Course was created!',
+                                    'Success!',
+                                    'success'
+                                )
+                                resetForm();
+                            }
+
+                        })
+                            .catch(err => {
+                                Swal.fire(
+                                    'Oops..',
+                                    `Sorry, something went wrong, please, try again`,
+                                    'error'
+                                )
+                            })
+
                     }}
                 >
                     {
@@ -154,14 +188,11 @@ export default function EmployerPostJob() {
                                             <Row className="form-postJob__row">
                                                 <Col>
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
+                                                        <SelectField
                                                             name="profession"
-                                                        >
-                                                            {profession.map((item, index) => <option value={item} key={`${index}__postJob-professions`} >{item}</option>)}
-                                                        </Field>
+                                                            required
+                                                            options={professionsOpt}
+                                                        />
                                                         <span>Profesional Qualification you are looking for</span>
                                                     </div>
                                                 </Col>
