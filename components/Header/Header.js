@@ -19,7 +19,6 @@ export default function Header() {
     const [isMobile, setIsMobile] = useState(undefined)
     const { width, height } = useWindowDimensions()
     useEffect(() => {
-        console.log(width, width <= 425)
         setIsMobile(width <= 425)
     }, [width])
 

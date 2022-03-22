@@ -1,6 +1,7 @@
 
 import Header from "../components/Header/Header"
 import Select from 'react-select'
+
 import { LOGGEDIN_EMPLOYEE, LOGGEDIN_EMPLOYER } from "../components/Header/HeadersVariants"
 
 import LeftSidebar from "../components/Layout/LeftSidebar/LeftSidebar"
@@ -9,27 +10,64 @@ import RightSidebar from "../components/Layout/RightSidebar/RightSidebar"
 import Layout from "../components/Layout/Layout"
 import { useState, useEffect } from "react"
 import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
-import ListOfVacancies from "../components/ListOfVacancies/ListOfVacancies"
 import AdBanner from "../components/AdBanner/AdBanner"
 import { DropdownIndicator } from "../components/CommonUtils/DropdownIndicator"
 import { useWindowDimensions } from "../components/CommonUtils/useWindowDimensions"
 import HeaderPlaceholder from '../components/Header/HeaderPlaceholder'
+import api from '../apiConfig'
+import moment from "moment"
+import VacancyCard from "../components/Cards/Vacancy/VacancyCard"
+import Loader from "../components/Loader/Loader";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 //home page ONLY FOR LOGGED USERS
 
 export default function Home() {
 
 
+  const setExistedFilters = (data) => {
+    //profession filter
+    let tmp1 = whatSelected ? data.filter(({ profession }) => whatSelected.id === profession.id) : data
+
+    //sort filters
+    let tmp2 = tmp1
+    if (sortSelected) {
+      if (sortSelected.label == 'Most Recent') {
+        tmp2 = tmp1.sort((a, b) => {
+          return new moment(b.updated_at).format('YYYYMMDD') - new moment(a.updated_at).format('YYYYMMDD')
+        })
+      }
+      else if (sortSelected.label == 'Oldest') { //need to change 
+        tmp2 = tmp1.sort((a, b) => {
+          return new moment(a.updated_at).format('YYYYMMDD') - new moment(b.updated_at).format('YYYYMMDD')
+        })
+      }
+    }
+
+    return tmp2
+
+  }
 
   //main part filters
   /*******************WHAT**********************/
-  const [whatOptions, setWhatOptions] = useState([
-    { value: 'Sport Manager', label: 'Sport Manager' },
-    { value: 'Other', label: 'Other' },
-  ])
+  const [whatOptions, setWhatOptions] = useState([])
   const [whatSelected, setWhatSelected] = useState('')
   const handleChangeWhat = (selectedOpt) => {
-    setWhatSelected(selectedOpt.value)
+    setWhatSelected(selectedOpt)
+    setSortSelected(null)
+    if (selectedOpt.label != 'All') {
+      setDataToShow(prev => {
+        return {
+          total: prev.total,
+          lastPage: prev.lastPage,
+          rows: serverData['rows'].filter(({ profession }) => selectedOpt.id === profession.id)
+        }
+      })
+
+    }
+    else {
+      setDataToShow(serverData)
+    }
   }
   /*******************PLACE*********************/
   const [placeOptions, setPlaceOptions] = useState([
@@ -38,42 +76,64 @@ export default function Home() {
   ])
   const [placeSelected, setPlaceSelected] = useState('')
   const handleChangePlace = (selectedOpt) => {
-    setPlaceSelected(selectedOpt.value)
+    setPlaceSelected(selectedOpt)
   }
 
   //side part filters
   /*******************SORT BY*********************/
-  const [sortOptions, setSortOptions] = useState([
+  const sortOptions = [
     { value: 'Most Recent', label: 'Most Recent' },
-    { value: 'Other', label: 'Other' },
-  ])
-  const [sortSelected, setSortSelected] = useState('')
+    { value: 'Oldest', label: 'Oldest' },
+  ]
+  const [sortSelected, setSortSelected] = useState(sortOptions[0])
   const handleChangeSort = (selectedOpt) => {
-    setSortSelected(selectedOpt.value)
+    setSortSelected(selectedOpt)
+
+    if (selectedOpt.label == 'Most Recent') {
+      //it is default sort in server
+      setDataToShow(prev => {
+        return {
+          ...prev,
+          rows: prev.rows.sort((a, b) => {
+            return new moment(b.updated_at).format('YYYYMMDD') - new moment(a.updated_at).format('YYYYMMDD')
+          })
+
+        }
+      })
+    }
+    else if (selectedOpt.label == 'Oldest') { //need to change 
+      //for example
+      setDataToShow(prev => {
+        return {
+          ...prev,
+          rows: prev.rows.sort((a, b) => {
+            return new moment(a.updated_at).format('YYYYMMDD') - new moment(b.updated_at).format('YYYYMMDD')
+          })
+        }
+      })
+    }
   }
 
   /*******************Job / Course*********************/
-  const [jobOrCourseOptions, setJobOrCourseOptions] = useState([
+  const jobOrCourseOptions = [
     { value: 'Job', label: 'Job' },
     { value: 'Course', label: 'Course' },
-    { value: 'Both', label: 'Both' },
-  ])
-  const [jobOrCourseSelected, setJobOrCourseSelected] = useState('Job')
+    //{ value: 'Both', label: 'Both' },
+  ]
+  const [jobOrCourseSelected, setJobOrCourseSelected] = useState(jobOrCourseOptions[0])
   const handleChangeJobOrCourse = (selectedOpt) => {
-    setJobOrCourseSelected(selectedOpt.value)
+    setJobOrCourseSelected(selectedOpt)
   }
 
   /*******************Distance*********************/
-  const [distanceOptions, setDistanceOptions] = useState([
+  const distanceOptions = [
     { value: 'Within 25km', label: 'Within 25km' },
     { value: 'Other', label: 'Other' },
-  ])
+  ]
   const [distanceSelected, setDistanceSelected] = useState('')
   const handleChangeDistance = (selectedOpt) => {
-    setDistanceSelected(selectedOpt.value)
+    setDistanceSelected(selectedOpt)
   }
-
-
 
 
   //mobile definition
@@ -82,6 +142,87 @@ export default function Home() {
   useEffect(() => {
     setIsMobile(width <= 425)
   }, [width])
+
+
+  //api connection
+
+  const [serverData, setServerData] = useState(null)
+  const [dataToShow, setDataToShow] = useState(serverData)
+  const [page, setPage] = useState(1)
+
+  const getData = (url, pageNumber = 1) => {
+    api.get(`${url}?page=${pageNumber}`).then((r) => {
+      const recievedData = url.includes('vacancies') ? r.data.data : r.data[0] //need to change
+      const total = recievedData.total
+      const lastPage = recievedData.last_page
+
+      if (pageNumber == 1) {
+        setServerData({
+          total,
+          lastPage,
+          rows: recievedData.data
+        })
+        setDataToShow({
+          total,
+          lastPage,
+          rows: recievedData.data
+        })
+      }
+      else {
+        setServerData(prev => {
+          return {
+            total,
+            lastPage,
+            rows: [...prev.rows, ...recievedData.data]
+          }
+        })
+        setDataToShow(prev => {
+          return {
+            total,
+            lastPage,
+            rows: [...prev.rows, ...setExistedFilters(recievedData.data)]
+          }
+        })
+      }
+
+      setPage(pageNumber)
+    })
+  }
+
+  //API CONNECTION
+  useEffect(() => {
+    //documentation of this api route https://physibuzz.rehabapps.net/docs/#vacancies
+
+    //set sort filter to null before changing the data
+    setSortSelected(null)
+    if (jobOrCourseSelected.label == 'Job') {
+      getData('/api/v1/vacancies')
+
+    }
+    else if (jobOrCourseSelected.label == 'Course') {
+      getData('/api/v1/courses')
+    }
+
+  }, [jobOrCourseSelected])
+
+  useEffect(() => {
+    api.get('/api/v1/profession/all').then(r => {
+      let preparedData = [
+        { value: 'All', label: 'All' }
+      ]
+      r.data.forEach(profession => {
+        preparedData.push({
+          id: profession.id,
+          value: profession.title,
+          label: profession.title,
+
+        })
+      })
+      setWhatOptions(preparedData)
+    })
+
+  }, [])
+
 
   if (isMobile === undefined) {
     return (
@@ -148,6 +289,9 @@ export default function Home() {
                     },
 
                   }}
+                  key={`sortBy_selector`}
+                  defaultValue={sortOptions[0]}
+                  value={sortSelected || null}
                   styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
                 <span>Sort by</span>
               </div>
@@ -165,7 +309,9 @@ export default function Home() {
                     },
 
                   }}
-                  defaultValue={{ value: 'Job', label: 'Job' }}
+                  defaultValue={jobOrCourseOptions[0]}
+                  value={jobOrCourseSelected || null}
+
                   styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
                 <span>Job / Course</span>
               </div>
@@ -190,13 +336,30 @@ export default function Home() {
             </div>
           </LeftSidebar>
           <MainContent>
-            <ListOfVacancies options={{
-              whatSelected,
-              placeSelected,
-              sortSelected,
-              jobOrCourseSelected,
-              distanceSelected
-            }} />
+            {dataToShow?.rows.length > 0 ?
+              <div className="listOfVacancies">
+                <InfiniteScroll
+                  dataLength={dataToShow.total}
+                  next={() => {
+                    jobOrCourseSelected.label == 'Job' ? getData('/api/v1/vacancies', page + 1) : getData('/api/v1/courses', page + 1)
+                  }}
+                  hasMore={page != dataToShow.lastPage}
+                  loader={<Loader />}
+                  endMessage={
+                    <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
+                      You have seen it all
+                    </p>
+                  }
+                >
+                  {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} info={itm} />)}
+
+                </InfiniteScroll>
+              </div>
+              :
+              <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
+                Nothing to show
+              </p>
+            }
           </MainContent>
           <RightSidebar>
             <AdBanner />
@@ -230,12 +393,21 @@ export default function Home() {
                   Filters
                 </div>
                 <div className="field-wrapper">
-                  <Select styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
+                  <Select
+                    key={`sortBy_selector`}
+                    defaultValue={sortOptions[0]}
+                    value={sortSelected || null}
+                    styles={customSelectStyles} options={sortOptions} onChange={handleChangeSort} components={{ DropdownIndicator }} />
                   <span>Sort by</span>
                 </div>
                 <div className="field-wrapper">
 
-                  <Select styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
+                  <Select
+                    key={`jobOrCourse_selector`}
+
+                    defaultValue={jobOrCourseOptions[0]}
+                    value={jobOrCourseSelected || null}
+                    styles={customSelectStyles} options={jobOrCourseOptions} onChange={handleChangeJobOrCourse} components={{ DropdownIndicator }} />
                   <span>Job / Course</span>
                 </div>
                 <div className="field-wrapper">
@@ -248,13 +420,30 @@ export default function Home() {
             </LeftSidebar>
             <MainContent>
 
-              <ListOfVacancies options={{
-                whatSelected,
-                placeSelected,
-                sortSelected,
-                jobOrCourseSelected,
-                distanceSelected
-              }} />
+              {dataToShow?.rows.length > 0 ?
+                <div className="listOfVacancies">
+                  <InfiniteScroll
+                    dataLength={dataToShow.total}
+                    next={() => {
+                      jobOrCourseSelected.label == 'Job' ? getData('/api/v1/vacancies', page + 1) : getData('/api/v1/courses', page + 1)
+                    }}
+                    hasMore={page != dataToShow.lastPage}
+                    loader={<Loader />}
+                    endMessage={
+                      <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
+                        You have seen it all
+                      </p>
+                    }
+                  >
+                    {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} info={itm} />)}
+
+                  </InfiniteScroll>
+                </div>
+                :
+                <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
+                  Nothing to show
+                </p>
+              }
 
 
             </MainContent>
