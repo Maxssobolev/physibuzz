@@ -56,6 +56,7 @@ export default function LogInForm() {
                                 //if login success
                                 if (!ISSERVER) {
                                     localStorage.setItem("userToken", res.token);
+                                    localStorage.setItem("userType", res.type);
                                     router.push('/')
                                 }
 

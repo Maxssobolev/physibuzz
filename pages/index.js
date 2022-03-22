@@ -205,6 +205,7 @@ export default function Home() {
 
   }, [jobOrCourseSelected])
 
+  //GETTING PROFESSIONS
   useEffect(() => {
     api.get('/api/v1/profession/all').then(r => {
       let preparedData = [

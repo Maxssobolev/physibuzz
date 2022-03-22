@@ -1,7 +1,8 @@
 import {
     LOGIN_FAIL,
     LOGIN_SUCCESS,
-    LOGIN_REQUEST
+    LOGIN_REQUEST,
+    UPDATE_USER
 } from './types.js';
 
 import api from '../apiConfig'
@@ -37,9 +38,10 @@ export const handleLogin = (email, password, isRemember) => async (dispatch) => 
 
             if (isRemember) {
                 cookies.set('userToken', result.token, { path: '/' })
+                cookies.set('userType', result.type, { path: '/' })
             }
 
-            return { token: result.token }
+            return { token: result.token, type: result.type }
         })
         .catch((error) => {
             dispatch({
@@ -87,5 +89,19 @@ export const handleRegistration = (fields, purpose) => async (dispatch) => {
 
     //return await api.post('api/v1/register', sendData)
 
+
+}
+
+
+export const handleUpdateUserState = (uUser) => (dispatch) => {
+
+    dispatch({
+        type: UPDATE_USER,
+        payload: {
+            data: uUser,
+            type: uUser.type,
+            token: uUser.token
+        },
+    });
 
 }

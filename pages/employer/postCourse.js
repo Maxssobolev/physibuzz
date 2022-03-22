@@ -7,9 +7,11 @@ import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import * as Yup from 'yup';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { city, countries, currency, profession, state } from "../../components/CommonUtils/CommonUtils";
+import { city, countries, state } from "../../components/CommonUtils/CommonUtils";
 import api from '../../apiConfig'
-
+import { SelectField } from "../../components/Forms/SpecialFields/SelectField";
+import { useEffect, useState } from "react";
+import Swal from 'sweetalert2'
 
 const SignupSchema = Yup.object().shape({
     courseTitle: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
@@ -19,6 +21,25 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function EmployerPostCourse() {
+    //GETTING PROFESSIONS
+    const [whatOptions, setWhatOptions] = useState([])
+    useEffect(() => {
+        api.get('/api/v1/profession/all').then(r => {
+            let preparedData = [
+
+            ]
+            r.data.forEach(profession => {
+                preparedData.push({
+                    id: profession.id,
+                    value: profession.title,
+                    label: profession.title,
+
+                })
+            })
+            setWhatOptions(preparedData)
+        })
+
+    }, [])
 
     return (
         <>
@@ -32,23 +53,41 @@ export default function EmployerPostCourse() {
                         city: '',
                         state: '',
                         address: '',
-                        profession: profession[0],
+                        profession: '',
                         cost1: 0,
                         cost2: 0,
 
                     }}
                     validationSchema={SignupSchema}
-                    onSubmit={(values) => {
+                    onSubmit={(values, { resetForm }) => {
                         let sentData = {
                             "title": values.courseTitle,
                             "description": values.courseDesc,
                             "address": values.address,
-                            "profession_id": values.profession,
+                            "profession_id": values.profession.id,
                             "min_pay": values.cost1,
                             "max_pay": values.cost2,
-
-
+                            "currency_id": 1,
+                            "active": 1, //0 - active, 1 - hide (??? , но сделано так)
                         }
+                        api.post('/api/v1/courses', sentData).then(r => {
+                            if (r.status == 200) {
+                                Swal.fire(
+                                    'Course was created!',
+                                    'Success!',
+                                    'success'
+                                )
+                                resetForm();
+                            }
+
+                        })
+                            .catch(err => {
+                                Swal.fire(
+                                    'Oops..',
+                                    `Sorry, something went wrong, please, try again`,
+                                    'error'
+                                )
+                            })
                     }}
                 >
                     {
@@ -166,14 +205,11 @@ export default function EmployerPostCourse() {
                                             <Row className="form-postJob__row">
                                                 <Col>
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
+                                                        <SelectField
                                                             name="profession"
-                                                        >
-                                                            {profession.map((item, index) => <option value={item} key={`${index}__postJob-professions`} >{item}</option>)}
-                                                        </Field>
+                                                            required
+                                                            options={whatOptions}
+                                                        />
                                                         <span>Suitable for</span>
                                                     </div>
                                                 </Col>

@@ -1,14 +1,12 @@
 export default function HeaderPlaceholder() {
 
     return (
-        <div style={{
-            position: 'absolute',
-            top: '0',
+        <header style={{
             background: 'white',
-            height: '90px',
+            height: '64px',
             width: '100%'
         }}>
 
-        </div>
+        </header>
     )
 }
