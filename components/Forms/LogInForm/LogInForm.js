@@ -6,11 +6,12 @@ import { Row, Col, Alert } from "react-bootstrap";
 import * as Yup from 'yup';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import Link from "next/link";
-import { useWindowDimensions } from "../../CommonUtils/useWindowDimensions";
+import { useWindowDimensions } from "../../Hooks/useWindowDimensions";
 import { handleLogin } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import useStorage from "../../Hooks/useStorage";
 
 const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -18,14 +19,13 @@ const SignupSchema = Yup.object().shape({
     recaptcha: Yup.string().required(),
 });
 
-const ISSERVER = typeof window === "undefined";
-
 
 export default function LogInForm() {
     //redux 
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     //-----
+    const { setItem } = useStorage()
 
     const router = useRouter()
 
@@ -54,11 +54,13 @@ export default function LogInForm() {
 
                             if (res) {
                                 //if login success
-                                if (!ISSERVER) {
-                                    localStorage.setItem("userToken", res.token);
-                                    localStorage.setItem("userType", res.type);
-                                    router.push('/')
-                                }
+
+                                setItem("userToken", res.token, 'local');
+                                setItem("userType", res.type, 'local');
+                                setItem("userName", res.userName, 'local');
+
+                                router.push('/')
+
 
                             }
 

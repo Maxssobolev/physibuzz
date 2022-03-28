@@ -5,7 +5,7 @@ import TableWithPagination from '../../components/TableWithPagination/TableWithP
 import { reactFormatter } from 'react-tabulator'
 import MoreAction from '../../assets/img/icons/more-action.svg'
 import { getCountryFlag } from '../../components/CommonUtils/getCountryFlag'
-import { useWindowDimensions } from '../../components/CommonUtils/useWindowDimensions'
+import { useWindowDimensions } from '../../components/Hooks/useWindowDimensions'
 
 export default function EmployerCadidate() {
     const [employersCandidate, setEmployersCandidate] = useState([])

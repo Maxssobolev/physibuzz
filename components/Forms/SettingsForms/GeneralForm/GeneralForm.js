@@ -3,12 +3,12 @@ import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
 import { years, countries, countriesOfRegAd, countriesOfReg, gender } from '../../../CommonUtils/CommonUtils';
-import { useWindowDimensions } from '../../../CommonUtils/useWindowDimensions';
+import { useWindowDimensions } from '../../../Hooks/useWindowDimensions';
 import api from '../../../../apiConfig'
 import Swal from 'sweetalert2'
 import { SelectField } from '../../SpecialFields/SelectField'
 import { useEffect, useState } from 'react';
-import { handleUpdateUserState } from '../../../../redux/actions';
+
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
@@ -27,6 +27,7 @@ export default function GeneralForm() {
     }, [])
     const isMobile = useWindowDimensions().width <= 425
     if (!user) {
+        /* вот тут и в аналогичных местах какого-то хуя стейт не обновляется. */
         return <></>
     }
     return (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import LikeIcon from '../../assets/img/icons/like.svg';
 import LikedIcon from '../../assets/img/icons/liked.svg';
-import { useWindowDimensions } from '../CommonUtils/useWindowDimensions';
+import { useWindowDimensions } from '../Hooks/useWindowDimensions';
 
 export default function Like({ __id, __isLiked: isLiked }) {
     const [like, setLike] = useState(isLiked || false)

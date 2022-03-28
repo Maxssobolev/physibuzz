@@ -1,5 +1,4 @@
 import Header from "../../components/Header/Header";
-import { LOGGEDIN_EMPLOYEE } from "../../components/Header/HeadersVariants";
 import Layout from "../../components/Layout/Layout";
 import LeftSidebar from "../../components/Layout/LeftSidebar/LeftSidebar";
 import MainContent from "../../components/Layout/MainContent/MainContent";
@@ -12,7 +11,7 @@ import SettingsProfessionCoverLetterTab from "../../components/Settings/Tabs/Pro
 import SettingsSecurityTab from "../../components/Settings/Tabs/Security";
 import SettingsTransactionHistoryTab from "../../components/Settings/Tabs/TransactionHistory";
 import SettingsPaymentsTab from "../../components/Settings/Tabs/Payments";
-import { useWindowDimensions } from "../../components/CommonUtils/useWindowDimensions";
+import { useWindowDimensions } from "../../components/Hooks/useWindowDimensions";
 
 export default function Settings() {
     const isMobile = useWindowDimensions().width <= 425
@@ -28,7 +27,7 @@ export default function Settings() {
     if (isMobile) {
         return (
             <>
-                <Header variant={LOGGEDIN_EMPLOYEE} />
+                <Header />
                 <div className="page page-settings">
                     <Tab.Container id="left-tabs-example" defaultActiveKey="General">
                         <LeftSidebar>
@@ -68,7 +67,7 @@ export default function Settings() {
     }
     return (
         <>
-            <Header variant={LOGGEDIN_EMPLOYEE} />
+            <Header />
             <div className="page page-settings">
                 <Layout>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="General">

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Row, Col } from 'react-bootstrap'
 import LogoImg from '../../assets/img/logo.svg'
-import { useWindowDimensions } from '../CommonUtils/useWindowDimensions'
+import { useWindowDimensions } from '../Hooks/useWindowDimensions'
 
 import InstagramIcon from '../../assets/img/instagram.svg'
 import TwitterIcon from '../../assets/img/twitter.svg'

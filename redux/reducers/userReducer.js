@@ -1,4 +1,4 @@
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, UPDATE_USER } from '../types'
+import { LOGIN_FAIL, LOGOUT, LOGIN_REQUEST, LOGIN_SUCCESS, UPDATE_USER } from '../types'
 
 const initialState = {
     data: {},
@@ -6,7 +6,8 @@ const initialState = {
     type: '',
     token: null,
     error: '',
-    updated: false
+    updated: false,
+    logout: false
 }
 
 
@@ -37,6 +38,16 @@ export const userReducer = (state = initialState, action) => {
                 type: action.payload.type,
                 token: action.payload.token,
                 updated: true
+            }
+        case LOGOUT:
+            return {
+                data: {},
+                isFetching: false,
+                type: '',
+                token: null,
+                error: '',
+                updated: false,
+                logout: true
             }
         default:
             return state

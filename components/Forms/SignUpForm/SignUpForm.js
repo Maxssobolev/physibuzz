@@ -5,8 +5,13 @@ import * as Yup from 'yup';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import EmployeeForm from './EmployeeForm';
 import EmployerForm from './EmployerForm';
-import { profession } from '../../CommonUtils/CommonUtils';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import useProfessions from '../../Hooks/useProfessions'
+import { handleRegistration } from '../../../redux/actions';
+import moment from 'moment';
+import Swal from 'sweetalert2'
+import { useRouter } from 'next/router'
+const ISSERVER = typeof window === "undefined";
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(5, 'Too Short!').max(120, 'Too Long!').required('Required'),
@@ -24,8 +29,12 @@ const SignupSchema = Yup.object().shape({
 
 
 export default function SignUpForm() {
+    //redux 
     const dispatch = useDispatch()
+    //-----
+    const router = useRouter()
 
+    const professionOpt = useProfessions()
     return (
         <Formik
             initialValues={{
@@ -34,7 +43,8 @@ export default function SignUpForm() {
                 firstName: '',
                 email: '',
                 emailConfirmation: '',
-                profession: profession[0],
+                profession: '',
+                professionMulti: [],
                 company: '',
                 passwordConfirmation: '',
                 password: '',
@@ -44,12 +54,37 @@ export default function SignUpForm() {
                 countries: '',
                 countriesOfReg: '',
                 countriesOfRegAd: '',
-                availFrom: new Date(),
+                availFrom: moment()
 
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
                 dispatch(handleRegistration(values, values.purpose))
+                    .then(res => {
+
+                        //if registration success
+                        if (!ISSERVER) {
+                            localStorage.setItem("userToken", res.token);
+                            localStorage.setItem("userType", res.type);
+                            localStorage.setItem("userName", res.userName);
+
+                            Swal.fire(
+                                'You have successfully registered!',
+                                '',
+                                'success'
+                            ).then(() => {
+                                router.push('/')
+                            })
+
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire(
+                            'Oops..',
+                            `Sorry, something went wrong, please, try again`,
+                            'error'
+                        )
+                    })
 
             }}
         >
@@ -99,7 +134,7 @@ export default function SignUpForm() {
                             </Col>
                         </Row>
 
-                        {props.values.purpose == 'hiring' ? <EmployerForm styles={styles} /> : <EmployeeForm styles={styles} />}
+                        {props.values.purpose == 'hiring' ? <EmployerForm styles={styles} professionOpt={professionOpt} /> : <EmployeeForm styles={styles} professionOpt={professionOpt} />}
 
                         <Row className={styles.commonRow}>
                             <Col>

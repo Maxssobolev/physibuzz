@@ -3,54 +3,54 @@ import { LOGGEDIN_EMPLOYEE, LOGGEDIN_EMPLOYER } from './HeadersVariants'
 import LogoImg from '../../assets/img/logo.svg'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useWindowDimensions } from '../CommonUtils/useWindowDimensions'
+import { useWindowDimensions } from '../Hooks/useWindowDimensions'
 import BurgerIcon from '../../assets/img/burger.svg'
 import MobileMenu from '../MobileMenu/MobileMenu'
-import { cookies } from '../../pages/_app'
 import api from '../../apiConfig'
 import HeaderPlaceholder from './HeaderPlaceholder'
 import { handleUpdateUserState } from '../../redux/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { LOGOUT } from '../../redux/types'
+import { cookies } from '../../pages/_app'
+import useStorage from '../Hooks/useStorage'
+
 
 export default function Header() {
-    const ISSERVER = typeof window === "undefined";
-    let token = ''
-    if (!ISSERVER) {
-        token = localStorage.getItem('userToken') || cookies.get('userToken')
-    }
-
     const dispatch = useDispatch()
-    const userFromRedux = useSelector(state => state.user)
+    const { getItem, removeItem } = useStorage()
+
+
+    const type = getItem('userType', 'local')
+    const userName = getItem('userName', 'local')
 
     const router = useRouter()
+
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
 
     //mobile definition
-    const [isMobile, setIsMobile] = useState(undefined)
-    const { width, height } = useWindowDimensions()
-    useEffect(() => {
-        setIsMobile(width <= 425)
-    }, [width])
+    const isMobile = useWindowDimensions().width <= 425
 
-    useEffect(() => {
-        if (!userFromRedux.type)
-            api.get('/api/v1/user/edit/current') //why edit?? idfk, but it is. |||=> return all user info
-                .then(r => {
-                    dispatch(handleUpdateUserState(r.data.data))
-                })
-                .catch(err => {
-                    router.push('/logIn')
-                })
-    }, [])
+    //logout func
+    const clearAllBeforeLogout = () => {
 
-    if (!userFromRedux.type && token) {
-        return <HeaderPlaceholder />
+        removeItem('userToken', 'local')
+        removeItem('userName', 'local')
+        removeItem('userType', 'local')
+        cookies.remove('userToken')
+        cookies.remove('userName')
+        cookies.remove('userType')
+        dispatch({ type: LOGOUT })
     }
-    else
 
-        switch (userFromRedux.type) {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true)
+    }, [type])
+
+    if (mounted)
+        switch (type) {
             case LOGGEDIN_EMPLOYEE:
                 return (
                     <>
@@ -91,12 +91,17 @@ export default function Header() {
                                         :
                                         (
                                             <div className="header-rightside__user user-dropdown" tabIndex={0} onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} onBlur={() => setTimeout(() => setIsUserMenuOpen(false), 100)} >
-                                                <div className="user-dropbtn">{user.name}</div>
+                                                <div className="user-dropbtn">{userName}</div>
                                                 <div className="user-dropdown-content" style={{
                                                     display: isUserMenuOpen ? 'block' : 'none',
                                                 }} >
                                                     <div className='user-dropdown-content_settings'><button type='button' onClick={() => router.push('/settings')}>Settings</button></div>
-                                                    <div className='user-dropdown-content_logout'><button type='button' onClick={() => router.push('/logout')}>Log Out</button></div>
+                                                    <div className='user-dropdown-content_logout'><button type='button' onClick={() => {
+
+                                                        clearAllBeforeLogout()
+                                                        router.push('/logIn')
+
+                                                    }}>Log Out</button></div>
                                                 </div>
                                             </div>
                                         )}
@@ -156,12 +161,17 @@ export default function Header() {
 
                                                 </div>
                                                 <div className="header-rightside__user user-dropdown" tabIndex={0} onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} onBlur={() => setTimeout(() => setIsUserMenuOpen(false), 100)} >
-                                                    <div className="user-dropbtn">{userFromRedux.data.name}</div>
+                                                    <div className="user-dropbtn">{userName}</div>
                                                     <div className="user-dropdown-content" style={{
                                                         display: isUserMenuOpen ? 'block' : 'none',
                                                     }} >
                                                         <div className='user-dropdown-content_settings'><button type='button' onClick={() => router.push('/settings')}>Settings</button></div>
-                                                        <div className='user-dropdown-content_logout'><button type='button' onClick={() => router.push('/logout')}>Log Out</button></div>
+                                                        <div className='user-dropdown-content_logout'><button type='button' onClick={() => {
+
+                                                            clearAllBeforeLogout()
+                                                            router.push('/logIn')
+
+                                                        }}>Log Out</button></div>
                                                     </div>
                                                 </div>
                                             </>
@@ -222,5 +232,6 @@ export default function Header() {
 
                 )
         }
-
+    else
+        return <HeaderPlaceholder />
 }

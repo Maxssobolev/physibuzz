@@ -2,23 +2,22 @@ import React from 'react'
 
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { years, countries, countriesOfRegAd, countriesOfReg, gender, profession } from "../../CommonUtils/CommonUtils"
+import { years, countries, countriesOfRegAd, countriesOfReg, gender } from "../../CommonUtils/CommonUtils"
 import { DatePickerField } from '../../CommonUtils/CustomDatepicker'
+import { SelectField } from '../SpecialFields/SelectField'
 //форма соискателей
-function EmployeeForm({ styles }) {
+function EmployeeForm({ styles, professionOpt }) {
 
     return (
         <>
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
-                        <Field
-                            className="field field_select"
-                            component="select"
-                            name="profession"
-                        >
-                            {gender.map((item, index) => <option value={item} key={`${index}__signUp-gender`} >{item}</option>)}
-                        </Field>
+                        <SelectField
+                            name="gender"
+                            options={gender}
+                        />
+
                         <span>Gender</span>
                     </div>
                 </Col>
@@ -115,13 +114,12 @@ function EmployeeForm({ styles }) {
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
-                        <Field
-                            className="field field_select"
-                            component="select"
-                            name="profession"
-                        >
-                            {profession.map((item, index) => <option value={item} key={`${index}__signUp-profession2`} >{item}</option>)}
-                        </Field>
+                        <SelectField
+                            name="professionMulti"
+                            options={professionOpt}
+                            isMulti
+
+                        />
                         <span>Profession:</span>
                     </div>
                 </Col>

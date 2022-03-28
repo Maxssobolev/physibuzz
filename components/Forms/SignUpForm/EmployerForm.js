@@ -1,9 +1,9 @@
 import React from 'react'
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { profession } from '../../CommonUtils/CommonUtils'
+import { SelectField } from '../SpecialFields/SelectField'
 //Форма работодателей 
-function EmployerForm({ styles }) {
+function EmployerForm({ styles, professionOpt }) {
 
     return (
         <>
@@ -46,13 +46,11 @@ function EmployerForm({ styles }) {
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
-                        <Field
-                            className="field field_select"
-                            component="select"
+                        <SelectField
                             name="profession"
-                        >
-                            {profession.map((item, index) => <option value={item} key={`${index}__signUp-profession`} >{item}</option>)}
-                        </Field>
+                            options={professionOpt}
+
+                        />
                         <span>Profession / Main Clinical Service</span>
                     </div>
                 </Col>

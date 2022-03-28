@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ReactTabulator } from 'react-tabulator'
-import { useWindowDimensions } from '../CommonUtils/useWindowDimensions'
+import { useWindowDimensions } from '../Hooks/useWindowDimensions'
 import Search from '../Search/Search'
 
 

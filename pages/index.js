@@ -2,7 +2,7 @@
 import Header from "../components/Header/Header"
 import Select from 'react-select'
 
-import { LOGGEDIN_EMPLOYEE, LOGGEDIN_EMPLOYER } from "../components/Header/HeadersVariants"
+import { LOGGEDIN_EMPLOYEE, LOGGEDIN_EMPLOYER } from "../components/Header/HeadersVariants" //deprecated. not used 
 
 import LeftSidebar from "../components/Layout/LeftSidebar/LeftSidebar"
 import MainContent from "../components/Layout/MainContent/MainContent"
@@ -12,7 +12,7 @@ import { useState, useEffect } from "react"
 import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
 import AdBanner from "../components/AdBanner/AdBanner"
 import { DropdownIndicator } from "../components/CommonUtils/DropdownIndicator"
-import { useWindowDimensions } from "../components/CommonUtils/useWindowDimensions"
+import { useWindowDimensions } from "../components/Hooks/useWindowDimensions"
 import HeaderPlaceholder from '../components/Header/HeaderPlaceholder'
 import api from '../apiConfig'
 import moment from "moment"

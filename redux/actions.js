@@ -7,7 +7,7 @@ import {
 
 import api from '../apiConfig'
 import { cookies } from '../pages/_app.js';
-
+import moment from 'moment';
 /*
 ----LOGIN USER
     отправляет запрос на авторизацию на сервер и закидывает токен в куки, если нажата кнопка "запомните меня"
@@ -36,12 +36,13 @@ export const handleLogin = (email, password, isRemember) => async (dispatch) => 
             });
 
 
-            if (isRemember) {
-                cookies.set('userToken', result.token, { path: '/' })
-                cookies.set('userType', result.type, { path: '/' })
-            }
+            //if (isRemember) {
+            cookies.set('userToken', result.token, { path: '/' })
+            cookies.set('userName', result.name, { path: '/' })
+            cookies.set('userType', result.type, { path: '/' })
+            //}
 
-            return { token: result.token, type: result.type }
+            return { token: result.token, type: result.type, userName: result.name }
         })
         .catch((error) => {
             dispatch({
@@ -57,37 +58,64 @@ export const handleLogin = (email, password, isRemember) => async (dispatch) => 
 
 export const handleRegistration = (fields, purpose) => async (dispatch) => {
     //общие поля
-    let sendData = {
+    let sentData = {
         'type': purpose,
         'name': fields.firstName,
         'last_name': fields.lastName,
         'email': fields.email,
         'confirm_email': fields.emailConfirmation,
         'password': fields.password,
-        'confirm_email': fields.passwordConfirmation,
+        'confirm_password': fields.passwordConfirmation,
         'processing': fields.agreement
     }
 
     switch (purpose) {
         case 'hiring':
-            sendData = {
-                ...sendData,
+            sentData = {
+                ...sentData,
                 'company': fields.company,
 
             }
 
             break;
         case 'candidate':
-            sendData = {
-                ...sendData,
-                'gender': fields.gender.toLowerCase(),
-                'available_from': fields.availFrom,
-                'profession_id': 'пока туту ничего нет'
+            //создаем массив айдишников профессий
+            let profIds = []
+            fields.professionMulti.forEach(profession => {
+                profIds.push(profession.id)
+            })
+            sentData = {
+                ...sentData,
+                'gender': fields.gender.value,
+                'available_from': moment(fields.availFrom).format('YYYY-MM-DD HH:MM:S'),
+                'profession_id': profIds,
+                'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S')
             }
             break;
     }
+    console.log(sentData)
+    return await api.post('api/v1/register', sentData)
+        .then(res => {
+            const result = res.data.data
 
-    //return await api.post('api/v1/register', sendData)
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: {
+                    data: {
+                        name: result.name
+                    },
+                    type: result.type,
+                    token: result.token
+                },
+            });
+
+            cookies.set('userToken', result.token, { path: '/' })
+            cookies.set('userType', result.type, { path: '/' })
+            cookies.set('userName', result.name, { path: '/' })
+
+
+            return { token: result.token, type: result.type, userName: result.name }
+        })
 
 
 }
@@ -106,3 +134,4 @@ export const handleUpdateUserState = (uUser) => (dispatch) => {
     });
 
 }
+
