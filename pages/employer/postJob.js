@@ -5,51 +5,96 @@ import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import * as Yup from 'yup';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { city, countries, currency, state } from "../../components/CommonUtils/CommonUtils";
+import { state } from "../../components/CommonUtils/CommonUtils";
 import useProfessions from "../../components/Hooks/useProfessions";
 import { SelectField } from "../../components/Forms/SpecialFields/SelectField";
 import api from '../../apiConfig'
 import Swal from 'sweetalert2'
+import { DataSuggestionField } from "../../components/Forms/SpecialFields/DataSuggestionField";
+import { useRef, useEffect, useMemo } from 'react'
+import debounce from 'lodash.debounce'
+import isEmpty from 'lodash.isempty'
+import { FieldTitle } from "../../components/Forms/SpecialFields/FieldTitle";
+import useCurrencies from "../../components/Hooks/useCurrencies";
 
 const SignupSchema = Yup.object().shape({
-    jobTitle: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(),
-
+    jobTitle: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+    jobDesc: Yup.string().min(3, 'Too Short!').required('Required'),
+    country: Yup.object().shape({
+        value: Yup.string().required('Required')
+    }),
+    city: Yup.object().shape({
+        value: Yup.string().required('Required')
+    }),
+    address: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required('Required'),
+    profession: Yup.object().shape({
+        id: Yup.number().required('!'),
+    }),
+    currency: Yup.object().shape({
+        id: Yup.number().required('Required'),
+    }),
+    hourlyMin: Yup.number().min(1, '!'),
+    hourlyMax: Yup.number().min(1, '!'),
+    annualMin: Yup.number().min(1, ''),
+    annualMax: Yup.number().min(1, '!'),
 });
 
+
+
 export default function EmployerPostJob() {
+    const formik = useRef()
     const professionsOpt = useProfessions()
+    const currencyOpt = useCurrencies()
+
+    const debouncedValidate = useMemo(
+        () => debounce(() => formik.current?.validateForm, 500),
+        [formik],
+    );
+
+    useEffect(() => {
+        debouncedValidate(formik.current?.values);
+    }, [formik.current?.values, debouncedValidate]);
 
     return (
         <>
             <Header />
             <div className="page page-employer page-employer_postJob">
                 <Formik
+                    innerRef={formik}
+
                     initialValues={{
                         jobTitle: '',
                         jobDesc: '',
-                        countries: '',
-                        city: '',
+                        country: {},
+                        city: {},
                         state: '',
                         address: '',
-                        profession: '',
-                        currency: 'USD',
+                        profession: {},
+                        currency: currencyOpt[0],
                         hourlyMin: 1,
                         hourlyMax: 2,
                         annualMin: 1,
                         annualMax: 2,
                     }}
                     validationSchema={SignupSchema}
+                    validateOnMount={true}
+                    validateOnChange={false}
                     onSubmit={(values, { resetForm }) => {
+                        console.log(errors)
                         let sentData = {
                             "title": values.jobTitle,
                             "description": values.jobDesc,
+                            "country": values.country.value,
+                            "country_iso_code": values.country.data.country_iso_code,
+                            "city": values.city.value,
+                            "state": values.state,
                             "address": values.address,
                             "profession_id": values.profession.id,
                             "hourly_min_pay": values.hourlyMin,
                             "hourly_max_pay": values.hourlyMax,
                             "annual_min_pay": values.annualMin,
                             "annual_max_pay": values.annualMax,
-                            "currency_id": 1,
+                            "currency_id": values.currency.id,
                             "active": 1, //0 - active, 1 - hide (??? , но сделано так)
                         }
                         api.post('/api/v1/vacancies', sentData).then(r => {
@@ -74,7 +119,7 @@ export default function EmployerPostJob() {
                     }}
                 >
                     {
-                        (props) => (
+                        ({ values, errors, touched }) => (
                             <Form className='form-postJob'>
                                 <div className="form-postJob__header">
                                     Create Job
@@ -96,7 +141,7 @@ export default function EmployerPostJob() {
                                                             component="input"
                                                             name="jobTitle"
                                                         />
-                                                        <span>Job Title</span>
+                                                        <FieldTitle name="jobTitle">Job Title</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -110,7 +155,7 @@ export default function EmployerPostJob() {
                                                             name="jobDesc"
                                                             placeholder="..."
                                                         />
-                                                        <span>Job Description</span>
+                                                        <FieldTitle name="jobDesc">Job Description</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -125,15 +170,13 @@ export default function EmployerPostJob() {
                                                 <Col>
 
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
-                                                            name="countries"
-                                                        >
-                                                            {countries.map((item, index) => <option value={item} key={`${index}__postJob-counries`} >{item}</option>)}
-                                                        </Field>
-                                                        <span>Country</span>
+                                                        <DataSuggestionField
+                                                            name="country"
+                                                            filterFromBound="country"
+                                                            firstAddressField
+                                                        />
+
+                                                        <FieldTitle name="country" additionalLevel="value">Country</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -148,20 +191,19 @@ export default function EmployerPostJob() {
                                                         >
                                                             {state.map((item, index) => <option value={item} key={`${index}__postJob-state`} >{item}</option>)}
                                                         </Field>
-                                                        <span>State</span>
+                                                        <FieldTitle name="state">State</FieldTitle>
                                                     </div>
                                                 </Col>
                                                 <Col>
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
+                                                        <DataSuggestionField
                                                             name="city"
-                                                        >
-                                                            {city.map((item, index) => <option value={item} key={`${index}__postJob-city`} >{item}</option>)}
-                                                        </Field>
-                                                        <span>City</span>
+                                                            filterFromBound="city"
+                                                            //сделал так, чтобы поиск был только внутри страны, выбранной в предыдущем селекте
+                                                            //поле неактивно до заполнения страны
+                                                            findIn={values.country?.data?.country_iso_code}
+                                                        />
+                                                        <FieldTitle name="city" additionalLevel="value">City</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -175,7 +217,7 @@ export default function EmployerPostJob() {
                                                             component="input"
                                                             name="address"
                                                         />
-                                                        <span>Address</span>
+                                                        <FieldTitle name="address">Address</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -193,22 +235,20 @@ export default function EmployerPostJob() {
                                                             required
                                                             options={professionsOpt}
                                                         />
-                                                        <span>Profesional Qualification you are looking for</span>
+                                                        <FieldTitle name="profession" additionalLevel="id">Profesional Qualification you are looking for</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
                                             <Row className="form-postJob__row form-postJob__row_general salary">
-                                                <Col>Salary in currency</Col>
+                                                <Col><FieldTitle name="currency" additionalLevel="id">Salary in currency</FieldTitle></Col>
                                                 <Col>
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
+                                                        <SelectField
                                                             name="currency"
-                                                        >
-                                                            {currency.map((item, index) => <option value={item} key={`${index}__postJob-currency`} >{item}</option>)}
-                                                        </Field>
+                                                            required
+                                                            options={currencyOpt}
+                                                        />
+
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -222,10 +262,10 @@ export default function EmployerPostJob() {
                                                                     required
                                                                     className="field"
                                                                     type="number"
-                                                                    min={0}
+                                                                    min={1}
                                                                     name="hourlyMin"
                                                                 />
-                                                                <span>Min</span>
+                                                                <FieldTitle name="hourlyMin">Min</FieldTitle>
                                                             </div>
                                                         </Col>
                                                         <Col>
@@ -234,10 +274,10 @@ export default function EmployerPostJob() {
                                                                     required
                                                                     className="field"
                                                                     type="number"
-                                                                    min={0}
+                                                                    min={1}
                                                                     name="hourlyMax"
                                                                 />
-                                                                <span>Max</span>
+                                                                <FieldTitle name="hourlyMax">Max</FieldTitle>
                                                             </div>
                                                         </Col>
                                                     </Row>
@@ -253,10 +293,10 @@ export default function EmployerPostJob() {
                                                                     required
                                                                     className="field"
                                                                     type="number"
-                                                                    min={0}
+                                                                    min={1}
                                                                     name="annualMin"
                                                                 />
-                                                                <span>Min</span>
+                                                                <FieldTitle name="annualMin">Min</FieldTitle>
                                                             </div>
                                                         </Col>
                                                         <Col>
@@ -265,10 +305,10 @@ export default function EmployerPostJob() {
                                                                     required
                                                                     className="field"
                                                                     type="number"
-                                                                    min={0}
+                                                                    min={1}
                                                                     name="annualMax"
                                                                 />
-                                                                <span>Max</span>
+                                                                <FieldTitle name="annualMax">Max</FieldTitle>
                                                             </div>
                                                         </Col>
                                                     </Row>
@@ -278,7 +318,7 @@ export default function EmployerPostJob() {
 
                                     </RightSidebar>
                                 </Layout>
-                                <div className="form-postJob__submit-wrapper"><button type='submit' className='form-postJob__submitBtn'>Post</button></div>
+                                <div className="form-postJob__submit-wrapper"><button type='submit' className='form-postJob__submitBtn' {...(isEmpty(errors) ? {} : { disabled: true })}>Post</button></div>
                             </Form>
                         )
                     }
