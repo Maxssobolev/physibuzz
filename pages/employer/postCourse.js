@@ -5,45 +5,74 @@ import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import * as Yup from 'yup';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
-import { city, countries, state } from "../../components/CommonUtils/CommonUtils";
+import { state } from "../../components/CommonUtils/CommonUtils";
 import api from '../../apiConfig'
 import { SelectField } from "../../components/Forms/SpecialFields/SelectField";
 import Swal from 'sweetalert2'
 import useProfessions from "../../components/Hooks/useProfessions";
+import { DataSuggestionField } from "../../components/Forms/SpecialFields/DataSuggestionField";
+import { useRef, useEffect, useMemo } from 'react'
+import debounce from 'lodash.debounce'
+import { FieldTitle } from "../../components/Forms/SpecialFields/FieldTitle";
 
 const SignupSchema = Yup.object().shape({
-    courseTitle: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
-    courseDesc: Yup.string().min(3, 'Too Short!').required(),
-    address: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
-    courseDesc: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required(),
+    courseTitle: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required('Required'),
+    courseDesc: Yup.string().min(3, 'Too Short!').required('Required'),
+    address: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required('Required'),
+    country: Yup.string().required('Required'),
 });
 
+/*
+country: '',
+city: '',
+state: '',
+address: '',
+profession: '',
+cost1: 1,
+cost2: 1,
+*/
+
 export default function EmployerPostCourse() {
+    const formik = useRef()
     const professionsOpt = useProfessions()
 
+    const debouncedValidate = useMemo(
+        () => debounce(() => formik.current?.validateForm, 500),
+        [formik],
+    );
+
+    useEffect(() => {
+        console.log('calling deboucedValidate');
+        debouncedValidate(formik.current?.values);
+    }, [formik.current?.values, debouncedValidate]);
     return (
         <>
             <Header />
             <div className="page page-employer page-employer_postJob">
                 <Formik
+                    innerRef={formik}
                     initialValues={{
                         courseTitle: '',
                         courseDesc: '',
-                        countries: '',
+                        country: '',
                         city: '',
                         state: '',
                         address: '',
                         profession: '',
-                        cost1: 0,
-                        cost2: 0,
+                        cost1: 1,
+                        cost2: 1,
 
                     }}
                     validationSchema={SignupSchema}
+                    validateOnChange={false}
                     onSubmit={(values, { resetForm }) => {
                         let sentData = {
                             "title": values.courseTitle,
                             "description": values.courseDesc,
                             "address": values.address,
+                            "country": values.country,
+                            "city": values.city,
+                            "state": values.state,
                             "profession_id": values.profession.id,
                             "min_pay": values.cost1,
                             "max_pay": values.cost2,
@@ -71,7 +100,7 @@ export default function EmployerPostCourse() {
                     }}
                 >
                     {
-                        (props) => (
+                        ({ values, errors, touched }) => (
                             <Form className='form-postJob'>
                                 <div className="form-postJob__header">
                                     Create Course
@@ -93,7 +122,7 @@ export default function EmployerPostCourse() {
                                                             component="input"
                                                             name="courseTitle"
                                                         />
-                                                        <span>Course Title</span>
+                                                        <FieldTitle name='courseTitle'>Course Title</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -107,7 +136,7 @@ export default function EmployerPostCourse() {
                                                             name="courseDesc"
                                                             placeholder="..."
                                                         />
-                                                        <span>Course Description</span>
+                                                        <FieldTitle name="courseDesc">Course Description</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -120,17 +149,14 @@ export default function EmployerPostCourse() {
                                             </div>
                                             <Row className="form-postJob__row">
                                                 <Col>
-
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
-                                                            name="countries"
-                                                        >
-                                                            {countries.map((item, index) => <option value={item} key={`${index}__postJob-counries`} >{item}</option>)}
-                                                        </Field>
-                                                        <span>Country</span>
+                                                        <DataSuggestionField
+                                                            name="country"
+                                                            filterFromBound="country"
+                                                            firstAddressField
+                                                        />
+
+                                                        <FieldTitle name="country">Country</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -145,20 +171,19 @@ export default function EmployerPostCourse() {
                                                         >
                                                             {state.map((item, index) => <option value={item} key={`${index}__postJob-state`} >{item}</option>)}
                                                         </Field>
-                                                        <span>State</span>
+                                                        <FieldTitle name="state">State</FieldTitle>
                                                     </div>
                                                 </Col>
                                                 <Col>
                                                     <div className="field-wrapper">
-                                                        <Field
-                                                            required
-                                                            className="field field_select"
-                                                            component="select"
+                                                        <DataSuggestionField
                                                             name="city"
-                                                        >
-                                                            {city.map((item, index) => <option value={item} key={`${index}__postJob-city`} >{item}</option>)}
-                                                        </Field>
-                                                        <span>City</span>
+                                                            filterFromBound="city"
+                                                            //сделал так, чтобы поиск был только внутри страны, выбранной в предыдущем селекте
+                                                            //поле неактивно до заполнения страны
+                                                            findIn={values.country?.data?.country_iso_code}
+                                                        />
+                                                        <FieldTitle name="city">City</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -172,7 +197,7 @@ export default function EmployerPostCourse() {
                                                             component="input"
                                                             name="address"
                                                         />
-                                                        <span>Address</span>
+                                                        <FieldTitle name="address">Address</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -190,7 +215,7 @@ export default function EmployerPostCourse() {
                                                             required
                                                             options={professionsOpt}
                                                         />
-                                                        <span>Suitable for</span>
+                                                        <FieldTitle name="profession">Suitable for</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -203,10 +228,10 @@ export default function EmployerPostCourse() {
                                                             required
                                                             className="field"
                                                             type="number"
-                                                            min={0}
+                                                            min={1}
                                                             name="cost1"
                                                         />
-                                                        <span>Cost 1</span>
+                                                        <FieldTitle name="cost1">Cost 1</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -218,10 +243,10 @@ export default function EmployerPostCourse() {
                                                             required
                                                             className="field"
                                                             type="number"
-                                                            min={0}
+                                                            min={1}
                                                             name="cost2"
                                                         />
-                                                        <span>Cost 2</span>
+                                                        <FieldTitle name="cost2">Cost 2</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>

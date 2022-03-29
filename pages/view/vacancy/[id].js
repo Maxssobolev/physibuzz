@@ -40,6 +40,7 @@ export default function ViewVacancy() {
                 isLiked: false
             })
         })
+        //api.post(`/api/v1/vacancies/views/add/${id}`).then(r => console.log('you just read this vacancy', r))
 
 
     }, [router.isReady])

@@ -7,7 +7,6 @@ import api from '../../apiConfig'
 export default function EmployerJobs() {
 
     const [employersJobs, setEmployersJobs] = useState([])
-
     useEffect(() => {
 
         api.get('/api/v1/vacancies/my').then(r => {
@@ -17,9 +16,28 @@ export default function EmployerJobs() {
 
     }, [])
 
+    const editStatus = (cellData, status) => {
+
+        api.put(`/api/v1/vacancies/${cellData.id}`,
+            {
+                ...cellData,
+                status: "closed",
+                city: 'ssss',
+                country: 'ssss',
+                state: 'ssss'
+            }
+        ).then(r => {
+            console.log(r)
+
+        })
+    }
+
+
+
     function ActionGroup(props) {
         const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
         const cellData = props.cell._cell.row.data;
+
         const id = cellData.id
         return (
             <div className="header-rightside__user user-dropdown action-group" tabIndex={0} onClick={() => setIsActionMenuOpen(!isActionMenuOpen)} onBlur={() => setTimeout(() => setIsActionMenuOpen(false), 100)} >
@@ -28,7 +46,7 @@ export default function EmployerJobs() {
                     display: isActionMenuOpen ? 'block' : 'none',
                 }} >
                     <div className='action-group__content'><button type='button' >Edit Job</button></div>
-                    <div className='action-group__content'><button type='button' >Close Job</button></div>
+                    <div className='action-group__content'><button type='button' onClick={() => editStatus(cellData, 'close')} >Close Job</button></div>
                     <div className='action-group__content'><button type='button' >Pause Job</button></div>
                 </div>
             </div>
@@ -56,7 +74,7 @@ export default function EmployerJobs() {
             vertAlign: 'middle',
             headerHozAlign: 'left'
         },
-        { title: 'Location', field: 'address', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
+        { title: 'Location', field: 'country', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
         { title: 'Created', field: 'created_at', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
         {
             title: 'Candidates', field: 'candidates', headerSort: false,
@@ -77,7 +95,7 @@ export default function EmployerJobs() {
                 else if (cell.getValue().toLowerCase() == 'closed')
                     return "<span style='color: #ff3347'>" + cell.getValue() + '</span>';
                 else
-                    return "<span style='color: var(--accent)'>" + cell.getValue() + '</span>';
+                    return "<span style='color: var(--gray)'>" + cell.getValue() + '</span>';
 
             }, headerHozAlign: 'center'
         },

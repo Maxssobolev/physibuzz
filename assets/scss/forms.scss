@@ -45,7 +45,7 @@
             &__submitBtn {
                 @extend .mybutton;
                 width: 140px !important;
-                margin: 20px auto 0 auto !important;
+                margin: 20px auto 0 !important;
             }
         }
 
@@ -55,7 +55,7 @@
     }
 
     &-postJob {
-        //for postCourse the same
+        // for postCourse the same
         &__header {
             font-size: var(--fz-big-headers);
             font-weight: 700;
@@ -88,7 +88,7 @@
             & > span {
                 position: absolute;
                 top: -30px;
-                left: 0px;
+                left: 0;
                 font-size: 1rem;
                 color: var(--gray);
                 pointer-events: none;
@@ -100,11 +100,11 @@
             overflow: hidden;
             height: 180px;
             min-height: 180px;
-            padding: 0px;
+            padding: 0;
             background: transparent;
             border: none;
             border-bottom: 1px solid #979797;
-            border-radius: 0px;
+            border-radius: 0;
 
             &::placeholder {
                 color: var(--gray);
@@ -127,7 +127,7 @@
     }
 }
 
-//////////////COMMON FORM'S ELEMENTS/////////////////
+// ////////////COMMON FORM'S ELEMENTS/////////////////
 
 .checkbox {
     // перерисовываем чекбокс
@@ -184,6 +184,7 @@
     }
     &:not(:disabled):not(:checked) {
         &:hover {
+            ;
             /*cursor: pointer;
             & + span {
                 color: #3480c0;
@@ -194,17 +195,13 @@
         }
     }
     /* стили для активного состояния чекбокса (при нажатии на него) */
-    &:not(:disabled):active + span::before {
-    }
+    &:not(:disabled):active + span::before {}
     /* стили для чекбокса, находящегося в фокусе */
-    &:focus + span::before {
-    }
+    &:focus + span::before {}
     /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
-    &:focus:not(:checked) + span::before {
-    }
+    &:focus:not(:checked) + span::before {}
     /* стили для чекбокса, находящегося в состоянии disabled */
-    &:disabled + span::before {
-    }
+    &:disabled + span::before {}
 }
 
 .field-wrapper {
@@ -213,10 +210,18 @@
     & > span {
         position: absolute;
         top: -60%;
-        left: 0px;
+        left: 0;
         font-size: 1rem;
         color: var(--gray);
         pointer-events: none;
+        &[dataerrors]::after {
+            content: ' ' attr(dataerrors) ' ';
+            background: #fff3cd;
+            margin-left: 0.25rem;
+            color: #664d03;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
     }
 
     &_textarea {
@@ -241,9 +246,8 @@
     font-size: 1rem;
     padding: 5px 0;
 
-    //строгие стили для react-selecta
-    &_imp {
-    }
+    // строгие стили для react-selecta
+    &_imp {}
 
     &_select {
         -moz-appearance: none; /* Firefox */
@@ -287,10 +291,13 @@
             font-weight: 400;
         }
     }
+    &:disabled {
+        cursor: not-allowed;
+    }
 }
 
 .radio {
-    //RADIO
+    // RADIO
     --background: white;
     --radio: var(--accent);
     --radio-checked: var(--accent);
@@ -303,8 +310,7 @@
         height: var(--radio-size);
         width: var(--radio-size);
         outline: none;
-        margin: 0;
-        margin-right: 10px;
+        margin: 0 10px 0 0;
         cursor: pointer;
         border: 2px solid var(--radio);
         &.radio_red {
@@ -350,7 +356,7 @@
         &:checked {
             --radio: var(--radio-checked);
             &::after {
-                --y: 0%;
+                --y: 0;
                 animation: stretch-animate 0.3s ease-out 0.17s;
             }
             &::before {

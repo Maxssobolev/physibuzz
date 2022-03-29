@@ -19,5 +19,6 @@ export const SelectField = ({ ...props }) => {
         }
         }
         components={{ DropdownIndicator }}
+        inputProps={{ autoComplete: 'random-string', autoFill: 'off' }}
     />)
 }
