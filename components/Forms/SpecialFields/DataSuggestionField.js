@@ -5,7 +5,7 @@ import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 
 export const DataSuggestionField = ({ ...props }) => {
-    const { setFieldValue } = useFormikContext();
+    const { setFieldValue, setFieldTouched } = useFormikContext();
     const [field] = useField(props);
     return (
         <AddressSuggestions
@@ -17,6 +17,7 @@ export const DataSuggestionField = ({ ...props }) => {
             value={field.value}
             onChange={val => {
                 setFieldValue(field.name, val);
+                setFieldTouched(field.name, true)
             }}
             filterLanguage='en'
             //если это поле выбора страны
@@ -36,8 +37,10 @@ export const DataSuggestionField = ({ ...props }) => {
             inputProps={{
                 className: 'field field_select',
                 autoComplete: "new-password",
-                ...(props.findIn || props.firstAddressField ? {} : { disabled: true })
+
+                ...(props.findIn || props.firstAddressField ? { onBlur: () => setFieldTouched(field.name, true) } : { disabled: true, onBlur: () => { } })
             }}
+
 
         />
     )

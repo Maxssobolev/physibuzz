@@ -35,7 +35,7 @@ svg {
 body {
     background: var(--page-bg);
 }
-//////////////COMMON ELEMENTS//////////////
+// ////////////COMMON ELEMENTS//////////////
 .flex {
     display: flex;
     &_space-between {
@@ -61,7 +61,7 @@ body {
     }
 }
 
-/////////////BUTTONS//////////
+// ///////////BUTTONS//////////
 .mybutton {
     display: flex;
     align-items: center;
@@ -79,33 +79,37 @@ body {
     a:hover {
         color: white;
     }
+
+    &:disabled {
+        background: #5b3deab3;
+    }
 }
 
 .container-imitation {
-    //CONTAINER IMITATION
+    // CONTAINER IMITATION
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
 
-    @media (min-width: 576px) {
+    @media(min-width: 576px) {
         width: 540px;
     }
-    @media (min-width: 768px) {
+    @media(min-width: 768px) {
         width: 720px;
     }
-    @media (min-width: 992px) {
+    @media(min-width: 992px) {
         width: 960px;
     }
-    @media (min-width: 1200px) {
+    @media(min-width: 1200px) {
         width: 1140px;
-    }
+    };
 
-    ////////////////////////
+    // //////////////////////
 }
 
-///////NAV LINK ACTIVE AND HOVER///////////
+// /////NAV LINK ACTIVE AND HOVER///////////
 .nav-link {
     cursor: pointer;
     position: relative;
@@ -136,14 +140,13 @@ body {
     }
 }
 
-////////////LAYOUTS///////////////
+// //////////LAYOUTS///////////////
 .layout {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-gap: 10px;
 }
-.leftSidebar {
-}
+.leftSidebar {}
 
 .card-vision {
     background: white;
@@ -155,11 +158,11 @@ body {
     box-shadow: 0 0 4px 0 rgba(183, 184, 199, 0.16);
     padding: 30px 36px;
     border-top: 2px solid var(--accent);
-    @media (max-width: 426px) {
+    @media(max-width: 426px) {
         padding: 30px 15px !important;
     }
 }
-//////////DROPDOWN//////////
+// ////////DROPDOWN//////////
 .user-dropbtn {
     cursor: pointer;
 }
@@ -245,10 +248,9 @@ body {
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.user-dropdown:hover .user-dropbtn {
-}
+.user-dropdown:hover .user-dropbtn {}
 
-////////////readmore////////////
+// //////////readmore////////////
 .readmore {
     &-content {
         line-height: calc(1rem + 10px);

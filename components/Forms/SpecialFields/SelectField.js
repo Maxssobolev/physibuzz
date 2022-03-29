@@ -5,7 +5,7 @@ import { customSelectStyles } from '../../CommonUtils/CommonUtils';
 import { DropdownIndicator } from '../../CommonUtils/DropdownIndicator';
 
 export const SelectField = ({ ...props }) => {
-    const { setFieldValue } = useFormikContext();
+    const { setFieldValue, setFieldTouched } = useFormikContext();
     const [field] = useField(props);
     return (<Select
         {...field}
@@ -18,6 +18,7 @@ export const SelectField = ({ ...props }) => {
             setFieldValue(field.name, val);
         }
         }
+        onBlur={() => setFieldTouched(field.name, true)}
         components={{ DropdownIndicator }}
         inputProps={{ autoComplete: 'random-string', autoFill: 'off' }}
     />)

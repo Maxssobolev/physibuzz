@@ -11,8 +11,8 @@ export const FieldTitle = (props) => {
         <span
             {...(
                 errors[props.name] && touched[props.name] ?
-                    {
-                        dataerrors: `${errors[props.name]}`
+                    {//                если это обьект
+                        dataerrors: `${props.additionalLevel ? errors[props.name][props.additionalLevel] : errors[props.name]}`
                     } : {}
             )}
         >

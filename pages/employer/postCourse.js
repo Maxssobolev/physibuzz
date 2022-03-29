@@ -13,24 +13,26 @@ import useProfessions from "../../components/Hooks/useProfessions";
 import { DataSuggestionField } from "../../components/Forms/SpecialFields/DataSuggestionField";
 import { useRef, useEffect, useMemo } from 'react'
 import debounce from 'lodash.debounce'
+import isEmpty from 'lodash.isempty'
 import { FieldTitle } from "../../components/Forms/SpecialFields/FieldTitle";
 
 const SignupSchema = Yup.object().shape({
     courseTitle: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required('Required'),
     courseDesc: Yup.string().min(3, 'Too Short!').required('Required'),
     address: Yup.string().min(3, 'Too Short!').max(200, 'Too Long!').required('Required'),
-    country: Yup.string().required('Required'),
+    cost1: Yup.number().min(1, 'Too Small!'),
+    cost2: Yup.number().min(1, 'Too Small!'),
+    country: Yup.object().shape({
+        value: Yup.string().required('Required')
+    }),
+    city: Yup.object().shape({
+        value: Yup.string().required('Required')
+    }),
+    profession: Yup.object().shape({
+        id: Yup.number().required('Required'),
+    })
 });
 
-/*
-country: '',
-city: '',
-state: '',
-address: '',
-profession: '',
-cost1: 1,
-cost2: 1,
-*/
 
 export default function EmployerPostCourse() {
     const formik = useRef()
@@ -42,7 +44,6 @@ export default function EmployerPostCourse() {
     );
 
     useEffect(() => {
-        console.log('calling deboucedValidate');
         debouncedValidate(formik.current?.values);
     }, [formik.current?.values, debouncedValidate]);
     return (
@@ -54,16 +55,17 @@ export default function EmployerPostCourse() {
                     initialValues={{
                         courseTitle: '',
                         courseDesc: '',
-                        country: '',
-                        city: '',
+                        country: {},
+                        city: {},
                         state: '',
                         address: '',
-                        profession: '',
+                        profession: {},
                         cost1: 1,
                         cost2: 1,
 
                     }}
                     validationSchema={SignupSchema}
+                    validateOnMount={true}
                     validateOnChange={false}
                     onSubmit={(values, { resetForm }) => {
                         let sentData = {
@@ -156,7 +158,7 @@ export default function EmployerPostCourse() {
                                                             firstAddressField
                                                         />
 
-                                                        <FieldTitle name="country">Country</FieldTitle>
+                                                        <FieldTitle name="country" additionalLevel="value">Country</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -183,7 +185,7 @@ export default function EmployerPostCourse() {
                                                             //поле неактивно до заполнения страны
                                                             findIn={values.country?.data?.country_iso_code}
                                                         />
-                                                        <FieldTitle name="city">City</FieldTitle>
+                                                        <FieldTitle name="city" additionalLevel="value">City</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -215,7 +217,7 @@ export default function EmployerPostCourse() {
                                                             required
                                                             options={professionsOpt}
                                                         />
-                                                        <FieldTitle name="profession">Suitable for</FieldTitle>
+                                                        <FieldTitle name="profession" additionalLevel="id">Suitable for</FieldTitle>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -254,7 +256,15 @@ export default function EmployerPostCourse() {
 
                                     </RightSidebar>
                                 </Layout>
-                                <div className="form-postJob__submit-wrapper"><button type='submit' className='form-postJob__submitBtn'>Post</button></div>
+                                <div className="form-postJob__submit-wrapper">
+                                    <button
+                                        type='submit'
+                                        className='form-postJob__submitBtn'
+                                        {...(isEmpty(errors) ? {} : { disabled: true })}
+                                    >
+                                        Post
+                                    </button>
+                                </div>
                             </Form>
                         )
                     }
