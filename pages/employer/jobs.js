@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Header from '../../components/Header/Header'
 import TableWithPagination from '../../components/TableWithPagination/TableWithPagination'
 import { reactFormatter } from 'react-tabulator'
 import MoreAction from '../../assets/img/icons/more-action.svg'
 import api from '../../apiConfig'
 export default function EmployerJobs() {
-
+    const router = useRouter()
     const [employersJobs, setEmployersJobs] = useState([])
     useEffect(() => {
 
@@ -17,14 +18,39 @@ export default function EmployerJobs() {
     }, [])
 
     const editStatus = (cellData, status) => {
-
-        api.put(`/api/v1/vacancies/${cellData.id}`,
+        const {
+            id,
+            title,
+            description,
+            country,
+            //country_iso_code,
+            city,
+            state,
+            address,
+            profession_id,
+            hourly_min_pay,
+            hourly_max_pay,
+            annual_min_pay,
+            annual_max_pay,
+            currency_id,
+        } = cellData
+        api.put(`/api/v1/vacancies/${id}`,
             {
-                ...cellData,
-                status: "closed",
-                city: 'ssss',
-                country: 'ssss',
-                state: 'ssss'
+                title,
+                description,
+                country,
+                //country_iso_code,
+                city,
+                state,
+                address,
+                profession_id,
+                hourly_min_pay,
+                hourly_max_pay,
+                annual_min_pay,
+                annual_max_pay,
+                currency_id,
+                active: status == 'closed' ? '0' : '1',
+                status
             }
         ).then(r => {
             console.log(r)
@@ -45,9 +71,9 @@ export default function EmployerJobs() {
                 <div className="user-dropdown-content" style={{
                     display: isActionMenuOpen ? 'block' : 'none',
                 }} >
-                    <div className='action-group__content'><button type='button' >Edit Job</button></div>
-                    <div className='action-group__content'><button type='button' onClick={() => editStatus(cellData, 'close')} >Close Job</button></div>
-                    <div className='action-group__content'><button type='button' >Pause Job</button></div>
+                    <div className='action-group__content'><button type='button' onClick={() => router.push(`/employer/postJob?id=${encodeURIComponent(id)}`)}>Edit Job</button></div>
+                    <div className='action-group__content'><button type='button' onClick={() => editStatus(cellData, 'closed')} >Close Job</button></div>
+                    <div className='action-group__content'><button type='button' onClick={() => editStatus(cellData, 'opened')}>Open Job</button></div>
                 </div>
             </div>
         );

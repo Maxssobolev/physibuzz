@@ -30,13 +30,13 @@ export default function ViewVacancy() {
             const recievedData = r.data.data
             setVacancy({
                 title: recievedData.title,
-                country: 'United Kingdom', //temporary
+                country: recievedData.country,
                 date: recievedData.updated_at,
                 description: recievedData.description,
                 company: recievedData.user.company,
                 rate: `${recievedData.hourly_min_pay} ~ ${recievedData.hourly_max_pay}/hr | ${recievedData.annual_min_pay} ~ ${recievedData.annual_max_pay}/yr`,
                 contactType: 'Full Time', //??
-                location: recievedData.address,
+                location: `${recievedData.city} ${recievedData.address}`,
                 isLiked: false
             })
         })

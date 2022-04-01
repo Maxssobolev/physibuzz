@@ -12,7 +12,12 @@ export const SelectField = ({ ...props }) => {
         {...props}
         options={props.options}
         name={field.name}
-        value={props.options ? props.options.find(option => option.value === field.value) : ''}
+        value={
+            props.options ?
+                props.defaultValue ?? props.options.find(option => option.value === field.value)
+                :
+                ''
+        }
         styles={customSelectStyles}
         onChange={val => {
             setFieldValue(field.name, val);

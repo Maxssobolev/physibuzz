@@ -3,6 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import MainContent from "../../components/Layout/MainContent/MainContent";
 import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import * as Yup from 'yup';
+import { useRouter } from 'next/router'
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import { state } from "../../components/CommonUtils/CommonUtils";
@@ -16,6 +17,7 @@ import debounce from 'lodash.debounce'
 import isEmpty from 'lodash.isempty'
 import { FieldTitle } from "../../components/Forms/SpecialFields/FieldTitle";
 import useCurrencies from "../../components/Hooks/useCurrencies";
+import { useState } from 'react'
 
 const SignupSchema = Yup.object().shape({
     jobTitle: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
@@ -42,6 +44,10 @@ const SignupSchema = Yup.object().shape({
 
 
 export default function EmployerPostJob() {
+    //if this form uses for editing
+    const router = useRouter()
+    const { id } = router.query //here id - id of vacancy we want to edit
+
     const formik = useRef()
     const professionsOpt = useProfessions()
     const currencyOpt = useCurrencies()
@@ -51,9 +57,49 @@ export default function EmployerPostJob() {
         [formik],
     );
 
+
+    const [initialValues, setInitialValues] = useState({
+        jobTitle: '',
+        jobDesc: '',
+        country: {},
+        city: {},
+        state: 'test', //NEED TO CHANGE
+        address: '',
+        profession: {},
+        currency: currencyOpt[0],
+        hourlyMin: 1,
+        hourlyMax: 2,
+        annualMin: 1,
+        annualMax: 2,
+    })
     useEffect(() => {
-        debouncedValidate(formik.current?.values);
-    }, [formik.current?.values, debouncedValidate]);
+        if (!router.isReady) { return }
+        else {
+            if (id) {
+                //значит мы хотим отредактировать вакансию, загружаем ее
+                api.get(`/api/v1/vacancies/${id}`).then((r) => {
+                    const recievedData = r.data.data
+                    setInitialValues({
+                        jobTitle: recievedData.title,
+                        jobDesc: recievedData.description,
+                        country: { value: recievedData.country },
+                        city: { value: recievedData.city },
+                        state: 'test', //NEED TO CHANGE
+                        address: recievedData.address,
+                        profession: professionsOpt.find((profession) => recievedData.profession.id == profession.id),
+                        currency: currencyOpt.find((currency) => recievedData.currency.id == currency.id),
+                        hourlyMin: recievedData.hourly_min_pay,
+                        hourlyMax: recievedData.hourly_max_pay,
+                        annualMin: recievedData.annual_min_pay,
+                        annualMax: recievedData.annual_max_pay,
+                    })
+                })
+            }
+            debouncedValidate(formik.current?.values);
+        }
+
+    }, [router.isReady, professionsOpt, currencyOpt, formik.current?.values, debouncedValidate]);
+
 
     return (
         <>
@@ -61,31 +107,18 @@ export default function EmployerPostJob() {
             <div className="page page-employer page-employer_postJob">
                 <Formik
                     innerRef={formik}
-
-                    initialValues={{
-                        jobTitle: '',
-                        jobDesc: '',
-                        country: {},
-                        city: {},
-                        state: '',
-                        address: '',
-                        profession: {},
-                        currency: currencyOpt[0],
-                        hourlyMin: 1,
-                        hourlyMax: 2,
-                        annualMin: 1,
-                        annualMax: 2,
-                    }}
+                    enableReinitialize={true}
+                    initialValues={initialValues}
                     validationSchema={SignupSchema}
                     validateOnMount={true}
                     validateOnChange={false}
                     onSubmit={(values, { resetForm }) => {
-                        console.log(errors)
+
                         let sentData = {
                             "title": values.jobTitle,
                             "description": values.jobDesc,
                             "country": values.country.value,
-                            "country_iso_code": values.country.data.country_iso_code,
+                            //"country_iso_code": values.country.data.country_iso_code,
                             "city": values.city.value,
                             "state": values.state,
                             "address": values.address,
@@ -95,26 +128,46 @@ export default function EmployerPostJob() {
                             "annual_min_pay": values.annualMin,
                             "annual_max_pay": values.annualMax,
                             "currency_id": values.currency.id,
-                            "active": 1, //0 - active, 1 - hide (??? , но сделано так)
+                            "status": "opened",
+                            "active": "1",
                         }
-                        api.post('/api/v1/vacancies', sentData).then(r => {
-                            if (r.status == 200) {
-                                Swal.fire(
-                                    'Job was created!',
-                                    'Success!',
-                                    'success'
-                                )
-                                resetForm();
-                            }
+                        if (!id) {
+                            //create new
+                            api.post('/api/v1/vacancies', sentData).then(r => {
+                                if (r.status == 200) {
+                                    Swal.fire(
+                                        'Job was created!',
+                                        'Success!',
+                                        'success'
+                                    )
+                                    resetForm();
+                                }
 
-                        })
-                            .catch(err => {
+                            }).catch(err => {
                                 Swal.fire(
                                     'Oops..',
                                     `Sorry, something went wrong, please, try again`,
                                     'error'
                                 )
                             })
+                        }
+                        else {
+                            //update
+                            api.put(`/api/v1/vacancies/${id}`, sentData).then(r => {
+                                Swal.fire(
+                                    'Job was updated!',
+                                    'Success!',
+                                    'success'
+                                )
+
+                            }).catch(err => {
+                                Swal.fire(
+                                    'Oops..',
+                                    `Sorry, something went wrong, please, try again`,
+                                    'error'
+                                )
+                            })
+                        }
 
                     }}
                 >
@@ -122,7 +175,7 @@ export default function EmployerPostJob() {
                         ({ values, errors, touched }) => (
                             <Form className='form-postJob'>
                                 <div className="form-postJob__header">
-                                    Create Job
+                                    {id ? "Edit Job" : "Create Job"}
                                 </div>
                                 <Layout>
 
@@ -234,7 +287,9 @@ export default function EmployerPostJob() {
                                                             name="profession"
                                                             required
                                                             options={professionsOpt}
+                                                            {...(!isEmpty(values.profession)) ? { defaultValue: values.profession } : {}}
                                                         />
+
                                                         <FieldTitle name="profession" additionalLevel="id">Profesional Qualification you are looking for</FieldTitle>
                                                     </div>
                                                 </Col>
@@ -247,6 +302,8 @@ export default function EmployerPostJob() {
                                                             name="currency"
                                                             required
                                                             options={currencyOpt}
+                                                            {...(!isEmpty(values.currency)) ? { defaultValue: values.currency } : {}}
+
                                                         />
 
                                                     </div>
