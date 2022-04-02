@@ -1,5 +1,5 @@
 
-export default function SettingsPaymentsTab({ title }) {
+export default function SettingsPaymentsTab({ title, user }) {
 
     return (
         <>

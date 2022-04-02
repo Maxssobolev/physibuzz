@@ -1,24 +1,23 @@
-import styles from '../GeneralForm/GeneralFrom.module.scss';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
-
+import Loader from "../../../Loader/Loader";
+import useProfessions from '../../../Hooks/useProfessions'
 const SignupSchema = Yup.object().shape({
 
 });
 
-export default function ProfessionCoverLetterForm() {
-    const professions = [
-        { name: 'Physiotherapy / Physical Therapy' },
-        { name: 'Sports Therapy' },
-        { name: 'Osteopathy' },
-        { name: 'Massage Therapy' },
-        { name: 'Chiropractic' },
-    ]
+export default function ProfessionCoverLetterForm({ user }) {
+    const professions = useProfessions()
+
+    if (!user) {
+
+        return <div className='form-settings-general'> <Loader /> </div>
+    }
     return (
         <Formik
             initialValues={{
-                professions: ['Physiotherapy / Physical Therapy'],
+                professions: [],
                 coverLetter: ''
 
             }}
@@ -45,9 +44,9 @@ export default function ProfessionCoverLetterForm() {
                                                 type="checkbox"
                                                 name="professions"
                                                 className="checkbox"
-                                                value={itm.name}
+                                                value={itm.id}
                                             />
-                                            <span>{itm.name}</span>
+                                            <span>{itm.label}</span>
                                         </label>
                                     </Col>
 

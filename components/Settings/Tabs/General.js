@@ -1,6 +1,6 @@
 import GeneralForm from "../../Forms/SettingsForms/GeneralForm/GeneralForm";
 
-export default function SettingsGeneralTab({ title }) {
+export default function SettingsGeneralTab({ title, user }) {
 
     return (
         <>
@@ -8,7 +8,7 @@ export default function SettingsGeneralTab({ title }) {
                 {title}
             </div>
             <div className="settings-tab-content">
-                <GeneralForm />
+                <GeneralForm user={user} />
             </div>
         </>
     )

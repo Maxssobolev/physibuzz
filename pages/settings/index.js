@@ -4,6 +4,8 @@ import LeftSidebar from "../../components/Layout/LeftSidebar/LeftSidebar";
 import MainContent from "../../components/Layout/MainContent/MainContent";
 import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import { Tab, Nav } from 'react-bootstrap'
+import { useEffect, useState } from 'react';
+import api from '../../apiConfig'
 
 //tabs
 import SettingsGeneralTab from "../../components/Settings/Tabs/General";
@@ -14,6 +16,17 @@ import SettingsPaymentsTab from "../../components/Settings/Tabs/Payments";
 import { useWindowDimensions } from "../../components/Hooks/useWindowDimensions";
 
 export default function Settings() {
+
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        api.get('/api/v1/user/edit/current') //why edit?? idfk, but it is. |||=> return all current user info
+            .then(r => {
+                setUser({ ...r.data.data, gender: 'male' }) //КОСТЫЛЬ!!! ГЕНДЕР УБРАТЬ
+            })
+
+    }, [])
+
     const isMobile = useWindowDimensions().width <= 425
 
     const tabs = [
@@ -51,7 +64,7 @@ export default function Settings() {
                                         if (RenderComponent) {
                                             return (
                                                 <Tab.Pane eventKey={item.eventKey} key={`${index}__tab_content-settings`}>
-                                                    <RenderComponent title={item.title} />
+                                                    <RenderComponent title={item.title} user={user} />
                                                 </Tab.Pane>
                                             )
                                         }
@@ -92,7 +105,7 @@ export default function Settings() {
                                         if (RenderComponent) {
                                             return (
                                                 <Tab.Pane eventKey={item.eventKey} key={`${index}__tab_content-settings`}>
-                                                    <RenderComponent title={item.title} />
+                                                    <RenderComponent title={item.title} user={user} />
                                                 </Tab.Pane>
                                             )
                                         }

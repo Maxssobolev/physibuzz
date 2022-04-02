@@ -1,6 +1,6 @@
 import SecurityForm from "../../Forms/SettingsForms/SecurityForm/SecurityForm";
 
-export default function SettingsSecurityTab({ title }) {
+export default function SettingsSecurityTab({ title, user }) {
 
     return (
         <>
@@ -8,7 +8,7 @@ export default function SettingsSecurityTab({ title }) {
                 {title}
             </div>
             <div className="settings-tab-content">
-                <SecurityForm />
+                <SecurityForm user={user} />
             </div>
         </>
     )

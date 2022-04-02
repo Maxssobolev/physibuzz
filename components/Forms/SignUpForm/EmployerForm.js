@@ -2,6 +2,7 @@ import React from 'react'
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import { SelectField } from '../SpecialFields/SelectField'
+import { FieldTitle } from '../SpecialFields/FieldTitle'
 //Форма работодателей 
 function EmployerForm({ styles, professionOpt }) {
 
@@ -15,7 +16,7 @@ function EmployerForm({ styles, professionOpt }) {
                             type="email"
                             name="email"
                         />
-                        <span>Email address</span>
+                        <FieldTitle name="email">Email address</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -27,7 +28,7 @@ function EmployerForm({ styles, professionOpt }) {
                             type="email"
                             name="emailConfirmation"
                         />
-                        <span>Confirm Email Address</span>
+                        <FieldTitle name="emailConfirmation">Confirm Email Address</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -39,7 +40,7 @@ function EmployerForm({ styles, professionOpt }) {
                             component="input"
                             name="company"
                         />
-                        <span>Company/Clinic Name</span>
+                        <FieldTitle name="company">Company/Clinic Name</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -51,7 +52,7 @@ function EmployerForm({ styles, professionOpt }) {
                             options={professionOpt}
 
                         />
-                        <span>Profession / Main Clinical Service</span>
+                        <FieldTitle name="profession" additionalLevel="value">Profession / Main Clinical Service</FieldTitle>
                     </div>
                 </Col>
             </Row>

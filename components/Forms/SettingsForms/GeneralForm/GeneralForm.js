@@ -7,7 +7,8 @@ import { useWindowDimensions } from '../../../Hooks/useWindowDimensions';
 import api from '../../../../apiConfig'
 import Swal from 'sweetalert2'
 import { SelectField } from '../../SpecialFields/SelectField'
-import { useEffect, useState } from 'react';
+
+import Loader from '../../../Loader/Loader'
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
@@ -15,20 +16,12 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email'),
 });
 
-export default function GeneralForm() {
-    const [user, setUser] = useState(null)
+export default function GeneralForm({ user }) {
 
-    useEffect(() => {
-        api.get('/api/v1/user/edit/current') //why edit?? idfk, but it is. |||=> return all user info
-            .then(r => {
-                setUser({ ...r.data.data, gender: 'male' }) //КОСТЫЛЬ!!! ГЕНДЕР УБРАТЬ
-            })
-
-    }, [])
     const isMobile = useWindowDimensions().width <= 425
     if (!user) {
-        /* вот тут и в аналогичных местах какого-то хуя стейт не обновляется. */
-        return <></>
+
+        return <div className='form-settings-general'> <Loader /> </div>
     }
     return (
         <Formik

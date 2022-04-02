@@ -1,6 +1,6 @@
 import ProfessionCoverLetterForm from "../../Forms/SettingsForms/ProfessionCoverLetterForm/ProfessionCoverLetterForm";
 
-export default function SettingsProfessionCoverLetterTab({ title }) {
+export default function SettingsProfessionCoverLetterTab({ title, user }) {
 
     return (
         <>
@@ -8,7 +8,7 @@ export default function SettingsProfessionCoverLetterTab({ title }) {
                 {title}
             </div>
             <div className="settings-tab-content">
-                <ProfessionCoverLetterForm />
+                <ProfessionCoverLetterForm user={user} />
             </div>
         </>
     )

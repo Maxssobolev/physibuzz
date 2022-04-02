@@ -3,15 +3,18 @@ import PasswordShowHide from '../../SpecialFields/PasswordShowHide';
 import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
-
+import Loader from '../../../Loader/Loader'
 const SignupSchema = Yup.object().shape({
     newPass: Yup.string().required('Password is required'),
     newPassConfirmation: Yup.string().test('password-match', 'Passwords must match', function (value) { return this.parent.newPass === value }),
 
 });
 
-export default function SecurityForm() {
+export default function SecurityForm({ user }) {
+    if (!user) {
 
+        return <div className='form-settings-general'> <Loader /> </div>
+    }
     return (
         <Formik
             initialValues={{

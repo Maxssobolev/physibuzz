@@ -1,6 +1,6 @@
 
 function range(start, end) {
-    return (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start);
+    return (new Array(end - start + 1)).fill(undefined).map((_, i) => { return { label: i + start, value: i + start } });
 }
 export const years = range(2000, new Date().getFullYear()) //generate an array of years from 2000 to now
 
@@ -13,9 +13,9 @@ export const countries = ['United Kingdom']
 export const countriesOfRegAd = ['None']
 export const countriesOfReg = ['']
 export const gender = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Other', value: 'other' }
+    { id: 0, label: 'Male', value: 'male' },
+    { id: 1, label: 'Female', value: 'female' },
+    { id: 2, label: 'Other', value: 'other' }
 ]
 export function isEmpty(obj) {
     return Object.keys(obj).length === 0;

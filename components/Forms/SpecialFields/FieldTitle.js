@@ -5,18 +5,18 @@ import { useFormikContext } from "formik";
 props: 
     name - название атрибута name предыдущего поля
 */
-export const FieldTitle = (props) => {
+export const FieldTitle = ({ children, name, additionalLevel }) => {
     const { errors, touched } = useFormikContext();
     return (
         <span
             {...(
-                errors[props.name] && touched[props.name] ?
+                errors[name] && touched[name] ?
                     {//                если это обьект
-                        dataerrors: `${props.additionalLevel ? errors[props.name][props.additionalLevel] : errors[props.name]}`
+                        dataerrors: `${additionalLevel ? errors[name][additionalLevel] : errors[name]}`
                     } : {}
             )}
         >
-            {props.children}
+            {children}
         </span>
     )
 }

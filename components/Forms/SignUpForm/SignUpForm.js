@@ -5,26 +5,60 @@ import * as Yup from 'yup';
 import PasswordShowHide from '../SpecialFields/PasswordShowHide';
 import EmployeeForm from './EmployeeForm';
 import EmployerForm from './EmployerForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useProfessions from '../../Hooks/useProfessions'
 import { handleRegistration } from '../../../redux/actions';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
+import { FieldTitle } from '../SpecialFields/FieldTitle'
+import debounce from 'lodash.debounce'
+import isEmpty from 'lodash.isempty'
+import { useRef, useEffect, useMemo } from 'react'
+
+
 const ISSERVER = typeof window === "undefined";
 
 const SignupSchema = Yup.object().shape({
+    //common
     firstName: Yup.string().min(5, 'Too Short!').max(120, 'Too Long!').required('Required'),
     lastName: Yup.string().min(5, 'Too Short!').max(120, 'Too Long!').required('Required'),
-    company: Yup.string().min(3, 'Too Short!').max(220, 'Too Long!').when("purpose", {
-        is: 'hiring',
-        then: Yup.string().required("Required")
-    }),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    emailConfirmation: Yup.string().required('Please, confirm email').test('email-match', 'Emails must match', function (value) { return this.parent.email === value }),
+    emailConfirmation: Yup.string().required('Emails must match').test('email-match', 'Emails must match', function (value) { return this.parent.email === value }),
     password: Yup.string().required('Password is required'),
     passwordConfirmation: Yup.string().test('password-match', 'Passwords must match', function (value) { return this.parent.password === value }),
 
+    //hiring
+    company: Yup.string().when("purpose", {
+        is: 'hiring',
+        then: Yup.string().min(3, 'Too Short!').max(220, 'Too Long!').required("Required")
+    }),
+    profession: Yup.object().when("purpose", {
+        is: 'hiring',
+        then: Yup.object().shape({
+            value: Yup.string().required('Required'),
+        })
+    }),
+
+    //candidate
+    gender: Yup.object().when("purpose", {
+        is: 'candidate',
+        then: Yup.object().shape({
+            value: Yup.string().required('Required'),
+        }),
+    }),
+    years: Yup.object().when("purpose", {
+        is: 'candidate',
+        then: Yup.object().shape({
+            value: Yup.string().required('Required'),
+        }),
+    }),
+    professionMulti: Yup.object().when("purpose", {
+        is: 'candidate',
+        then: Yup.object().shape({
+            value: Yup.string().required('Required'),
+        })
+    }),
 });
 
 
@@ -34,9 +68,22 @@ export default function SignUpForm() {
     //-----
     const router = useRouter()
 
+
+    const formik = useRef()
     const professionOpt = useProfessions()
+
+    const debouncedValidate = useMemo(
+        () => debounce(() => formik.current?.validateForm, 500),
+        [formik],
+    );
+
+    useEffect(() => {
+        debouncedValidate(formik.current?.values);
+    }, [professionOpt, formik.current?.values, debouncedValidate]);
+
     return (
         <Formik
+            innerRef={formik}
             initialValues={{
                 purpose: 'hiring',
                 lastName: '',
@@ -51,13 +98,15 @@ export default function SignUpForm() {
                 agreement: '',
                 gender: 'Male',
                 years: '2000',
-                countries: '',
+                country: '',
                 countriesOfReg: '',
                 countriesOfRegAd: '',
                 availFrom: moment()
 
             }}
             validationSchema={SignupSchema}
+            validateOnMount={true}
+            validateOnChange={false}
             onSubmit={(values) => {
                 dispatch(handleRegistration(values, values.purpose))
                     .then(res => {
@@ -89,7 +138,7 @@ export default function SignUpForm() {
             }}
         >
             {
-                (props) => (
+                ({ values, errors, touched }) => (
                     <Form>
 
                         <Row className={`radio ${styles.radioRow}`} >
@@ -119,7 +168,7 @@ export default function SignUpForm() {
                                         component="input"
                                         name="firstName"
                                     />
-                                    <span>First Name</span>
+                                    <FieldTitle name="firstName">First Name</FieldTitle>
                                 </div>
                             </Col>
                             <Col>
@@ -129,12 +178,12 @@ export default function SignUpForm() {
                                         component="input"
                                         name="lastName"
                                     />
-                                    <span>Last Name</span>
+                                    <FieldTitle name="lastName">Last Name</FieldTitle>
                                 </div>
                             </Col>
                         </Row>
 
-                        {props.values.purpose == 'hiring' ? <EmployerForm styles={styles} professionOpt={professionOpt} /> : <EmployeeForm styles={styles} professionOpt={professionOpt} />}
+                        {values.purpose == 'hiring' ? <EmployerForm styles={styles} professionOpt={professionOpt} /> : <EmployeeForm styles={styles} professionOpt={professionOpt} />}
 
                         <Row className={styles.commonRow}>
                             <Col>
@@ -143,7 +192,7 @@ export default function SignUpForm() {
                                         component={PasswordShowHide}
                                         name="password"
                                     />
-                                    <span>Password</span>
+                                    <FieldTitle name="password">Password</FieldTitle>
                                 </div>
                             </Col>
                         </Row>
@@ -154,7 +203,7 @@ export default function SignUpForm() {
                                         component={PasswordShowHide}
                                         name="passwordConfirmation"
                                     />
-                                    <span>Confirm Password</span>
+                                    <FieldTitle name="passwordConfirmation">Confirm Password</FieldTitle>
                                 </div>
                             </Col>
                         </Row>
@@ -167,7 +216,7 @@ export default function SignUpForm() {
                                         name="agreement"
                                         className="checkbox"
                                     />
-                                    <span>I agree to the licence agreement and GDPR policy</span>
+                                    <FieldTitle name="agreement">I agree to the licence agreement and GDPR policy</FieldTitle>
                                 </label>
                             </Col>
                         </Row>

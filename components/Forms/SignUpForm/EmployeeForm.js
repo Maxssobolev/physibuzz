@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React from "react"
+import { FieldTitle } from "../SpecialFields/FieldTitle"
 import { Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import { years, countries, countriesOfRegAd, countriesOfReg, gender } from "../../CommonUtils/CommonUtils"
@@ -7,7 +7,6 @@ import { DatePickerField } from '../../CommonUtils/CustomDatepicker'
 import { SelectField } from '../SpecialFields/SelectField'
 //форма соискателей
 function EmployeeForm({ styles, professionOpt }) {
-
     return (
         <>
             <Row className={styles.commonRow}>
@@ -18,7 +17,7 @@ function EmployeeForm({ styles, professionOpt }) {
                             options={gender}
                         />
 
-                        <span>Gender</span>
+                        <FieldTitle name="gender" additionalLevel="value">Gender</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -30,7 +29,7 @@ function EmployeeForm({ styles, professionOpt }) {
                             type="email"
                             name="email"
                         />
-                        <span>Email address</span>
+                        <FieldTitle name="email">Email address</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -42,7 +41,7 @@ function EmployeeForm({ styles, professionOpt }) {
                             type="email"
                             name="emailConfirmation"
                         />
-                        <span>Confirm Email Address</span>
+                        <FieldTitle name="emailConfirmation">Confirm Email Address</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -50,14 +49,11 @@ function EmployeeForm({ styles, professionOpt }) {
                 <Col>
                     <div className="field-wrapper">
 
-                        <Field
-                            className="field field_select"
-                            component="select"
-
-                        >
-                            {years.map((item, index) => <option value={item} key={`${index}__signUp-years`} >{item}</option>)}
-                        </Field>
-                        <span>Year of Graduation</span>
+                        <SelectField
+                            name="years"
+                            options={years}
+                        />
+                        <FieldTitle name="years" additionalLevel="value">Year of Graduation</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -67,7 +63,7 @@ function EmployeeForm({ styles, professionOpt }) {
                         <Field
                             className="field field_select"
                             component="select"
-                            name="countries"
+                            name="country"
                         >
                             {countries.map((item, index) => <option value={item} key={`${index}__signUp-counries`} >{item}</option>)}
                         </Field>
@@ -107,7 +103,7 @@ function EmployeeForm({ styles, professionOpt }) {
                         <DatePickerField
                             name="availFrom"
                         />
-                        <span>Available From (Add Date)</span>
+                        <FieldTitle name="availFrom">Available From (Add Date)</FieldTitle>
                     </div>
                 </Col>
             </Row>
@@ -120,7 +116,7 @@ function EmployeeForm({ styles, professionOpt }) {
                             isMulti
 
                         />
-                        <span>Profession:</span>
+                        <FieldTitle name="professionMulti" additionalLevel="value">Profession:</FieldTitle>
                     </div>
                 </Col>
             </Row>
