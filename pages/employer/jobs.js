@@ -103,7 +103,7 @@ export default function EmployerJobs() {
         { title: 'Location', field: 'country', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
         { title: 'Created', field: 'created_at', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
         {
-            title: 'Candidates', field: 'candidates', headerSort: false,
+            title: 'Candidates', field: 'candidates_count', headerSort: false,
             formatter: function (cell, formatterParams, onRendered) {
                 return "<span style='color: var(--accent)'>" + cell.getValue() + '</span>';
             },

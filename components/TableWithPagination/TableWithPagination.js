@@ -4,7 +4,7 @@ import { useWindowDimensions } from '../Hooks/useWindowDimensions'
 import Search from '../Search/Search'
 
 
-function TableWithPagination({ columns, initialRowData, showEntries, maxOnPage, searchField, customSearchWrapperClass, searchPlaceholder, customSearchInputClass, specialId, filtredOptions }) {
+function TableWithPagination({ columns, initialRowData, showEntries, maxOnPage, searchField, customSearchWrapperClass, searchPlaceholder, customSearchInputClass, specialId, filtredOptions, configOptions }) {
     const isMobile = useWindowDimensions().width <= 425
 
     showEntries = showEntries || false
@@ -20,6 +20,7 @@ function TableWithPagination({ columns, initialRowData, showEntries, maxOnPage, 
             paginationSize: maxOnPage,
             resizableColumns: false,
             height: '100%',
+            ...(configOptions ? { ...configOptions } : {})
         }
     }
     const [rowData, setRowData] = useState(initialRowData)

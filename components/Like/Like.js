@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import LikeIcon from '../../assets/img/icons/like.svg';
 import LikedIcon from '../../assets/img/icons/liked.svg';
 import { useWindowDimensions } from '../Hooks/useWindowDimensions';
-
-export default function Like({ __id, __isLiked: isLiked }) {
-    const [like, setLike] = useState(isLiked || false)
+import api from '../../apiConfig'
+export default function Like({ __id, type }) {
+    const [like, setLike] = useState(false)
     const handleLike = () => {
-        setLike(!like)
+        if (like) {
+            //remove like
+            if (type == 'vacancy')
+                api.post(`/api/v1/wishlist/remove/${__id}`).then(r => setLike(false));
+        }
+        else {
+            //add like
+            if (type == 'vacancy')
+                api.post(`/api/v1/wishlist/add/${__id}`).then(r => setLike(true));
+        }
+
     }
     const isMobile = useWindowDimensions().width <= 425
 

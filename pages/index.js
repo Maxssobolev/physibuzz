@@ -19,8 +19,12 @@ import moment from "moment"
 import VacancyCard from "../components/Cards/Vacancy/VacancyCard"
 import Loader from "../components/Loader/Loader";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { AddressSuggestions } from 'react-dadata';
+import { dadataToken } from '../apiConfig/dadata';
+import 'react-dadata/dist/react-dadata.css';
+import CrossIcon from '../assets/img/cross.svg'
+import isEmpty from "lodash.isempty"
 
-//home page ONLY FOR LOGGED USERS
 
 export default function Home() {
 
@@ -70,13 +74,34 @@ export default function Home() {
     }
   }
   /*******************PLACE*********************/
-  const [placeOptions, setPlaceOptions] = useState([
-    { value: 'London, England, United Kingdom', label: 'London, England, United Kingdom' },
-    { value: 'Other', label: 'Other' },
-  ])
-  const [placeSelected, setPlaceSelected] = useState('')
-  const handleChangePlace = (selectedOpt) => {
-    setPlaceSelected(selectedOpt)
+  //пропсы для Dadata 
+  const AddressSuggestionsOptions = {
+    token: dadataToken,
+    inputProps: {
+      style: {
+        height: '40px'
+      },
+      placeholder: 'Select...',
+      className: 'field field_dadata',
+      autoComplete: "new-password",
+    },
+    filterLanguage: 'en',
+    filterLocations: [{
+      "country": "*",
+    }]
+  }
+  const [placeSelected, setPlaceSelected] = useState(null)
+  const handleChangePlace = (val) => {
+
+    if (!isEmpty(val)) {
+      setPlaceSelected(val)
+    }
+    else {
+      setPlaceSelected(null)
+    }
+
+    setSortSelected(null)
+
   }
 
   //side part filters
@@ -180,7 +205,7 @@ export default function Home() {
           return {
             total,
             lastPage,
-            rows: [...prev.rows, ...setExistedFilters(recievedData.data)]
+            rows: [...prev.rows, ...setExistedFilters(recievedData.data)] //фильтруем "на ходу"
           }
         })
       }
@@ -195,15 +220,25 @@ export default function Home() {
 
     //set sort filter to null before changing the data
     setSortSelected(null)
-    if (jobOrCourseSelected.label == 'Job') {
-      getData('/api/v1/vacancies')
+
+    //если у нам пофиг на метоположение
+    if (!placeSelected) {
+      if (jobOrCourseSelected.label == 'Job') {
+        getData('/api/v1/vacancies')
+      }
+      else if (jobOrCourseSelected.label == 'Course') {
+        getData('/api/v1/courses')
+      }
+    }
+    //если метоположение выставлено
+    else {
 
     }
-    else if (jobOrCourseSelected.label == 'Course') {
-      getData('/api/v1/courses')
-    }
 
-  }, [jobOrCourseSelected])
+
+
+
+  }, [jobOrCourseSelected, placeSelected])
 
   //GETTING PROFESSIONS
   useEffect(() => {
@@ -256,19 +291,12 @@ export default function Home() {
             </div>
             <div className="field-wrapper">
               {/* need to change  */}
-              <Select styles={customSelectStyles}
-                responsive={{
-                  xsmall: {
-                    display: 'bottom',
-                    touchUi: true
-                  },
-                  small: {
-                    display: 'bottom',
-                    touchUi: true
-                  },
-
-                }}
-                options={placeOptions} onChange={handleChangePlace} components={{ DropdownIndicator }} />
+              <AddressSuggestions
+                onChange={handleChangePlace}
+                {...AddressSuggestionsOptions}
+                value={placeSelected}
+              />
+              {placeSelected && <button type="button" className="dadataReset" onClick={() => handleChangePlace(null)}><CrossIcon width={15} /></button>}
               <span>Where</span>
             </div>
           </div>
@@ -381,8 +409,13 @@ export default function Home() {
               <span>What</span>
             </div>
             <div className="field-wrapper">
-              {/* need to change  */}
-              <Select styles={customSelectStyles} options={placeOptions} onChange={handleChangePlace} components={{ DropdownIndicator }} />
+
+              <AddressSuggestions
+                onChange={handleChangePlace}
+                {...AddressSuggestionsOptions}
+                value={placeSelected}
+              />
+              {placeSelected && <button type="button" className="dadataReset" onClick={() => handleChangePlace(null)}><CrossIcon width={15} /></button>}
               <span>Where</span>
             </div>
           </div>

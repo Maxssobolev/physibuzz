@@ -8,14 +8,16 @@ import Like from '../../../components/Like/Like'
 import moment from 'moment'
 import { getCountryFlag } from '../../../components/CommonUtils/getCountryFlag'
 import Header from '../../../components/Header/Header'
-import { LOGGEDIN_HEADER } from '../../../components/Header/HeadersVariants'
 import ReadMore from '../../../components/ReadMore/ReadMore'
 import api from '../../../apiConfig'
+import useStorage from '../../../components/Hooks/useStorage'
 
 export default function ViewVacancy() {
     const router = useRouter()
     const { id } = router.query //here id - id of vacancy
 
+    const { getItem, removeItem } = useStorage()
+    const type = getItem('userType', 'local')
 
     const [vacancy, setVacancy] = useState({ country: 'US' }) //country just for 'placeholder'
     const { FlagComponent } = getCountryFlag(vacancy.country)
@@ -37,7 +39,6 @@ export default function ViewVacancy() {
                 rate: `${recievedData.hourly_min_pay} ~ ${recievedData.hourly_max_pay}/hr | ${recievedData.annual_min_pay} ~ ${recievedData.annual_max_pay}/yr`,
                 contactType: 'Full Time', //??
                 location: `${recievedData.city} ${recievedData.address}`,
-                isLiked: false
             })
         })
         //api.post(`/api/v1/vacancies/views/add/${id}`).then(r => console.log('you just read this vacancy', r))
@@ -48,7 +49,7 @@ export default function ViewVacancy() {
 
     return (
         <>
-            <Header variant={LOGGEDIN_HEADER} />
+            <Header />
             <div className="page page-view page-view_vacancy">
                 <Layout>
                     <LeftSidebar />
@@ -59,7 +60,7 @@ export default function ViewVacancy() {
                                 <div className="vacancyCard-head__title">
                                     {vacancy.title}
                                 </div>
-                                <div className="vacancyCard-head__like"><Like __id={id} __isLiked={vacancy.isLiked} /></div>
+                                <div className="vacancyCard-head__like"><Like __id={id} type="vacancy" /></div>
                             </div>
                             <div className="vacancyCard-additionalInfo">
                                 <div className="vacancyCard-additionalInfo__address"><div className="address-icon"><FlagComponent /></div><div className="address-text">{vacancy.location}</div></div>
@@ -88,9 +89,11 @@ export default function ViewVacancy() {
                                     <div className="vacancyCard-footer__item-value">{vacancy.rate}</div>
                                 </div>
                             </div>
-                            <div className="apply-now">
-                                <button type='button' onClick={handlerApplyNow}>Apply Now</button>
-                            </div>
+                            {type == 'candidate' &&
+                                <div className="apply-now">
+                                    <button type='button' onClick={handlerApplyNow}>Apply Now</button>
+                                </div>
+                            }
                         </div>
 
 

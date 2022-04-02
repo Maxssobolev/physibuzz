@@ -253,7 +253,8 @@
         -moz-appearance: none; /* Firefox */
         -webkit-appearance: none; /* Safari and Chrome */
         appearance: none;
-        background: url('../img/icons/arrow-down.svg') no-repeat 95% center;
+        background: url('../img/arrow-down.svg') no-repeat 95% center;
+        background-size: 10px;
         &-inTable {
             height: 39px;
             width: 200px;
@@ -264,6 +265,9 @@
             color: var(--black);
             font-weight: 400;
         }
+    }
+    &_dadata {
+        background-color: transparent;
     }
 
     &_password {
@@ -295,6 +299,18 @@
         cursor: not-allowed;
     }
 }
+
+.dadataReset {
+    position: absolute;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    right: 0;
+    top: 50%;
+    transform: translate(0, -25%);
+}
+
 
 .radio {
     // RADIO

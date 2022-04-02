@@ -6,35 +6,39 @@ import { reactFormatter } from 'react-tabulator'
 import MoreAction from '../../assets/img/icons/more-action.svg'
 import { getCountryFlag } from '../../components/CommonUtils/getCountryFlag'
 import { useWindowDimensions } from '../../components/Hooks/useWindowDimensions'
+import useProfessions from '../../components/Hooks/useProfessions'
+import api from '../../apiConfig'
+import { useRouter } from 'next/router'
 
 export default function EmployerCadidate() {
     const [employersCandidate, setEmployersCandidate] = useState([])
     const isMobile = useWindowDimensions().width <= 425
 
+    const professions = useProfessions()
+    const router = useRouter()
+
     useEffect(() => {
-        setEmployersCandidate([{
-            id: '1',
-            jobTitle: 'Peter Bass',
-            jobDesc: 'Massage Therapy',
-            location: 'Ireland',
-            submitedAt: '06-29-2020',
-            budget: '$ 3500',
-            actions: ''
-        }])
+
+        api.get(`/api/v1/candidate/user`).then((r) => {
+            const recievedData = r.data.data
+            console.log(recievedData)
+            setEmployersCandidate(recievedData)
+        })
+
     }, [])
 
     function ActionGroup(props) {
         const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
         const cellData = props.cell._cell.row.data;
-        const id = cellData.id
+        const userID = cellData.user.id
         return (
             <div className="header-rightside__user user-dropdown action-group" tabIndex={0} onClick={() => setIsActionMenuOpen(!isActionMenuOpen)} onBlur={() => setTimeout(() => setIsActionMenuOpen(false), 100)} >
                 <div className="user-dropbtn"><MoreAction width={5} /></div>
                 <div className="user-dropdown-content" style={{
                     display: isActionMenuOpen ? 'block' : 'none',
                 }} >
-                    <div className='action-group__content'><button type='button' >View Profile</button></div>
-                    <div className='action-group__content'><button type='button' >View CV</button></div>
+                    <div className='action-group__content'><button type='button' onClick={() => router.push(`/profile?id=${encodeURIComponent(userID)}`)}>View Profile</button></div>
+                    <div className='action-group__content'><button type='button' onClick={() => router.push(`/profile/cv?id=${encodeURIComponent(userID)}`)}>View CV</button></div>
                 </div>
             </div>
         );
@@ -43,12 +47,13 @@ export default function EmployerCadidate() {
 
     function JobTitle(props) {
         const cellData = props.cell._cell.row.data;
-        const { FlagComponent } = getCountryFlag(cellData.location)
+        const { FlagComponent } = getCountryFlag(cellData.user.country)
+        const { user } = cellData
 
         return (
             <div className="table__jobColumn_candidate">
-                <div className="table__jobColumn_candidate-title"><div>{cellData.jobTitle}</div><div className='address-icon'><FlagComponent /></div></div>
-                <div className="table__jobColumn_candidate-desc">{cellData.jobDesc.slice(0, 100)}{cellData.jobDesc.length > 99 && '...'}</div>
+                <div className="table__jobColumn_candidate-title"><div>{user.name} {user.last_name}</div><div className='address-icon'><FlagComponent /></div></div>
+                <div className="table__jobColumn_candidate-desc">Sport massanger</div>
             </div>
         );
 
@@ -56,19 +61,19 @@ export default function EmployerCadidate() {
 
     const columns = [
         {
-            title: 'Job', field: 'jobTitle', headerSort: false,
-            formatterParams: (cell) => ({ jobDesc: cell.getData()?.jobDesc, id: cell.getData()?.id, location: cell.getData()?.location }),
+            title: 'Job', field: 'title', headerSort: false,
+            formatterParams: (cell) => ({ description: cell.getData()?.description, id: cell.getData()?.id, country: cell.getData()?.country }),
             formatter: reactFormatter(<JobTitle />),
             widthGrow: 3,
             vertAlign: 'middle',
             headerHozAlign: 'left'
         },
         {
-            title: '', field: 'jobDesc',
+            title: '', field: 'description',
             visible: false
         },
         { title: 'Budget', field: 'budget', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center' },
-        { title: 'Proposal Submited At', field: 'submitedAt', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center', width: 200 },
+        { title: 'Proposal Submited At', field: 'proposal', headerSort: false, vertAlign: 'middle', hozAlign: 'center', headerHozAlign: 'center', width: 200 },
         {
             title: '', field: 'actions', widthGrow: 3, headerSort: false,
             vertAlign: 'top', hozAlign: isMobile ? 'center' : 'right',
@@ -82,7 +87,7 @@ export default function EmployerCadidate() {
     if (employersCandidate.length == 0) {
         return (
             <>
-                <Header variant={LOGGEDIN_EMPLOYER} />
+                <Header />
                 <div className="page page-employer page-employer_jobs">
                     <div className="table-wrapper">
                         <div className='loaderForTables'>Loading...</div>
@@ -94,13 +99,13 @@ export default function EmployerCadidate() {
     else {
         return (
             <>
-                <Header variant={LOGGEDIN_EMPLOYER} />
+                <Header />
                 <div className="page page-employer page-employer_jobs">
                     <div className="table-wrapper">
                         <TableWithPagination
                             initialRowData={employersCandidate}
                             columns={columns}
-                            maxOnPage={5}
+                            maxOnPage={15}
                             specialId={'tabulator-employer-candidate'}
                             filtredOptions={{
                                 data: [
@@ -109,6 +114,7 @@ export default function EmployerCadidate() {
                                 ],
                                 column: 'jobDesc'
                             }}
+
 
                         />
                     </div>

@@ -12,9 +12,9 @@ function VacancyCard({ info }) {
         description,
         updated_at,
         user,
-        address, //temporary
-        country, //temporary
-        isLiked, //temporary
+        city,
+        address,
+        country,
         annual_max_pay, //yearly rate
         annual_min_pay, //yearly rate
         hourly_max_pay, //hourly rate
@@ -34,10 +34,10 @@ function VacancyCard({ info }) {
                     {title}
                 </Link>
                 </div>
-                <div className="vacancyCard-head__like"><Like __id={id} __isLiked={isLiked} /></div>
+                <div className="vacancyCard-head__like"><Like __id={id} type="vacancy" /></div>
             </div>
             <div className="vacancyCard-additionalInfo">
-                <div className="vacancyCard-additionalInfo__address"><div className="address-icon"><FlagComponent /></div><div className="address-text">{address}</div></div>
+                <div className="vacancyCard-additionalInfo__address"><div className="address-icon"><FlagComponent /></div><div className="address-text">{city}</div></div>
                 <div className="vacancyCard-additionalInfo__date">{moment(updated_at).fromNow()}</div>
             </div>
             <div className="vacancyCard-description">{description}</div>
