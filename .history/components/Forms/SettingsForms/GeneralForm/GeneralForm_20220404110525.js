@@ -39,43 +39,27 @@ export default function GeneralForm({ user }) {
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-
+                let profIds = []
+                user.professions.forEach(profession => {
+                    profIds.push(profession.id)
+                })
                 let sentData = {
                     "type": user.type,
                     "id": user.id,
                     "name": values.firstName,
                     "last_name": values.lastName,
                     "email": values.email,
+                    'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
+                    "gender": values.gender.value || 'male',
+                    //"company": values.company,
+                    "available_from": user.available_from,
+                    "profession_id": profIds,
+                    "years": values.years?.value,
+                    "country": values.country?.value,
+                    "country_of_reg": values.countriesOfReg?.value,
+                    "country_of_reg_add": values.countriesOfRegAd?.value,
+
                 }
-
-                switch (user.type) {
-                    case 'hiring':
-                        sentData = {
-                            ...sentData,
-                            'company': values.company,
-                        }
-
-                        break;
-                    case 'candidate':
-                        //создаем массив айдишников профессий
-                        let profIds = []
-                        values.professionMulti.forEach(profession => {
-                            profIds.push(profession.id)
-                        })
-                        sentData = {
-                            ...sentData,
-                            'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
-                            "gender": values.gender.value || 'male',
-                            "available_from": user.available_from,
-                            "profession_id": profIds,
-                            "years": values.years?.value,
-                            "country": values.country?.value,
-                            "country_of_reg": values.countriesOfReg?.value,
-                            "country_of_reg_add": values.countriesOfRegAd?.value,
-                        }
-                        break;
-                }
-
                 api.put('/api/v1/user/update/current', sentData).then(r => {
 
                     Swal.fire(
@@ -190,40 +174,37 @@ export default function GeneralForm({ user }) {
                                 </Col>
                             </Row>
                         }
-                        {user.type == 'candidate' &&
+                        {user.type == 'candidate' && <Row className={styles.commonRow}>
+                            <Col>
+                                <div className="field-wrapper">
+                                    <SelectField
+                                        name="years"
+
+                                        options={years}
+                                        {...(!isEmpty(values.years)) ? { defaultValue: values.years } : {}}
+                                    />
+                                    <FieldTitle name="years" additionalLevel="value">Year of Graduation</FieldTitle>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className={styles.commonRow}>
+                            <Col>
+                                <div className="field-wrapper">
+                                    <DataSuggestionField
+                                        name="country"
+                                        filterFromBound="country"
+                                        firstAddressField
+                                    />
+                                    <FieldTitle name="country" additionalLevel="value">Country where you Qualified</FieldTitle>
+                                </div>
+                            </Col>
+                        </Row>
+                        }
+                        {isMobile ? (
                             <>
                                 <Row className={styles.commonRow}>
                                     <Col>
                                         <div className="field-wrapper">
-                                            <SelectField
-                                                name="years"
-
-                                                options={years}
-                                                {...(!isEmpty(values.years)) ? { defaultValue: values.years } : {}}
-                                            />
-                                            <FieldTitle name="years" additionalLevel="value">Year of Graduation</FieldTitle>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row className={styles.commonRow}>
-                                    <Col>
-                                        <div className="field-wrapper">
-                                            <DataSuggestionField
-                                                name="country"
-                                                filterFromBound="country"
-                                                firstAddressField
-                                            />
-                                            <FieldTitle name="country" additionalLevel="value">Country where you Qualified</FieldTitle>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </>
-                        }
-                        {isMobile && user.type == 'candidate' ?
-                            (<>
-                                <Row className={styles.commonRow}>
-                                    <Col>
-                                        <div className="field-wrapper">
 
                                             <DataSuggestionField
                                                 name="countriesOfReg"
@@ -248,29 +229,29 @@ export default function GeneralForm({ user }) {
                                         </div>
                                     </Col>
                                 </Row>
-                            </>) : user.type == 'candidate' ?
-                                (<Row className={styles.commonRow}>
-                                    <Col>
-                                        <div className="field-wrapper">
-                                            <DataSuggestionField
-                                                name="countriesOfReg"
-                                                filterFromBound="country"
-                                                firstAddressField
-                                            />
-                                            <FieldTitle name="countriesOfReg" additionalLevel="value">Country of Registration</FieldTitle>
-                                        </div>
-                                    </Col>
-                                    <Col>
-                                        <div className="field-wrapper">
-                                            <DataSuggestionField
-                                                name="countriesOfRegAd"
-                                                filterFromBound="country"
-                                                firstAddressField
-                                            />
-                                            <FieldTitle name="countriesOfRegAd" additionalLevel="value">Additional Country of Registration</FieldTitle>
-                                        </div>
-                                    </Col>
-                                </Row>) : <></>}
+                            </>) : (
+                            <Row className={styles.commonRow}>
+                                <Col>
+                                    <div className="field-wrapper">
+                                        <DataSuggestionField
+                                            name="countriesOfReg"
+                                            filterFromBound="country"
+                                            firstAddressField
+                                        />
+                                        <FieldTitle name="countriesOfReg" additionalLevel="value">Country of Registration</FieldTitle>
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <div className="field-wrapper">
+                                        <DataSuggestionField
+                                            name="countriesOfRegAd"
+                                            filterFromBound="country"
+                                            firstAddressField
+                                        />
+                                        <FieldTitle name="countriesOfRegAd" additionalLevel="value">Additional Country of Registration</FieldTitle>
+                                    </div>
+                                </Col>
+                            </Row>)}
 
                         <Row >
                             <Col>

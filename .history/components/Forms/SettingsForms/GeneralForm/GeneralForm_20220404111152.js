@@ -52,14 +52,15 @@ export default function GeneralForm({ user }) {
                     case 'hiring':
                         sentData = {
                             ...sentData,
-                            'company': values.company,
+                            'company': fields.company,
+
                         }
 
                         break;
                     case 'candidate':
                         //создаем массив айдишников профессий
                         let profIds = []
-                        values.professionMulti.forEach(profession => {
+                        fields.professionMulti.forEach(profession => {
                             profIds.push(profession.id)
                         })
                         sentData = {
