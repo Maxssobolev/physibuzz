@@ -4,6 +4,8 @@ import LeftSidebar from "../../components/Layout/LeftSidebar/LeftSidebar";
 import MainContent from "../../components/Layout/MainContent/MainContent";
 import RightSidebar from "../../components/Layout/RightSidebar/RightSidebar";
 import { Tab, Nav } from 'react-bootstrap'
+import { useEffect, useState } from 'react';
+import api from '../../apiConfig'
 import useCurrentUser from '../../components/Hooks/useCurrentUser'
 
 //tabs

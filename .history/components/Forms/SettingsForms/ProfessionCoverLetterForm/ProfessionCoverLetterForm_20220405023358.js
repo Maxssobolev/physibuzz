@@ -14,6 +14,7 @@ export default function ProfessionCoverLetterForm({ user }) {
     const professions = useProfessions()
 
     if (user.loading) {
+
         return <div className='form-settings-general'> <Loader /> </div>
     }
     return (

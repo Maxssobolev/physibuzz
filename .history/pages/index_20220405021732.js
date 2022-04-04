@@ -11,7 +11,7 @@ import MainContent from "../components/Layout/MainContent/MainContent"
 import RightSidebar from "../components/Layout/RightSidebar/RightSidebar"
 import Layout from "../components/Layout/Layout"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
 import AdBanner from "../components/AdBanner/AdBanner"
 import { useWindowDimensions } from "../components/Hooks/useWindowDimensions"
 import HeaderPlaceholder from '../components/Header/HeaderPlaceholder'
@@ -458,7 +458,6 @@ export default function Home() {
               </div>
             </LeftSidebar>
             <MainContent>
-
 
               {dataToShow?.rows.length > 0 ?
                 <div className="listOfVacancies">

@@ -11,7 +11,7 @@ import MainContent from "../components/Layout/MainContent/MainContent"
 import RightSidebar from "../components/Layout/RightSidebar/RightSidebar"
 import Layout from "../components/Layout/Layout"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
 import AdBanner from "../components/AdBanner/AdBanner"
 import { useWindowDimensions } from "../components/Hooks/useWindowDimensions"
 import HeaderPlaceholder from '../components/Header/HeaderPlaceholder'
@@ -26,7 +26,7 @@ import 'react-dadata/dist/react-dadata.css';
 import CrossIcon from '../assets/img/cross.svg'
 import isEmpty from "lodash.isempty"
 import useProfessions from "../components/Hooks/useProfessions"
-import useCurrentUser from '../components/Hooks/useCurrentUser'
+
 
 export default function Home() {
 
@@ -165,10 +165,14 @@ export default function Home() {
 
 
   //mobile definition
-  const isMobile = useWindowDimensions().width <= 425
+  const [isMobile, setIsMobile] = useState(undefined)
+  const { width, height } = useWindowDimensions()
+  useEffect(() => {
+    setIsMobile(width <= 425)
+  }, [width])
+
 
   //api connection
-  const { id: userId } = useCurrentUser()
 
   const [serverData, setServerData] = useState(null)
   const [dataToShow, setDataToShow] = useState(serverData)
@@ -242,6 +246,8 @@ export default function Home() {
 
     }
   }, [jobOrCourseSelected, placeSelected])
+
+  const { id: userId } = useCurrentUser()
 
 
   if (isMobile === undefined) {
@@ -458,7 +464,6 @@ export default function Home() {
               </div>
             </LeftSidebar>
             <MainContent>
-
 
               {dataToShow?.rows.length > 0 ?
                 <div className="listOfVacancies">

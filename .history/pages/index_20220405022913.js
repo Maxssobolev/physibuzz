@@ -458,55 +458,55 @@ export default function Home() {
               </div>
             </LeftSidebar>
             <MainContent>
+              <Suspense fallback={<p>Loading for props...</p>}>
 
+                {dataToShow?.rows.length > 0 ?
+                  <div className="listOfVacancies">
+                    <InfiniteScroll
+                      dataLength={dataToShow.total}
+                      next={() => {
+                        //если у нам пофиг на метоположение
+                        if (!placeSelected) {
+                          if (jobOrCourseSelected.label == 'Job') {
+                            getData('/api/v1/vacancies', page + 1)
+                          }
+                          else if (jobOrCourseSelected.label == 'Course') {
+                            getData('/api/v1/courses', page + 1)
+                          }
+                        }
+                        //если метоположение выставлено
+                        else {
+                          const country = placeSelected.data.country
+                          const city = placeSelected.data.city || ''
 
-              {dataToShow?.rows.length > 0 ?
-                <div className="listOfVacancies">
-                  <InfiniteScroll
-                    dataLength={dataToShow.total}
-                    next={() => {
-                      //если у нам пофиг на метоположение
-                      if (!placeSelected) {
-                        if (jobOrCourseSelected.label == 'Job') {
-                          getData('/api/v1/vacancies', page + 1)
+                          if (jobOrCourseSelected.label == 'Job') {
+                            console.log(city)
+                            getData(`api/v1/vacancies/search?city=${city}&country=${country}`, page + 1)
+                          }
+                          else if (jobOrCourseSelected.label == 'Course') {
+                            getData(`api/v1/courses/search?city=${city}&country=${country}`, page + 1)
+                          }
+
                         }
-                        else if (jobOrCourseSelected.label == 'Course') {
-                          getData('/api/v1/courses', page + 1)
-                        }
+                      }}
+                      hasMore={page != dataToShow.lastPage}
+                      loader={<Loader />}
+                      endMessage={
+                        <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
+                          You have seen it all
+                        </p>
                       }
-                      //если метоположение выставлено
-                      else {
-                        const country = placeSelected.data.country
-                        const city = placeSelected.data.city || ''
+                    >
+                      {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} userId={userId} info={itm} type={jobOrCourseSelected.label == 'Job' ? 'vacancy' : 'course'} />)}
 
-                        if (jobOrCourseSelected.label == 'Job') {
-                          console.log(city)
-                          getData(`api/v1/vacancies/search?city=${city}&country=${country}`, page + 1)
-                        }
-                        else if (jobOrCourseSelected.label == 'Course') {
-                          getData(`api/v1/courses/search?city=${city}&country=${country}`, page + 1)
-                        }
-
-                      }
-                    }}
-                    hasMore={page != dataToShow.lastPage}
-                    loader={<Loader />}
-                    endMessage={
-                      <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
-                        You have seen it all
-                      </p>
-                    }
-                  >
-                    {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} userId={userId} info={itm} type={jobOrCourseSelected.label == 'Job' ? 'vacancy' : 'course'} />)}
-
-                  </InfiniteScroll>
-                </div>
-                :
-                <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
-                  Nothing to show
-                </p>
-              }
-
+                    </InfiniteScroll>
+                  </div>
+                  :
+                  <p style={{ textAlign: 'center', color: 'var(--gray)' }}>
+                    Nothing to show
+                  </p>
+                }
+              </Suspense>
 
             </MainContent>
             <RightSidebar>

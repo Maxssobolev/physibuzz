@@ -13,7 +13,8 @@ const SignupSchema = Yup.object().shape({
 export default function ProfessionCoverLetterForm({ user }) {
     const professions = useProfessions()
 
-    if (user.loading) {
+    if (!user) {
+
         return <div className='form-settings-general'> <Loader /> </div>
     }
     return (

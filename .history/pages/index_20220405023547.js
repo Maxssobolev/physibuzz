@@ -460,7 +460,7 @@ export default function Home() {
             <MainContent>
 
 
-              {dataToShow?.rows.length > 0 ?
+              {dataToShow?.rows.length > 0 && !user.loading ?
                 <div className="listOfVacancies">
                   <InfiniteScroll
                     dataLength={dataToShow.total}
