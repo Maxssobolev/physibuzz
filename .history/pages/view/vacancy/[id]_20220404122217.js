@@ -11,8 +11,6 @@ import Header from '../../../components/Header/Header'
 import ReadMore from '../../../components/ReadMore/ReadMore'
 import api from '../../../apiConfig'
 import useStorage from '../../../components/Hooks/useStorage'
-import Loader from '../../../components/Loader/Loader'
-import Swal from 'sweetalert2'
 
 export default function ViewVacancy() {
     const router = useRouter()
@@ -21,23 +19,12 @@ export default function ViewVacancy() {
     const { getItem, removeItem } = useStorage()
     const type = getItem('userType', 'local')
 
-    const [vacancy, setVacancy] = useState()
-    const { FlagComponent } = getCountryFlag()
+    const [vacancy, setVacancy] = useState({ country: 'US' }) //country just for 'placeholder'
+    const { FlagComponent } = getCountryFlag(vacancy.country)
 
     const handlerApplyNow = () => {
         api.post(`/api/v1/candidate/add/${id}`).then(r => {
-            Swal.fire(
-                'Your application has been sent',
-                '',
-                'success'
-            )
-        }).catch(err => {
-            console.log(err)
-            Swal.fire(
-                'Oops..',
-                `Sorry, something went wrong, please, try again`,
-                'error'
-            )
+            console.log(r)
         })
     }
 
@@ -62,26 +49,16 @@ export default function ViewVacancy() {
                         isLiked
                     })
                 })
+
+
         })
         api.post(`/api/v1/vacancies/views/add/${id}`).then(r => console.log('you just read this vacancy', r))
+
+
+
     }, [router.isReady])
+    console.log(vacancy)
 
-    if (!vacancy) {
-        return <>
-            <Header />
-            <div className="page page-view page-view_vacancy">
-                <Layout>
-                    <LeftSidebar />
-                    <MainContent>
-
-                        <div className="vacancyCard">
-                            <Loader />
-                        </div>
-                    </MainContent>
-                </Layout>
-            </div>
-        </>
-    }
     return (
         <>
             <Header />

@@ -7,7 +7,6 @@ import Loader from '../../../Loader/Loader'
 import { FieldTitle } from '../../SpecialFields/FieldTitle';
 import isEmpty from 'lodash.isempty';
 import api from '../../../../apiConfig'
-import useStorage from '../../../Hooks/useStorage';
 const SignupSchema = Yup.object().shape({
     oldPass: Yup.string().required('Required'),
     newPass: Yup.string().required('Required'),
@@ -15,9 +14,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function SecurityForm({ user }) {
-    const { getItem } = useStorage()
-    const userToken = getItem('userToken', 'local')
-    if (!user || !userToken) {
+    if (!user) {
 
         return <div className='form-settings-general'> <Loader /> </div>
     }
@@ -33,7 +30,6 @@ export default function SecurityForm({ user }) {
             validateOnMount
             onSubmit={(values) => {
                 api.post('api/v1/user/reset-password', {
-                    "token": userToken,
                     "email": user.email,
                     "password": values.newPass,
                     "confirm_password": values.newPassConfirmation,

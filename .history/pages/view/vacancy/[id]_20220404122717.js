@@ -11,8 +11,6 @@ import Header from '../../../components/Header/Header'
 import ReadMore from '../../../components/ReadMore/ReadMore'
 import api from '../../../apiConfig'
 import useStorage from '../../../components/Hooks/useStorage'
-import Loader from '../../../components/Loader/Loader'
-import Swal from 'sweetalert2'
 
 export default function ViewVacancy() {
     const router = useRouter()
@@ -26,18 +24,7 @@ export default function ViewVacancy() {
 
     const handlerApplyNow = () => {
         api.post(`/api/v1/candidate/add/${id}`).then(r => {
-            Swal.fire(
-                'Your application has been sent',
-                '',
-                'success'
-            )
-        }).catch(err => {
-            console.log(err)
-            Swal.fire(
-                'Oops..',
-                `Sorry, something went wrong, please, try again`,
-                'error'
-            )
+            console.log(r)
         })
     }
 
@@ -62,8 +49,11 @@ export default function ViewVacancy() {
                         isLiked
                     })
                 })
+
+
         })
         api.post(`/api/v1/vacancies/views/add/${id}`).then(r => console.log('you just read this vacancy', r))
+
     }, [router.isReady])
 
     if (!vacancy) {
@@ -75,7 +65,6 @@ export default function ViewVacancy() {
                     <MainContent>
 
                         <div className="vacancyCard">
-                            <Loader />
                         </div>
                     </MainContent>
                 </Layout>

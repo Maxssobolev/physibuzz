@@ -33,7 +33,7 @@ export default function SecurityForm({ user }) {
             validateOnMount
             onSubmit={(values) => {
                 api.post('api/v1/user/reset-password', {
-                    "token": userToken,
+                    "token": user.name,
                     "email": user.email,
                     "password": values.newPass,
                     "confirm_password": values.newPassConfirmation,

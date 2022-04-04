@@ -47,7 +47,7 @@ export default function Settings() {
                             <div className="tabs-wrapper">
                                 <Nav>
                                     {tabs.map((item, index) => {
-                                        if (!(item.title == 'Profession & Cover letter' && user?.type == 'hiring'))
+                                        if (item.title != 'Profession & Cover letter' && user.type != 'hiring')
                                             return (
                                                 <div className="setting__item" key={`${index}__tab_links-settings`}>
                                                     <Nav.Item>
@@ -89,15 +89,13 @@ export default function Settings() {
                         <LeftSidebar>
                             <div className="tabs-wrapper">
                                 <Nav>
-                                    {tabs.map((item, index) => {
-                                        if (!(item.title == 'Profession & Cover letter' && user?.type == 'hiring'))
-                                            return (
-                                                <div className="setting__item" key={`${index}__tab_links-settings`}>
-                                                    <Nav.Item>
-                                                        <Nav.Link eventKey={item.eventKey}>{item.title}</Nav.Link>
-                                                    </Nav.Item>
-                                                </div>)
-                                    })}
+                                    {tabs.map((item, index) => (
+                                        <div className="setting__item" key={`${index}__tab_links-settings`}>
+                                            <Nav.Item>
+                                                <Nav.Link eventKey={item.eventKey}>{item.title}</Nav.Link>
+                                            </Nav.Item>
+                                        </div>
+                                    ))}
                                 </Nav>
                             </div>
                         </LeftSidebar>
