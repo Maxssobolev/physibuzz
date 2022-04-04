@@ -233,6 +233,9 @@ export default function Home() {
     }
     //если метоположение выставлено
     else {
+      const country = placeSelected.data.country
+      const city = placeSelected.data.city
+      console.log(country, city)
 
     }
 
