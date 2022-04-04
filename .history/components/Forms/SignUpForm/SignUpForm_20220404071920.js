@@ -15,11 +15,8 @@ import { FieldTitle } from '../SpecialFields/FieldTitle'
 import debounce from 'lodash.debounce'
 import isEmpty from 'lodash.isempty'
 import { useRef, useEffect, useMemo } from 'react'
-Yup.setLocale({
-    mixed: {
-        defined: 'Add at least one',
-    },
-});
+
+
 const ISSERVER = typeof window === "undefined";
 
 const SignupSchema = Yup.object().shape({
@@ -28,9 +25,8 @@ const SignupSchema = Yup.object().shape({
     lastName: Yup.string().min(5, 'Too Short!').max(120, 'Too Long!').required('Required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     emailConfirmation: Yup.string().required('Emails must match').test('email-match', 'Emails must match', function (value) { return this.parent.email === value }),
-    password: Yup.string().min(6, 'Min 6 charactres').required('Password is required'),
+    password: Yup.string().required('Password is required'),
     passwordConfirmation: Yup.string().test('password-match', 'Passwords must match', function (value) { return this.parent.password === value }),
-    agreement: Yup.bool().oneOf([true], 'Required'),
 
     //hiring
     company: Yup.string().when("purpose", {
@@ -57,35 +53,16 @@ const SignupSchema = Yup.object().shape({
             value: Yup.string().required('Required'),
         }),
     }),
-
-    country: Yup.object().when("purpose", {
+    professionMulti: Yup.object().when("purpose", {
         is: 'candidate',
         then: Yup.object().shape({
             value: Yup.string().required('Required'),
-        }),
-    }),
-    countriesOfReg: Yup.object().when("purpose", {
-        is: 'candidate',
-        then: Yup.object().shape({
-            value: Yup.string().required('Required'),
-        }),
-    }),
-
-    professionMulti: Yup.array().when("purpose", {
-        is: 'candidate',
-        then: Yup.array().defined('Add at least one').of(
-            Yup.object().shape({
-                value: Yup.string().required('Required'),
-
-            })
-        )
+        })
     }),
 });
 
 
 export default function SignUpForm() {
-
-
     //redux 
     const dispatch = useDispatch()
     //-----
@@ -114,13 +91,13 @@ export default function SignUpForm() {
                 email: '',
                 emailConfirmation: '',
                 profession: '',
-                professionMulti: '',
+                professionMulti: [],
                 company: '',
                 passwordConfirmation: '',
                 password: '',
                 agreement: '',
-                gender: '',
-                years: '',
+                gender: 'Male',
+                years: '2000',
                 country: '',
                 countriesOfReg: '',
                 countriesOfRegAd: '',
@@ -151,7 +128,6 @@ export default function SignUpForm() {
                         }
                     })
                     .catch(err => {
-                        console.log(err)
                         Swal.fire(
                             'Oops..',
                             `Sorry, something went wrong, please, try again`,
@@ -246,7 +222,7 @@ export default function SignUpForm() {
                         </Row>
                         <Row >
                             <Col>
-                                <button type='submit' disabled={!isEmpty(errors)} className='form-signUp__submitBtn'>Sign Up</button>
+                                <button type='submit' className='form-signUp__submitBtn'>Sign Up</button>
                             </Col>
                         </Row>
                     </Form>

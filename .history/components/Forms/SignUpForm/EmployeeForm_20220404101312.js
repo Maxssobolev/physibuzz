@@ -113,7 +113,7 @@ function EmployeeForm({ styles, professionOpt }) {
                             isMulti
 
                         />
-                        <FieldTitle name="professionMulti" >Profession:</FieldTitle>
+                        <FieldTitle name="professionMulti" additionalLevel="value">Profession:</FieldTitle>
                     </div>
                 </Col>
             </Row>

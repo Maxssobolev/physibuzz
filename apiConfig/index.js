@@ -1,10 +1,7 @@
 import axios from 'axios';
-import { cookies } from '../pages/_app'
-const ISSERVER = typeof window === "undefined";
-let token = ''
-if (!ISSERVER) {
-    token = localStorage.getItem('userToken') || cookies.get('userToken')
-}
+
+import useStorage from '../components/Hooks/useStorage';
+const token = useStorage().getItem('userToken', 'local')
 
 const axiosInstance = axios.create({
     baseURL: 'https://physibuzz.rehabapps.net',
@@ -15,16 +12,16 @@ const axiosInstance = axios.create({
             "x-ratelimit-limit": "60",
             "x-ratelimit-remaining": "59",
             "access-control-allow-origin": "*",
-            'Authorization': `Bearer ${token || 'not stated'}`
+            'Authorization': `Bearer ${token}`
 
         },
         get: {
 
-            'Authorization': `Bearer ${token || 'not stated'}`
+            'Authorization': `Bearer ${token}`
 
         },
         put: {
-            'Authorization': `Bearer ${token || 'not stated'}`
+            'Authorization': `Bearer ${token}`
         }
     }
 });

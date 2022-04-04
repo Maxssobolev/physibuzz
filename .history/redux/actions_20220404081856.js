@@ -90,10 +90,6 @@ export const handleRegistration = (fields, purpose) => async (dispatch) => {
                 'gender': fields.gender.value,
                 'available_from': moment(fields.availFrom).format('YYYY-MM-DD HH:MM:S'),
                 'profession_id': profIds,
-                "years": fields.years.value,
-                "country": fields.country.data.country,
-                "country_of_reg": fields.countriesOfReg.data.country,
-                "country_of_reg_add": fields?.countriesOfRegAd?.data.country,
                 'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S')
             }
             break;

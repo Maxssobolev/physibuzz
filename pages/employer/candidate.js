@@ -90,7 +90,7 @@ export default function EmployerCadidate() {
                 <Header />
                 <div className="page page-employer page-employer_jobs">
                     <div className="table-wrapper">
-                        <div className='loaderForTables'>Loading...</div>
+                        <div className='loaderForTables'>No data available</div>
                     </div>
                 </div>
             </>

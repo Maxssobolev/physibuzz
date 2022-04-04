@@ -5,7 +5,6 @@ import { Row, Col } from "react-bootstrap"
 import { years, countries, countriesOfRegAd, countriesOfReg, gender } from "../../CommonUtils/CommonUtils"
 import { DatePickerField } from '../../CommonUtils/CustomDatepicker'
 import { SelectField } from '../SpecialFields/SelectField'
-import { DataSuggestionField } from '../SpecialFields/DataSuggestionField'
 //форма соискателей
 function EmployeeForm({ styles, professionOpt }) {
     return (
@@ -61,36 +60,40 @@ function EmployeeForm({ styles, professionOpt }) {
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
-                        <DataSuggestionField
+                        <Field
+                            className="field field_select"
+                            component="select"
                             name="country"
-                            filterFromBound="country"
-                            firstAddressField
-                        />
-                        <FieldTitle name="country" additionalLevel="value">Country where you Qualified</FieldTitle>
+                        >
+                            {countries.map((item, index) => <option value={item} key={`${index}__signUp-counries`} >{item}</option>)}
+                        </Field>
+                        <span>Country where you Qualified</span>
                     </div>
                 </Col>
             </Row>
             <Row className={styles.commonRow}>
                 <Col>
                     <div className="field-wrapper">
-                        <DataSuggestionField
+                        <Field
+                            className="field field_select"
+                            component="select"
                             name="countriesOfReg"
-                            filterFromBound="country"
-                            firstAddressField
-                        />
-                        <FieldTitle name="countriesOfReg" additionalLevel="value">Country of Registration</FieldTitle>
+                        >
+                            {countriesOfReg.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfReg`} >{item}</option>)}
+                        </Field>
+                        <span>Country of Registration</span>
                     </div>
                 </Col>
                 <Col>
                     <div className="field-wrapper">
-                        <DataSuggestionField
+                        <Field
+                            className="field field_select"
+                            component="select"
                             name="countriesOfRegAd"
-                            filterFromBound="country"
-                            firstAddressField
-                        />
-
-                        <FieldTitle name="countriesOfRegAd"
-                            additionalLevel="value">Additional Country of Registration</FieldTitle>
+                        >
+                            {countriesOfRegAd.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfRegAd`} >{item}</option>)}
+                        </Field>
+                        <span>Additional Country of Registration</span>
                     </div>
                 </Col>
             </Row>
@@ -113,7 +116,7 @@ function EmployeeForm({ styles, professionOpt }) {
                             isMulti
 
                         />
-                        <FieldTitle name="professionMulti" >Profession:</FieldTitle>
+                        <FieldTitle name="professionMulti" additionalLevel="value">Profession:</FieldTitle>
                     </div>
                 </Col>
             </Row>
