@@ -11,7 +11,7 @@ import { SelectField } from '../../SpecialFields/SelectField'
 import { DataSuggestionField } from '../../SpecialFields/DataSuggestionField'
 import { FieldTitle } from '../../SpecialFields/FieldTitle'
 import Loader from '../../../Loader/Loader'
-import moment from 'moment'
+
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
@@ -39,21 +39,13 @@ export default function GeneralForm({ user }) {
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-                let profIds = []
-                user.professions.forEach(profession => {
-                    profIds.push(profession.id)
-                })
                 let sentData = {
-                    "type": user.type,
-                    "id": user.id,
+                    //"type": user.type,
                     "name": values.firstName,
                     "last_name": values.lastName,
                     "email": values.email,
-                    'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
-                    "gender": values.gender.value || 'male',
-                    //"company": values.company,
-                    "available_from": user.available_from,
-                    "profession_id": profIds,
+                    "gender": values.gender.value,
+                    "company": values.company,
                     "years": values.years?.value,
                     "country": values.country?.value,
                     "country_of_reg": values.countriesOfReg?.value,
@@ -70,7 +62,6 @@ export default function GeneralForm({ user }) {
 
                 })
                     .catch(err => {
-                        console.log(err)
                         Swal.fire(
                             'Oops..',
                             `Sorry, something went wrong, please, try again`,

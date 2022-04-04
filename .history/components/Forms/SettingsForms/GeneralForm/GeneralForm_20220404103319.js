@@ -4,14 +4,13 @@ import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
 import { years, countries, countriesOfRegAd, countriesOfReg, gender } from '../../../CommonUtils/CommonUtils';
 import { useWindowDimensions } from '../../../Hooks/useWindowDimensions';
-import isEmpty from 'lodash.isempty'
 import api from '../../../../apiConfig'
 import Swal from 'sweetalert2'
 import { SelectField } from '../../SpecialFields/SelectField'
 import { DataSuggestionField } from '../../SpecialFields/DataSuggestionField'
 import { FieldTitle } from '../../SpecialFields/FieldTitle'
 import Loader from '../../../Loader/Loader'
-import moment from 'moment'
+
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!'),
@@ -39,25 +38,14 @@ export default function GeneralForm({ user }) {
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
-                let profIds = []
-                user.professions.forEach(profession => {
-                    profIds.push(profession.id)
-                })
                 let sentData = {
-                    "type": user.type,
                     "id": user.id,
                     "name": values.firstName,
                     "last_name": values.lastName,
                     "email": values.email,
-                    'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
-                    "gender": values.gender.value || 'male',
-                    //"company": values.company,
-                    "available_from": user.available_from,
-                    "profession_id": profIds,
-                    "years": values.years?.value,
-                    "country": values.country?.value,
-                    "country_of_reg": values.countriesOfReg?.value,
-                    "country_of_reg_add": values.countriesOfRegAd?.value,
+                    "type": user.type,
+                    "gender": values.gender,
+                    "company": values.company,
 
                 }
                 api.put('/api/v1/user/update/current', sentData).then(r => {
@@ -70,7 +58,6 @@ export default function GeneralForm({ user }) {
 
                 })
                     .catch(err => {
-                        console.log(err)
                         Swal.fire(
                             'Oops..',
                             `Sorry, something went wrong, please, try again`,
@@ -80,7 +67,7 @@ export default function GeneralForm({ user }) {
             }}
         >
             {
-                ({ values }) => (
+                (props) => (
 
                     <Form className='form-settings-general'>
                         {isMobile ? (
@@ -122,7 +109,7 @@ export default function GeneralForm({ user }) {
                                             component="input"
                                             name="firstName"
                                         />
-                                        <FieldTitle name="firstName">First Name</FieldTitle>
+                                        <span>First Name</span>
                                     </div>
                                 </Col>
                                 <Col>
@@ -132,7 +119,7 @@ export default function GeneralForm({ user }) {
                                             component="input"
                                             name="lastName"
                                         />
-                                        <FieldTitle name="lastName">Last Name</FieldTitle>
+                                        <span>Last Name</span>
                                     </div>
                                 </Col>
                             </Row>
@@ -144,7 +131,7 @@ export default function GeneralForm({ user }) {
                                         name="gender"
                                         options={gender}
                                     />
-                                    <FieldTitle name="gender" additionalLevel='value'>Gender</FieldTitle>
+                                    <span>Gender</span>
                                 </div>
                             </Col>
                         </Row>
@@ -156,7 +143,7 @@ export default function GeneralForm({ user }) {
                                         type="email"
                                         name="email"
                                     />
-                                    <FieldTitle name="email">Email address</FieldTitle>
+                                    <span>Email address</span>
                                 </div>
                             </Col>
                         </Row>
@@ -169,7 +156,7 @@ export default function GeneralForm({ user }) {
                                             type="text"
                                             name="company"
                                         />
-                                        <FieldTitle name="company">Company</FieldTitle>
+                                        <span>Company</span>
                                     </div>
                                 </Col>
                             </Row>
@@ -177,13 +164,14 @@ export default function GeneralForm({ user }) {
                         <Row className={styles.commonRow}>
                             <Col>
                                 <div className="field-wrapper">
-                                    <SelectField
+                                    <Field
+                                        className="field field_select"
+                                        component="select"
                                         name="years"
-
-                                        options={years}
-                                        {...(!isEmpty(values.years)) ? { defaultValue: values.years } : {}}
-                                    />
-                                    <FieldTitle name="years" additionalLevel="value">Year of Graduation</FieldTitle>
+                                    >
+                                        {years.map((item, index) => <option value={item} key={`${index}__signUp-years`} >{item.value}</option>)}
+                                    </Field>
+                                    <span>Year of Graduation</span>
                                 </div>
                             </Col>
                         </Row>
@@ -204,27 +192,28 @@ export default function GeneralForm({ user }) {
                                 <Row className={styles.commonRow}>
                                     <Col>
                                         <div className="field-wrapper">
-
-                                            <DataSuggestionField
+                                            <Field
+                                                className="field field_select"
+                                                component="select"
                                                 name="countriesOfReg"
-                                                filterFromBound="country"
-                                                firstAddressField
-                                            />
-                                            <FieldTitle name="countriesOfReg" additionalLevel="value">Country of Registration</FieldTitle>
+                                            >
+                                                {countriesOfReg.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfReg`} >{item}</option>)}
+                                            </Field>
+                                            <span>Country of Registration</span>
                                         </div>
                                     </Col>
                                 </Row>
                                 <Row className={styles.commonRow}>
                                     <Col>
                                         <div className="field-wrapper">
-
-                                            <DataSuggestionField
+                                            <Field
+                                                className="field field_select"
+                                                component="select"
                                                 name="countriesOfRegAd"
-                                                filterFromBound="country"
-                                                firstAddressField
-                                            />
-                                            <FieldTitle name="countriesOfRegAd" additionalLevel="value">Additional Country of Registration</FieldTitle>
-
+                                            >
+                                                {countriesOfRegAd.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfRegAd`} >{item}</option>)}
+                                            </Field>
+                                            <span>Additional Country of Registration</span>
                                         </div>
                                     </Col>
                                 </Row>
@@ -232,22 +221,26 @@ export default function GeneralForm({ user }) {
                             <Row className={styles.commonRow}>
                                 <Col>
                                     <div className="field-wrapper">
-                                        <DataSuggestionField
+                                        <Field
+                                            className="field field_select"
+                                            component="select"
                                             name="countriesOfReg"
-                                            filterFromBound="country"
-                                            firstAddressField
-                                        />
-                                        <FieldTitle name="countriesOfReg" additionalLevel="value">Country of Registration</FieldTitle>
+                                        >
+                                            {countriesOfReg.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfReg`} >{item}</option>)}
+                                        </Field>
+                                        <span>Country of Registration</span>
                                     </div>
                                 </Col>
                                 <Col>
                                     <div className="field-wrapper">
-                                        <DataSuggestionField
+                                        <Field
+                                            className="field field_select"
+                                            component="select"
                                             name="countriesOfRegAd"
-                                            filterFromBound="country"
-                                            firstAddressField
-                                        />
-                                        <FieldTitle name="countriesOfRegAd" additionalLevel="value">Additional Country of Registration</FieldTitle>
+                                        >
+                                            {countriesOfRegAd.map((item, index) => <option value={item} key={`${index}__signUp-counriesOfRegAd`} >{item}</option>)}
+                                        </Field>
+                                        <span>Additional Country of Registration</span>
                                     </div>
                                 </Col>
                             </Row>)}

@@ -53,7 +53,7 @@ export default function GeneralForm({ user }) {
                     "gender": values.gender.value || 'male',
                     //"company": values.company,
                     "available_from": user.available_from,
-                    "profession_id": profIds,
+                    //"profession_id": profIds,
                     "years": values.years?.value,
                     "country": values.country?.value,
                     "country_of_reg": values.countriesOfReg?.value,

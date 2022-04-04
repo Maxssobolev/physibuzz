@@ -50,7 +50,7 @@ export default function GeneralForm({ user }) {
                     "last_name": values.lastName,
                     "email": values.email,
                     'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
-                    "gender": values.gender.value || 'male',
+                    "gender": values.gender.value,
                     //"company": values.company,
                     "available_from": user.available_from,
                     "profession_id": profIds,
