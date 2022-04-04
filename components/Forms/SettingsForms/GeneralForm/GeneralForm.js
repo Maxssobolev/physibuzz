@@ -17,10 +17,8 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function GeneralForm({ user }) {
-
     const isMobile = useWindowDimensions().width <= 425
     if (!user) {
-
         return <div className='form-settings-general'> <Loader /> </div>
     }
     return (
@@ -31,10 +29,10 @@ export default function GeneralForm({ user }) {
                 email: user.email,
                 gender: user.gender,
                 company: user.company,
-                years: user.yearsOfGraduation,
-                countries: user.countriesQualified,
-                countriesOfReg: user.countryReg,
-                countriesOfRegAd: user.addCountryReg,
+                years: '',
+                countries: '',
+                countriesOfReg: '',
+                countriesOfRegAd: '',
 
             }}
             validationSchema={SignupSchema}
@@ -170,7 +168,7 @@ export default function GeneralForm({ user }) {
                                         component="select"
                                         name="years"
                                     >
-                                        {years.map((item, index) => <option value={item} key={`${index}__signUp-years`} >{item}</option>)}
+                                        {years.map((item, index) => <option value={item} key={`${index}__signUp-years`} >{item.value}</option>)}
                                     </Field>
                                     <span>Year of Graduation</span>
                                 </div>

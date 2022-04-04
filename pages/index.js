@@ -1,17 +1,18 @@
 
 import Header from "../components/Header/Header"
-import Select from 'react-select'
-
 import { LOGGEDIN_EMPLOYEE, LOGGEDIN_EMPLOYER } from "../components/Header/HeadersVariants" //deprecated. not used 
+
+import Select from 'react-select'
+import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
+import { DropdownIndicator } from "../components/CommonUtils/DropdownIndicator"
 
 import LeftSidebar from "../components/Layout/LeftSidebar/LeftSidebar"
 import MainContent from "../components/Layout/MainContent/MainContent"
 import RightSidebar from "../components/Layout/RightSidebar/RightSidebar"
 import Layout from "../components/Layout/Layout"
+
 import { useState, useEffect } from "react"
-import { customSelectStyles } from "../components/CommonUtils/CommonUtils"
 import AdBanner from "../components/AdBanner/AdBanner"
-import { DropdownIndicator } from "../components/CommonUtils/DropdownIndicator"
 import { useWindowDimensions } from "../components/Hooks/useWindowDimensions"
 import HeaderPlaceholder from '../components/Header/HeaderPlaceholder'
 import api from '../apiConfig'

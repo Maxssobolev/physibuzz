@@ -248,7 +248,19 @@
 
     // строгие стили для react-selecta
     &_imp {}
+    &_numeric {
+        /* Chrome, Safari, Edge, Opera */
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
+        /* Firefox */
+        &[type=number] {
+            -moz-appearance: textfield;
+        }
+    }
     &_select {
         -moz-appearance: none; /* Firefox */
         -webkit-appearance: none; /* Safari and Chrome */

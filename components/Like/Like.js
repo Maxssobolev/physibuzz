@@ -10,12 +10,12 @@ export default function Like({ __id, type }) {
         if (like) {
             //remove like
             if (type == 'vacancy')
-                api.post(`/api/v1/wishlist/remove/${__id}`).then(r => setLike(false));
+                api.post(`/api/v1/wishlist/remove/vacancies/${__id}`).then(r => setLike(false));
         }
         else {
             //add like
             if (type == 'vacancy')
-                api.post(`/api/v1/wishlist/add/${__id}`).then(r => setLike(true));
+                api.post(`/api/v1/wishlist/add/vacancies/${__id}`).then(r => setLike(true));
         }
 
     }

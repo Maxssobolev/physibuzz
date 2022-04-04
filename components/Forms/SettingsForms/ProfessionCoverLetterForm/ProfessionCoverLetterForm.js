@@ -37,7 +37,7 @@ export default function ProfessionCoverLetterForm({ user }) {
 
                                 return (
 
-                                    <Col key={`professions-_${itm.name}`}>
+                                    <Col key={`professions-_${itm.id}`}>
                                         <label>
                                             <Field
 
