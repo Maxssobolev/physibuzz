@@ -4,7 +4,7 @@ import moment from 'moment'
 import { getCountryFlag } from "../../CommonUtils/getCountryFlag"
 import Like from "../../Like/Like"
 
-function VacancyCard({ info }) {
+function VacancyCard({ info, type, userId }) {
     //i know these fields from data base 
     const {
         id,
@@ -14,6 +14,7 @@ function VacancyCard({ info }) {
         user,
         city,
         address,
+        wishlist,
         country,
         currency,
         annual_max_pay, //yearly rate
@@ -23,6 +24,7 @@ function VacancyCard({ info }) {
 
     } = info
     const { FlagComponent } = getCountryFlag(country)
+    const isLiked = wishlist.find(({ user_id }) => user_id == userId) ? true : false
 
     return (
         <div className="vacancyCard">
@@ -35,7 +37,7 @@ function VacancyCard({ info }) {
                     {title}
                 </Link>
                 </div>
-                <div className="vacancyCard-head__like"><Like __id={id} type="vacancy" /></div>
+                <div className="vacancyCard-head__like"><Like __id={id} type={type} __isLiked={isLiked} /></div>
             </div>
             <div className="vacancyCard-additionalInfo">
                 <div className="vacancyCard-additionalInfo__address"><div className="address-icon"><FlagComponent /></div><div className="address-text">{city}</div></div>

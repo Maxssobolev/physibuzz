@@ -219,8 +219,6 @@ export default function Home() {
 
   //API CONNECTION
   useEffect(() => {
-    //documentation of this api route https://physibuzz.rehabapps.net/docs/#vacancies
-
     //set sort filter to null before changing the data
     setSortSelected(null)
 
@@ -243,6 +241,15 @@ export default function Home() {
 
   }, [jobOrCourseSelected, placeSelected])
 
+  const [userId, setUserId] = useState(null)
+
+  useEffect(() => {
+    api.get('/api/v1/user/edit/current')
+      .then(r => {
+        setUserId(r.data.data.id)
+      })
+
+  }, [])
 
 
   if (isMobile === undefined) {
@@ -365,7 +372,7 @@ export default function Home() {
                     </p>
                   }
                 >
-                  {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} info={itm} />)}
+                  {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} userId={userId} info={itm} type={jobOrCourseSelected.label == 'Job' ? 'vacancy' : 'course'} />)}
 
                 </InfiniteScroll>
               </div>
@@ -454,7 +461,7 @@ export default function Home() {
                       </p>
                     }
                   >
-                    {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} info={itm} />)}
+                    {dataToShow.rows.map((itm) => <VacancyCard key={`vacancyCard__${itm.id}`} userId={userId} info={itm} type={jobOrCourseSelected.label == 'Job' ? 'vacancy' : 'course'} />)}
 
                   </InfiniteScroll>
                 </div>

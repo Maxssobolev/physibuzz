@@ -22,7 +22,7 @@ export default function Settings() {
     useEffect(() => {
         api.get('/api/v1/user/edit/current') //why edit?? idfk, but it is. |||=> return all current user info
             .then(r => {
-                setUser({ ...r.data.data, gender: 'male' }) //КОСТЫЛЬ!!! ГЕНДЕР УБРАТЬ
+                setUser({ ...r.data.data, gender: 'male' }) //костыль, так как у текущего юзера гендер hiring????????
             })
 
     }, [])
