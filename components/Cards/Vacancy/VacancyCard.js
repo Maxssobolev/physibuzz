@@ -15,6 +15,7 @@ function VacancyCard({ info }) {
         city,
         address,
         country,
+        currency,
         annual_max_pay, //yearly rate
         annual_min_pay, //yearly rate
         hourly_max_pay, //hourly rate
@@ -43,7 +44,7 @@ function VacancyCard({ info }) {
             <div className="vacancyCard-description">{description}</div>
             <div className="vacancyCard-footer">
                 <div className="vacancyCard-footer__company">{user.company}</div>
-                <div className="vacancyCard-footer__rate">${hourly_min_pay} ~ ${hourly_max_pay}/hr | ${annual_min_pay} ~ ${annual_max_pay}/yr</div>
+                <div className="vacancyCard-footer__rate">{currency.symbol}{hourly_min_pay} ~ {currency.symbol}{hourly_max_pay}/hr | {currency.symbol}{annual_min_pay} ~ {currency.symbol}{annual_max_pay}/yr</div>
             </div>
         </div>
     )

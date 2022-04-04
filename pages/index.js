@@ -25,6 +25,7 @@ import { dadataToken } from '../apiConfig/dadata';
 import 'react-dadata/dist/react-dadata.css';
 import CrossIcon from '../assets/img/cross.svg'
 import isEmpty from "lodash.isempty"
+import useProfessions from "../components/Hooks/useProfessions"
 
 
 export default function Home() {
@@ -55,7 +56,7 @@ export default function Home() {
 
   //main part filters
   /*******************WHAT**********************/
-  const [whatOptions, setWhatOptions] = useState([])
+  const whatOptions = useProfessions()
   const [whatSelected, setWhatSelected] = useState('')
   const handleChangeWhat = (selectedOpt) => {
     setWhatSelected(selectedOpt)
@@ -139,6 +140,7 @@ export default function Home() {
       })
     }
   }
+
 
   /*******************Job / Course*********************/
   const jobOrCourseOptions = [
@@ -241,24 +243,6 @@ export default function Home() {
 
   }, [jobOrCourseSelected, placeSelected])
 
-  //GETTING PROFESSIONS
-  useEffect(() => {
-    api.get('/api/v1/profession/all').then(r => {
-      let preparedData = [
-        { value: 'All', label: 'All' }
-      ]
-      r.data.forEach(profession => {
-        preparedData.push({
-          id: profession.id,
-          value: profession.title,
-          label: profession.title,
-
-        })
-      })
-      setWhatOptions(preparedData)
-    })
-
-  }, [])
 
 
   if (isMobile === undefined) {

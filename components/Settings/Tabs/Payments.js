@@ -207,7 +207,7 @@ export default function SettingsPaymentsTab({ title, user }) {
                                                         component="input"
                                                         type="password"
                                                         name="cvc"
-                                                        maxlength={3}
+                                                        maxLength={3}
                                                         autocomplete="cc-csc"
                                                     />
                                                     <FieldTitle name="cvc"
