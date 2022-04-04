@@ -181,7 +181,7 @@ export default function Home() {
   const getData = (url, pageNumber = 1) => {
     const filtred = url.includes('search') ? true : false
     api.get(`${url}${filtred ? '&' : '?'}page=${pageNumber}`).then((r) => {
-      let recievedData = url.includes('search') ? r.data.data : r.data[0] //просто разный уровень вложенности 
+      let recievedData = url.includes('search') ? r.data : r.data[0] //просто разный уровень вложенности 
       const total = recievedData.total
       const lastPage = recievedData.last_page
 

@@ -7,9 +7,9 @@ import MoreAction from '../../assets/img/icons/more-action.svg'
 import api from '../../apiConfig'
 export default function EmployerJobs() {
     const router = useRouter()
-    const [rerender, setRerender] = useState(false)
     const [employersJobs, setEmployersJobs] = useState([])
     useEffect(() => {
+
         api.get('/api/v1/vacancies/my').then(r => {
             console.log(r.data.data.data)
             setEmployersJobs(r.data.data.data)
@@ -17,22 +17,44 @@ export default function EmployerJobs() {
 
     }, [])
 
-    useEffect(() => {
-        if (rerender) {
-            api.get('/api/v1/vacancies/my').then(r => {
-                console.log(r.data.data.data)
-                setEmployersJobs(r.data.data.data)
-                setRerender(false)
-            })
-
-        }
-
-    }, [rerender])
-
     const editStatus = (cellData, status) => {
-        const { id } = cellData
-        api.post(`/api/v1/vacancies/status/update/${status}/${id}`).then(r => {
-            setRerender(true)
+        const {
+            id,
+            title,
+            description,
+            country,
+            //country_iso_code,
+            city,
+            state,
+            address,
+            profession_id,
+            hourly_min_pay,
+            hourly_max_pay,
+            annual_min_pay,
+            annual_max_pay,
+            currency_id,
+        } = cellData
+        api.put(`/api/v1/vacancies/${id}`,
+            {
+                title,
+                description,
+                country,
+                //country_iso_code,
+                city,
+                state,
+                address,
+                profession_id,
+                hourly_min_pay,
+                hourly_max_pay,
+                annual_min_pay,
+                annual_max_pay,
+                currency_id,
+                active: status == 'closed' ? '0' : '1',
+                status
+            }
+        ).then(r => {
+            console.log(r)
+
         })
     }
 

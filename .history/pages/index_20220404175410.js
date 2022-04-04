@@ -181,7 +181,7 @@ export default function Home() {
   const getData = (url, pageNumber = 1) => {
     const filtred = url.includes('search') ? true : false
     api.get(`${url}${filtred ? '&' : '?'}page=${pageNumber}`).then((r) => {
-      let recievedData = url.includes('search') ? r.data.data : r.data[0] //просто разный уровень вложенности 
+      let recievedData = url.includes('search') ? r.data : r.data[0] //просто разный уровень вложенности 
       const total = recievedData.total
       const lastPage = recievedData.last_page
 
@@ -372,28 +372,7 @@ export default function Home() {
                 <InfiniteScroll
                   dataLength={dataToShow.total}
                   next={() => {
-                    //если у нам пофиг на метоположение
-                    if (!placeSelected) {
-                      if (jobOrCourseSelected.label == 'Job') {
-                        getData('/api/v1/vacancies')
-                      }
-                      else if (jobOrCourseSelected.label == 'Course') {
-                        getData('/api/v1/courses')
-                      }
-                    }
-                    //если метоположение выставлено
-                    else {
-                      const country = placeSelected.data.country
-                      const city = placeSelected.data.city || ''
-
-                      if (jobOrCourseSelected.label == 'Job') {
-                        getData(`api/v1/vacancies/search?city=${city}&country=${country}`)
-                      }
-                      else if (jobOrCourseSelected.label == 'Course') {
-                        getData(`api/v1/courses/search?city=${city}&country=${country}`)
-                      }
-
-                    }
+                    jobOrCourseSelected.label == 'Job' ? getData('/api/v1/vacancies', page + 1) : getData('/api/v1/courses', page + 1)
                   }}
                   hasMore={page != dataToShow.lastPage}
                   loader={<Loader />}
@@ -482,29 +461,7 @@ export default function Home() {
                   <InfiniteScroll
                     dataLength={dataToShow.total}
                     next={() => {
-                      //если у нам пофиг на метоположение
-                      if (!placeSelected) {
-                        if (jobOrCourseSelected.label == 'Job') {
-                          getData('/api/v1/vacancies', page + 1)
-                        }
-                        else if (jobOrCourseSelected.label == 'Course') {
-                          getData('/api/v1/courses', page + 1)
-                        }
-                      }
-                      //если метоположение выставлено
-                      else {
-                        const country = placeSelected.data.country
-                        const city = placeSelected.data.city || ''
-
-                        if (jobOrCourseSelected.label == 'Job') {
-                          console.log(city)
-                          getData(`api/v1/vacancies/search?city=${city}&country=${country}`, page + 1)
-                        }
-                        else if (jobOrCourseSelected.label == 'Course') {
-                          getData(`api/v1/courses/search?city=${city}&country=${country}`, page + 1)
-                        }
-
-                      }
+                      jobOrCourseSelected.label == 'Job' ? getData('/api/v1/vacancies', page + 1) : getData('/api/v1/courses', page + 1)
                     }}
                     hasMore={page != dataToShow.lastPage}
                     loader={<Loader />}

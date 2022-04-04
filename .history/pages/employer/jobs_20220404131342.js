@@ -17,22 +17,10 @@ export default function EmployerJobs() {
 
     }, [])
 
-    useEffect(() => {
-        if (rerender) {
-            api.get('/api/v1/vacancies/my').then(r => {
-                console.log(r.data.data.data)
-                setEmployersJobs(r.data.data.data)
-                setRerender(false)
-            })
-
-        }
-
-    }, [rerender])
-
     const editStatus = (cellData, status) => {
         const { id } = cellData
         api.post(`/api/v1/vacancies/status/update/${status}/${id}`).then(r => {
-            setRerender(true)
+            setRerender(!rerender)
         })
     }
 

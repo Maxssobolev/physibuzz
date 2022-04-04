@@ -117,8 +117,8 @@ export default function EmployerPostJob() {
                         let sentData = {
                             "title": values.jobTitle,
                             "description": values.jobDesc,
-                            "country": values.country?.data?.country || values.country.value,
-                            "city": values.city?.data?.city || values.city.value,
+                            "country": values.country?.data?.country || values.country,
+                            "city": values.city.data.city || values.city,
                             "state": values.state,
                             "address": values.address,
                             "profession_id": values.profession.id,

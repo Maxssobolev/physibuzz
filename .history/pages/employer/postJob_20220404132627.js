@@ -152,7 +152,7 @@ export default function EmployerPostJob() {
                         }
                         else {
                             //update
-                            api.put(`/api/v1/vacancies/${id}`, sentData).then(r => {
+                            api.put(`/api/v1/vacancies/${id}`, ...sentData).then(r => {
                                 Swal.fire(
                                     'Job was updated!',
                                     'Success!',

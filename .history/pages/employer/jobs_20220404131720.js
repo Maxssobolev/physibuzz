@@ -7,7 +7,7 @@ import MoreAction from '../../assets/img/icons/more-action.svg'
 import api from '../../apiConfig'
 export default function EmployerJobs() {
     const router = useRouter()
-    const [rerender, setRerender] = useState(false)
+    const [tabulatorKey, setTabulatorKey] = useState(2)
     const [employersJobs, setEmployersJobs] = useState([])
     useEffect(() => {
         api.get('/api/v1/vacancies/my').then(r => {
@@ -17,22 +17,10 @@ export default function EmployerJobs() {
 
     }, [])
 
-    useEffect(() => {
-        if (rerender) {
-            api.get('/api/v1/vacancies/my').then(r => {
-                console.log(r.data.data.data)
-                setEmployersJobs(r.data.data.data)
-                setRerender(false)
-            })
-
-        }
-
-    }, [rerender])
-
     const editStatus = (cellData, status) => {
         const { id } = cellData
         api.post(`/api/v1/vacancies/status/update/${status}/${id}`).then(r => {
-            setRerender(true)
+            setTabulatorKey(Math.random())
         })
     }
 
@@ -130,6 +118,7 @@ export default function EmployerJobs() {
             <div className="page page-employer page-employer_jobs">
                 <div className="table-wrapper">
                     <TableWithPagination
+                        key={tabulatorKey}
                         initialRowData={employersJobs}
                         columns={columns}
                         searchField='title'

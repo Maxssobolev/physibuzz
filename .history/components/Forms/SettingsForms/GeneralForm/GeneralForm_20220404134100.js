@@ -33,8 +33,8 @@ export default function GeneralForm({ user }) {
                 company: user.company,
                 years: user.years,
                 country: { value: user.country ?? '' },
-                countriesOfReg: { value: user.country_of_reg ?? '' },
-                countriesOfRegAd: { value: user.country_of_reg_add ?? '' },
+                countriesOfReg: user.country_of_reg ?? '',
+                countriesOfRegAd: user.country_of_reg_add ?? '',
 
             }}
             validationSchema={SignupSchema}
@@ -59,14 +59,15 @@ export default function GeneralForm({ user }) {
                     case 'candidate':
                         //создаем массив айдишников профессий
                         let profIds = []
-                        /*user.professionMulti.forEach(profession => {
+                        values.professionMulti.forEach(profession => {
                             profIds.push(profession.id)
-                        })*/
+                        })
                         sentData = {
                             ...sentData,
                             'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
                             "gender": values.gender.value || 'male',
                             "available_from": user.available_from,
+                            "profession_id": profIds,
                             "years": values.years?.value,
                             "country": values.country?.value,
                             "country_of_reg": values.countriesOfReg?.value,
