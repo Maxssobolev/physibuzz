@@ -2,10 +2,7 @@ import { Formik, Form, Field } from "formik"
 import { Row, Col } from "react-bootstrap"
 import * as Yup from 'yup';
 import Loader from "../../../Loader/Loader";
-import Swal from 'sweetalert2'
-import api from '../../../../apiConfig'
 import useProfessions from '../../../Hooks/useProfessions'
-import moment from 'moment'
 const SignupSchema = Yup.object().shape({
 
 });
@@ -29,16 +26,9 @@ export default function ProfessionCoverLetterForm({ user }) {
                 let sentData = {
                     "type": user.type,
                     "id": user.id,
-                    "name": user.name,
-                    "last_name": user.last_name,
-                    "email": user.email,
-                    'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
-                    "gender": user.gender,
-                    "available_from": user.available_from,
                     "profession_id": values.professions.map(itm => Number(itm)),
                     "cover_letter": values.coverLetter
                 }
-
 
                 api.put('/api/v1/user/update/current', sentData).then(r => {
 

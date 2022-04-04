@@ -35,10 +35,9 @@ export default function ProfessionCoverLetterForm({ user }) {
                     'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
                     "gender": user.gender,
                     "available_from": user.available_from,
-                    "profession_id": values.professions.map(itm => Number(itm)),
+                    "professions": values.professions.map(itm => Number(itm)),
                     "cover_letter": values.coverLetter
                 }
-
 
                 api.put('/api/v1/user/update/current', sentData).then(r => {
 

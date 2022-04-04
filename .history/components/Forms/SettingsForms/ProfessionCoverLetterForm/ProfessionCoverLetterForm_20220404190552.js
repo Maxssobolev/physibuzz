@@ -5,7 +5,6 @@ import Loader from "../../../Loader/Loader";
 import Swal from 'sweetalert2'
 import api from '../../../../apiConfig'
 import useProfessions from '../../../Hooks/useProfessions'
-import moment from 'moment'
 const SignupSchema = Yup.object().shape({
 
 });
@@ -38,7 +37,6 @@ export default function ProfessionCoverLetterForm({ user }) {
                     "profession_id": values.professions.map(itm => Number(itm)),
                     "cover_letter": values.coverLetter
                 }
-
 
                 api.put('/api/v1/user/update/current', sentData).then(r => {
 

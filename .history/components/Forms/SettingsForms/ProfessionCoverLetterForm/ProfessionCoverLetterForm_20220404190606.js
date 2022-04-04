@@ -39,7 +39,6 @@ export default function ProfessionCoverLetterForm({ user }) {
                     "cover_letter": values.coverLetter
                 }
 
-
                 api.put('/api/v1/user/update/current', sentData).then(r => {
 
                     Swal.fire(
