@@ -46,26 +46,20 @@ export default function ViewVacancy() {
         if (!router.isReady) return;
         api.get(`/api/v1/vacancies/${id}`).then((r) => {
             const recievedData = r.data.data
-            api.get('/api/v1/user/edit/current')
+            api.get('/api/v1/user/edit/current') //why edit?? idfk, but it is. |||=> return all current user info
                 .then(res => {
                     const userId = res.data.data.id
                     const isLiked = recievedData.wishlist.find(({ user_id }) => user_id == userId) ? true : false
-
-                    api.get(`api/v1/candidate/my/vacancies`).then(resp => {
-                        const myApplyed = resp.data.data
-                        const isApplyed = myApplyed.find(({ vacancies_id }) => vacancies_id == id) ? true : false
-                        setVacancy({
-                            title: recievedData.title,
-                            country: recievedData.country,
-                            date: recievedData.updated_at,
-                            description: recievedData.description,
-                            company: recievedData.user.company,
-                            rate: `${recievedData.currency.symbol}${recievedData.hourly_min_pay} ~ ${recievedData.currency.symbol}${recievedData.hourly_max_pay}/hr | ${recievedData.currency.symbol}${recievedData.annual_min_pay} ~ ${recievedData.currency.symbol}${recievedData.annual_max_pay}/yr`,
-                            contactType: 'Full Time', //??
-                            location: `${recievedData.city} ${recievedData.address}`,
-                            isLiked,
-                            isApplyed
-                        })
+                    setVacancy({
+                        title: recievedData.title,
+                        country: recievedData.country,
+                        date: recievedData.updated_at,
+                        description: recievedData.description,
+                        company: recievedData.user.company,
+                        rate: `${recievedData.currency.symbol}${recievedData.hourly_min_pay} ~ ${recievedData.currency.symbol}${recievedData.hourly_max_pay}/hr | ${recievedData.currency.symbol}${recievedData.annual_min_pay} ~ ${recievedData.currency.symbol}${recievedData.annual_max_pay}/yr`,
+                        contactType: 'Full Time', //??
+                        location: `${recievedData.city} ${recievedData.address}`,
+                        isLiked
                     })
                 })
         })
@@ -130,7 +124,7 @@ export default function ViewVacancy() {
                                     <div className="vacancyCard-footer__item-value">{vacancy.rate}</div>
                                 </div>
                             </div>
-                            {type == 'candidate' && !vacancy.isApplyed &&
+                            {type == 'candidate' &&
                                 <div className="apply-now">
                                     <button type='button' onClick={handlerApplyNow}>Apply Now</button>
                                 </div>

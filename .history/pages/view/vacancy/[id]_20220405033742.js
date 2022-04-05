@@ -50,10 +50,8 @@ export default function ViewVacancy() {
                 .then(res => {
                     const userId = res.data.data.id
                     const isLiked = recievedData.wishlist.find(({ user_id }) => user_id == userId) ? true : false
-
                     api.get(`api/v1/candidate/my/vacancies`).then(resp => {
-                        const myApplyed = resp.data.data
-                        const isApplyed = myApplyed.find(({ vacancies_id }) => vacancies_id == id) ? true : false
+                        const isApplyed = recievedData.wishlist.find(({ user_id }) => user_id == userId) ? true : false
                         setVacancy({
                             title: recievedData.title,
                             country: recievedData.country,
@@ -130,7 +128,7 @@ export default function ViewVacancy() {
                                     <div className="vacancyCard-footer__item-value">{vacancy.rate}</div>
                                 </div>
                             </div>
-                            {type == 'candidate' && !vacancy.isApplyed &&
+                            {type == 'candidate' &&
                                 <div className="apply-now">
                                     <button type='button' onClick={handlerApplyNow}>Apply Now</button>
                                 </div>

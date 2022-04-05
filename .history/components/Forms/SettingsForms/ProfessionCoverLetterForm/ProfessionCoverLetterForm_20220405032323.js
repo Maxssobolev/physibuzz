@@ -52,7 +52,7 @@ export default function ProfessionCoverLetterForm({ user }) {
                         console.log(err)
                         Swal.fire(
                             'Oops..',
-                            `Sorry, something went wrong, please, reload page and try again`,
+                            `Sorry, something went wrong, please,reload page and try again`,
                             'error'
                         )
                     })

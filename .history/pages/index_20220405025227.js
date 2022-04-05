@@ -154,31 +154,12 @@ export default function Home() {
   }
 
   /*******************Distance*********************/
-  const [userLocation, setUserLocation] = useState(null);
-  const [statusUserLocation, setStatusUserLocation] = useState(false);
-  const getLocation = () => {
-    if (!navigator.geolocation) {
-      setStatusUserLocation(false);
-    } else {
-      setStatusUserLocation('Locating...');
-      navigator.geolocation.getCurrentPosition((position) => {
-        setStatusUserLocation(true);
-        setUserLocation({
-          lat: position.coords.latitude,
-          long: position.coords.longitude
-        });
-      }, () => {
-        setStatusUserLocation(false);
-      });
-    }
-  }
   const distanceOptions = [
     { value: 'Within 25km', label: 'Within 25km' },
     { value: 'Other', label: 'Other' },
   ]
   const [distanceSelected, setDistanceSelected] = useState('')
   const handleChangeDistance = (selectedOpt) => {
-    getLocation()
     setDistanceSelected(selectedOpt)
   }
 
@@ -258,10 +239,16 @@ export default function Home() {
       else if (jobOrCourseSelected.label == 'Course') {
         getData(`api/v1/courses/search?city=${city}&country=${country}`)
       }
+
     }
-  }, [jobOrCourseSelected, placeSelected, statusUserLocation])
+  }, [jobOrCourseSelected, placeSelected])
 
-
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }, [])
 
   if (isMobile === undefined) {
     return (

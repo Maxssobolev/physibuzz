@@ -95,7 +95,7 @@ export default function EmployerPostCourse() {
                             .catch(err => {
                                 Swal.fire(
                                     'Oops..',
-                                    `Sorry, something went wrong, please, make sure you fill all fields `,
+                                    `Sorry, something went wrong, please, try again`,
                                     'error'
                                 )
                             })

@@ -155,20 +155,20 @@ export default function Home() {
 
   /*******************Distance*********************/
   const [userLocation, setUserLocation] = useState(null);
-  const [statusUserLocation, setStatusUserLocation] = useState(false);
+  const [status, setStatus] = useState(null);
   const getLocation = () => {
     if (!navigator.geolocation) {
-      setStatusUserLocation(false);
+      setStatus('Geolocation is not supported by your browser');
     } else {
-      setStatusUserLocation('Locating...');
+      setStatus('Locating...');
       navigator.geolocation.getCurrentPosition((position) => {
-        setStatusUserLocation(true);
+        setStatus(null);
         setUserLocation({
           lat: position.coords.latitude,
           long: position.coords.longitude
         });
       }, () => {
-        setStatusUserLocation(false);
+        setStatus('Unable to retrieve your location');
       });
     }
   }
@@ -258,8 +258,9 @@ export default function Home() {
       else if (jobOrCourseSelected.label == 'Course') {
         getData(`api/v1/courses/search?city=${city}&country=${country}`)
       }
+
     }
-  }, [jobOrCourseSelected, placeSelected, statusUserLocation])
+  }, [jobOrCourseSelected, placeSelected])
 
 
 
