@@ -76,7 +76,8 @@ export const handleRegistration = (fields, purpose) => async (dispatch) => {
                 ...sentData,
                 'company': fields.company,
                 'profession_id': [fields.profession.id],
-
+                'available_from': moment(new Date()).format('YYYY-MM-DD HH:MM:S'),
+                'birthday': moment(new Date()).format('YYYY-MM-DD HH:MM:S')
             }
 
             break;
