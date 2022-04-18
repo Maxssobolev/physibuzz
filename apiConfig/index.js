@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
     baseURL: 'https://physibuzz.rehabapps.net',
     headers: {
         post: {
+            "Accept": "application/json",
             "cache-control": "no-cache, private",
             "content-type": "application/json",
             "x-ratelimit-limit": "60",
@@ -16,11 +17,12 @@ const axiosInstance = axios.create({
 
         },
         get: {
-
+            "Accept": "application/json",
             'Authorization': `Bearer ${token}`
 
         },
         put: {
+            "Accept": "application/json",
             'Authorization': `Bearer ${token}`
         }
     }
